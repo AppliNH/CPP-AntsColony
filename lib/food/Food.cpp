@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../headers/Food.h"
+#include "Food.h"
 
 using namespace std;
 

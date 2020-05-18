@@ -1,11 +1,13 @@
+#ifndef CPP_AntsColony_LIB_ANT_H_
+#define CPP_AntsColony_LIB_ANT_H_
+
 #include <string>
 #include <vector>
-#include "Food.h"
+#include "../food/Food.h"
 
 using namespace std;
 
-class Ant
-{
+class Ant {
 private:
     int lifePoints;
     int lifeThreshold;
@@ -15,11 +17,13 @@ private:
     vector<Food> carriedFood;
 
 public:
-    Ant(int , int , int );
+    Ant(int lifePoints, int lifeThreshold, int maxCarriedFood);
     void displayAnt();
-    bool collectFood(const Food);
-    void eat(const Food );
+    bool collectFood(Food);
+    void eat(Food);
     void move(string dimension);
     void dieSlowly();
     bool isRequiredToEat();
 };
+
+#endif  // CPP_AntsColony_LIB_ANT_H_

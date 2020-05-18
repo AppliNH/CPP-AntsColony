@@ -1,6 +1,6 @@
 #include <string>
 #include <vector>
-#include "Ant.h"
+#include "../src/Ant/Ant.h"
 #include "AntQueen.h"
 
 using namespace std;
