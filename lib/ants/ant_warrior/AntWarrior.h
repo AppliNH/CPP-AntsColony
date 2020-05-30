@@ -8,6 +8,7 @@ class AntWarrior : public LivingAnt {
 public:
     void attack(const LivingAnt &);
     void speak() override;
+    void evolve() override;
 };
 
 

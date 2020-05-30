@@ -11,6 +11,7 @@ public:
     AntQueen(): LivingAnt(){};
     void layEgg();
     void speak() override;
+    void evolve() override;
 
 };
 

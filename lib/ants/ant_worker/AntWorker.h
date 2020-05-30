@@ -7,6 +7,7 @@
 class AntWorker: public LivingAnt {
 public:
     void speak() override;
+    void evolve() override;
 };
 
 

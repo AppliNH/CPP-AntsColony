@@ -7,6 +7,7 @@
 class AntEgg: public Ant{
 public:
     void speak() override;
+    void evolve() override;
 };
 
 
