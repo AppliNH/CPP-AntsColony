@@ -2,6 +2,7 @@
 #include <ants/ant_worker/AntWorker.h>
 #include <ants/ant_warrior/AntWarrior.h>
 #include <ants/ant_egg/AntEgg.h>
+#include <environment/Environment.h>
 #include "ants/ant_queen/AntQueen.h"
 
 int main() {
@@ -9,11 +10,13 @@ int main() {
     AntWorker worker;
     AntWarrior warrior;
     AntEgg egg;
+    Environment environment(100, 100);
 
     egg.speak();
     queen.speak();
     worker.speak();
     warrior.speak();
+
     return 0;
 
 }

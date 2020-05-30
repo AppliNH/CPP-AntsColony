@@ -4,17 +4,19 @@
 
 #include <ants/ant_queen/AntQueen.h>
 
-class AntHill {
+class AntHill: public SquareBox {
 
 private:
-    int posX;
-    int posY;
     int maxPopulation;
     int maxFood;
-    //vector<Ant> inhabitants;
-    //vector<Food> foodStock;
+    vector<Ant *> inhabitants;
+    vector<Food *> foodStock;
 
 public:
+    AntHill(int X, int Y, int maxPop, int maxFd) : SquareBox(X, Y), maxPopulation(maxPop), maxFood(maxFd) {
+        AntQueen *queen = new AntQueen();
+        inhabitants.push_back(queen);
+    }
     bool operator==(const AntHill &);
 
 };

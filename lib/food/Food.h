@@ -1,12 +1,12 @@
 #ifndef CPP_ANTSCOLONY_LIB_FOOD_H_
 #define CPP_ANTSCOLONY_LIB_FOOD_H_
 
-class Food {
-private:
-    int posX;
-    int posY;
+#include <square_box/SquareBox.h>
+
+class Food : public SquareBox {
+
 public:
-    Food(int, int);
+    Food(int X, int Y) : SquareBox(X, Y) {}
 };
 
 #endif  // CPP_ANTSCOLONY_LIB_FOOD_H_

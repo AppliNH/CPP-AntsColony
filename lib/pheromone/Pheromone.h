@@ -2,13 +2,16 @@
 #define CPP_ANTSCOLONY_PHEROMONE_H
 
 
-class Pheromone {
+#include <square_box/SquareBox.h>
+
+class Pheromone : public SquareBox {
 private:
-    int posX;
-    int posY;
+
     int duration;
     int powerness;
 
+public:
+    Pheromone(int X, int Y, int duration) : SquareBox(X, Y), duration(5), powerness(1) {}
 };
 
 
