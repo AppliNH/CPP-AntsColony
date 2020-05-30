@@ -9,6 +9,7 @@
 #include <environment/Environment.h>
 
 class Game {
+private:
     int round;
     Environment* environment;
 
@@ -16,6 +17,9 @@ public:
     Game() {}
     void moveAllAnts();
     void createPheromons();
+    void removeFoodFromEnv();
+    
+
 
 
 };
