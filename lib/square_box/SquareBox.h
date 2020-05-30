@@ -14,6 +14,11 @@ protected:
 public:
     SquareBox(int X, int Y) : posX(X), posY(Y) {}
 
+    int getPosX() { return posX;}
+    int getPosY() { return posY;}
+
+    bool operator==(const SquareBox&);
+
 };
 
 

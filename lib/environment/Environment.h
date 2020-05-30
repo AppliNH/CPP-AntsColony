@@ -5,7 +5,7 @@
 #include "ant_hill/AntHill.h"
 #include "pheromone/Pheromone.h"
 #include "obstacle/Obstacle.h"
-
+using namespace std;
 class Environment {
 private:
     int width;
@@ -27,6 +27,11 @@ public:
         obstacles.push_back(obstacle);
     }
     bool isCrossable(const int &posX, const int &posY);
+
+    vector<SquareBox> analyzeEnv(const int &posX, const int &posY);
+
+    int getWidth() { return width;}
+    int getHeight() { return height;}
 };
 
 

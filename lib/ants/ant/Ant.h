@@ -19,7 +19,8 @@ private:
     AntHill antHill;
 
 public:
-    Ant(AntHill antHill, Environment environment) : posX(0), posY(0), age(0), antHill(antHill), environment(environment) {};
+    Ant(AntHill antHill, Environment environment)
+            : posX(antHill.getPosX()), posY(antHill.getPosY()), age(0), antHill(antHill), environment(environment) {};
     //explicit Ant(const AntState &state, AntHill antHill, Environment environment) : posX(0), posY(0), antState(state), antHill(antHill), environment(environment) {};
     void setState(const AntState &);
     virtual void speak();
