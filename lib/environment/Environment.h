@@ -10,14 +10,13 @@ class Environment {
 private:
     int width;
     int height;
-    vector<AntHill *> antHills;
+
     vector<Food *> foods;
     vector<Pheromone *> pheromones;
     vector<Obstacle *> obstacles;
 public:
     Environment(int h, int w) : height(h), width(w) {
-        AntHill *antHill = new AntHill(10, 10, 1000, 1000);
-        antHills.push_back(antHill);
+
 
         Food *food = new Food(10,10);
         foods.push_back(food);
