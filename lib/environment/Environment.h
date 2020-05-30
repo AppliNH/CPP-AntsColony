@@ -27,7 +27,6 @@ public:
         obstacles.push_back(obstacle);
     }
     bool isCrossable(const int &posX, const int &posY);
-    ~Environment();
 };
 
 
