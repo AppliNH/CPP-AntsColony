@@ -1,11 +1,12 @@
 #ifndef CPP_ANTSCOLONY_LIVINGANT_H
 #define CPP_ANTSCOLONY_LIVINGANT_H
 
+#include <vector>
+#include <iostream>
 
 #include "ants/ant/Ant.h"
 #include <environment/Environment.h>
 #include "food/Food.h"
-#include <vector>
 
 using namespace std;
 
@@ -21,7 +22,7 @@ public:
     bool collectFood(const Food &);
     bool layDownFood(const Food &);
     void eatFood(const Food &);
-    virtual void move(char &) {}
+    virtual void move(char) { cout << "Let's move booooiiiii" << endl;}
     char detectPheromone();
     void dieSlowly();
     bool isRequiredToEat();

@@ -10,6 +10,6 @@ void AntQueen::evolve() {
     cout << "Evolve to nothing" << endl;
 }
 
-void AntQueen::move(char &) {
+void AntQueen::move(char direction) {
     cout << "I'm a queen and I don't move :):):):)" << endl;
 }

@@ -18,24 +18,25 @@ private:
     Environment* environment;
     vector<AntHill *> antHills;
     vector<Ant *> ants;
+    vector<LivingAnt *> livingAnts;
 public:
-    Game(int X, int Y, int maxPop, int maxFd) {
+    Game(int W, int H,int antHillX, int antHillY, int maxPop, int maxFd) {
 
-        environment = new Environment(100,100);
+        environment = new Environment(W,H);
 
-        AntHill *antHill = new AntHill(X, Y, maxPop, maxFd);
+        AntHill *antHill = new AntHill(antHillX, antHillY, maxPop, maxFd);
         antHills.push_back(antHill);
 
         AntQueen *antQueen = new AntQueen(*antHill, *environment);
-        ants.push_back(antQueen);
+        livingAnts.push_back(antQueen);
 
-        for (int i = 0; i < 250 ; ++i) {
-            Ant *antWorker = new AntWorker(*antHill, *environment);
-            ants.push_back(antWorker);
+        for (int i = 0; i < int(maxPop/4) ; ++i) {
+            LivingAnt *antWorker = new AntWorker(*antHill, *environment);
+            livingAnts.push_back(antWorker);
         }
-        for (int i = 0; i < 250 ; ++i) {
-            Ant *antWarrior = new AntWarrior(*antHill, *environment);
-            ants.push_back(antWarrior);
+        for (int i = 0; i < int(maxPop/4) ; ++i) {
+            LivingAnt *antWarrior = new AntWarrior(*antHill, *environment);
+            livingAnts.push_back(antWarrior);
         }
 
     }

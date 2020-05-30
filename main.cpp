@@ -2,10 +2,12 @@
 #include <ants/ant_worker/AntWorker.h>
 #include <ants/ant_warrior/AntWarrior.h>
 #include <ants/ant_egg/AntEgg.h>
-#include <environment/Environment.h>
+#include <game/Game.h>
 #include "ants/ant_queen/AntQueen.h"
 
 int main() {
+    Game *myGame = new Game(100,100,50,50,20,20);
+    myGame->moveAllAnts();
     /*AntQueen queen;
     AntWorker worker;
     AntWarrior warrior;
