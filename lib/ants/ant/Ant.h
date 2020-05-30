@@ -14,8 +14,13 @@ private:
     int posY;
     AntState antState;
 
+protected:
+    Ant();
+
 public:
+    explicit Ant(const AntState& state): posX(0), posY(0), antState(state){};
     void setState(const AntState &);
+    virtual void speak();
 };
 
 #endif  // CPP_ANTSCOLONY_ANT_H_

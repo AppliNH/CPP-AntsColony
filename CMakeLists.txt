@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.13.4)
 project(CPP_AntsColony)
 
 set(CMAKE_CXX_STANDARD 17)

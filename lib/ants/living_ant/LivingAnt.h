@@ -16,6 +16,7 @@ private:
     int maxCarriedFood;
     vector<Food> carriedFood;
 public:
+    LivingAnt(): Ant(){};
     bool collectFood(const Food &);
     bool layDownFood(const Food &);
     void eatFood(const Food &);
@@ -23,6 +24,7 @@ public:
     char detectPheromone();
     void dieSlowly();
     bool isRequiredToEat();
+    void speak() override;
 
 };
 

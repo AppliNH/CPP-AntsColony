@@ -1,5 +1,6 @@
-//
-// Created by valxb on 25/05/2020.
-//
-
 #include "AntEgg.h"
+
+void AntEgg::speak() {
+    Ant::speak();
+    cout << "and an Egg" << endl;
+}
