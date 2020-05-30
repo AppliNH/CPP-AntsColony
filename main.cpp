@@ -6,7 +6,7 @@
 #include "ants/ant_queen/AntQueen.h"
 
 int main() {
-    AntQueen queen;
+    /*AntQueen queen;
     AntWorker worker;
     AntWarrior warrior;
     AntEgg egg(AntHill(0, 0, 0, 0));
@@ -15,7 +15,7 @@ int main() {
     egg.speak();
     queen.speak();
     worker.speak();
-    warrior.speak();
+    warrior.speak();*/
 
     return 0;
 

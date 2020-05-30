@@ -1,5 +1,6 @@
 #include "AntQueen.h"
 
+
 void AntQueen::speak() {
     LivingAnt::speak();
     cout << "and a Queen" << endl;
@@ -7,4 +8,8 @@ void AntQueen::speak() {
 
 void AntQueen::evolve() {
     cout << "Evolve to nothing" << endl;
+}
+
+void AntQueen::move(char &) {
+    cout << "I'm a queen and I don't move :):):):)" << endl;
 }

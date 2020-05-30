@@ -3,6 +3,7 @@
 
 
 #include "ants/ant/Ant.h"
+#include <environment/Environment.h>
 #include "food/Food.h"
 #include <vector>
 
@@ -16,11 +17,11 @@ private:
     int maxCarriedFood;
     vector<Food> carriedFood;
 public:
-    LivingAnt(): Ant(AntHill(0, 0, 0, 0)) {};
+    LivingAnt(AntHill antHill ,Environment environment) : Ant(antHill, environment) {};
     bool collectFood(const Food &);
     bool layDownFood(const Food &);
     void eatFood(const Food &);
-    void move(char &);
+    virtual void move(char &) {}
     char detectPheromone();
     void dieSlowly();
     bool isRequiredToEat();

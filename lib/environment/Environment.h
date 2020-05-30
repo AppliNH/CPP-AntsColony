@@ -17,7 +17,6 @@ private:
 public:
     Environment(int h, int w) : height(h), width(w) {
 
-
         Food *food = new Food(10,10);
         foods.push_back(food);
 
