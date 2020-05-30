@@ -6,7 +6,17 @@
 #define CPP_ANTSCOLONY_GAME_H
 
 
+#include <environment/Environment.h>
+
 class Game {
+    int round;
+    Environment* environment;
+
+public:
+    Game() {}
+    void moveAllAnts();
+    void createPheromons();
+
 
 };
 
