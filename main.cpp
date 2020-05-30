@@ -9,7 +9,7 @@ int main() {
     AntQueen queen;
     AntWorker worker;
     AntWarrior warrior;
-    AntEgg egg;
+    AntEgg egg(AntHill(0, 0, 0, 0));
     Environment environment(100, 100);
 
     egg.speak();

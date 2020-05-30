@@ -6,6 +6,8 @@
 
 class AntEgg: public Ant{
 public:
+    AntEgg(AntHill antHill) : Ant(antHill) {}
+
     void speak() override;
     void evolve() override;
 };

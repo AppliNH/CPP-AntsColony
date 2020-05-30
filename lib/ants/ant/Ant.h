@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "food/Food.h"
+#include <ant_hill/AntHill.h>
 #include "../AntState.h"
 
 using namespace std;
@@ -14,10 +14,11 @@ private:
     int posX;
     int posY;
     AntState antState;
+    AntHill antHill;
 
 public:
-    Ant() : posX(0), posY(0), age(0) {};
-    explicit Ant(const AntState& state): posX(0), posY(0), antState(state){};
+    Ant(AntHill antHill) : posX(0), posY(0), age(0), antHill(antHill) {};
+    explicit Ant(const AntState &state, AntHill antHill) : posX(0), posY(0), antState(state), antHill(antHill) {};
     void setState(const AntState &);
     virtual void speak();
     virtual void evolve() = 0;

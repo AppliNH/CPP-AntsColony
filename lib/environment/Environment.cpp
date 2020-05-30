@@ -9,10 +9,6 @@ Environment::~Environment() {
         delete p;
     }
     obstacles.clear();
-    for (auto p : antHills) {
-        delete p;
-    }
-    antHills.clear();
     for (auto p : foods) {
         delete p;
     }

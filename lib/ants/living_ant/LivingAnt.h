@@ -16,7 +16,7 @@ private:
     int maxCarriedFood;
     vector<Food> carriedFood;
 public:
-    LivingAnt(): Ant(){};
+    LivingAnt(): Ant(AntHill(0, 0, 0, 0)) {};
     bool collectFood(const Food &);
     bool layDownFood(const Food &);
     void eatFood(const Food &);
