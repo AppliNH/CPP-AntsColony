@@ -17,6 +17,7 @@ public:
         AntQueen *queen = new AntQueen();
         inhabitants.push_back(queen);
     }
+    ~AntHill();
     bool operator==(const AntHill &);
 
 };
