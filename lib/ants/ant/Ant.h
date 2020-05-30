@@ -15,6 +15,7 @@ private:
     AntState antState;
 
 public:
+    Ant() {};
     explicit Ant(const AntState& state): posX(0), posY(0), antState(state){};
     void setState(const AntState &);
     virtual void speak();

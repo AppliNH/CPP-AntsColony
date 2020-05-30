@@ -8,7 +8,3 @@ void Ant::speak() {
 void Ant::setState(const AntState &state) {
     antState = state;
 }
-
-Ant::Ant() {
-
-}
