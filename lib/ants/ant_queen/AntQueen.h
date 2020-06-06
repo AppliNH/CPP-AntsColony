@@ -12,7 +12,7 @@ public:
     void layEgg();
     void speak() override;
     void evolve() override;
-    void move(char) override;
+    void move(char pos) override;
 
 };
 

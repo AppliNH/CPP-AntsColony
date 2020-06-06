@@ -22,7 +22,7 @@ public:
     bool collectFood(const Food &);
     bool layDownFood(const Food &);
     void eatFood(const Food &);
-    virtual void move(char);
+    virtual void move(char );
     char detectPheromone();
     void dieSlowly();
     bool isRequiredToEat();

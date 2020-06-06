@@ -7,7 +7,7 @@
 
 int main() {
     Game *myGame = new Game(100,100,50,50,20,20);
-    myGame->moveAllAnts();
+    myGame->start();
     /*AntQueen queen;
     AntWorker worker;
     AntWarrior warrior;

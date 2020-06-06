@@ -3,11 +3,3 @@
 //
 
 #include "Game.h"
-
-void Game::moveAllAnts() {
-    for (int i = 0; i < livingAnts.size() ; ++i) {
-        livingAnts[i]->move('Y');
-
-
-    }
-}
