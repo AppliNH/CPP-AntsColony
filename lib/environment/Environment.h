@@ -28,7 +28,7 @@ public:
     }
     bool isCrossable(const int &posX, const int &posY);
 
-    vector<SquareBox> analyzeEnv(const int &posX, const int &posY);
+    vector<vector<SquareBox>>  analyzeEnv(const int &posX, const int &posY);
 
     int getWidth() { return width;}
     int getHeight() { return height;}
