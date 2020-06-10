@@ -43,3 +43,10 @@ void LivingAnt::layDownFoodInAntHill() {
     }
     carriedFood.clear();
 }
+
+LivingAnt::~LivingAnt() {
+    for (auto f : carriedFood) {
+        delete f;
+    }
+    carriedFood.clear();
+}

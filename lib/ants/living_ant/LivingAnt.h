@@ -20,6 +20,8 @@ private:
 public:
     LivingAnt(AntHill &antHill, Environment &environment) : Ant(antHill, environment), maxCarriedFood(2) {};
 
+    ~LivingAnt();
+
     void eatFood(const Food &);
 
     char detectPheromone();

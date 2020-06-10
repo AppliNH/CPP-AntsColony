@@ -8,7 +8,6 @@ class AntWorker: public LivingAnt {
 public:
 
     AntWorker(AntHill &antHill, Environment &environment) : LivingAnt(antHill, environment) {}
-
     void speak() override;
     void evolve() override;
     void move(char pos) override;

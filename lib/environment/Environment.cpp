@@ -27,49 +27,6 @@ Environment::Environment(int h, int w)  : height(h), width(w) {
     }
 }
 
-char Environment::analyzeEnv2(vector<Food *> &food, const int &posX, const int &posY) {
-    char newDirection = ' ';
-    // Get the line above the ant. Empty vector if out of the grid
-    vector<SquareBox *> above_line = posY + 1 < height ? grid.at(posY + 1) : vector<SquareBox *>();
-    // Get the line where is the ant
-    vector<SquareBox *> current_line = grid.at(posY);
-    // Get the line bellow the ant. Empty vector if out of the grid
-    vector<SquareBox *> below_line = posY - 1 >= 0 ? grid.at(posY - 1) : vector<SquareBox *>();
-
-    // Check if on a food
-    if (Food *f = dynamic_cast<Food *>(current_line.at(posX))) {
-        food.push_back(new Food(grid.at(posY).at(posX)->getPosX(), grid.at(posY).at(posX)->getPosY()));
-        // Delete the food
-        delete grid.at(posY).at(posX);
-        grid.at(posY).at(posX) = nullptr;
-        cout << ">> I am on a food <<" << endl;
-    }
-    // Check if bellow a food
-    if (!above_line.empty() && dynamic_cast<Food *>(above_line.at(posX))) {
-        cout << ">> I am bellow a food (toward T) <<" << endl;
-        newDirection = 'T';
-
-    }
-    // Check if above a food
-    if (!below_line.empty() && dynamic_cast<Food *>(below_line.at(posX))) {
-        cout << ">> I am above a food (toward B) <<" << endl;
-        newDirection = 'B';
-
-    }
-    // Check if right of food
-    if (posX - 1 >= 0 && dynamic_cast<Food *>(current_line.at(posX - 1))) {
-        cout << ">> I am at the right of a food (toward L) <<" << endl;
-        newDirection = 'L';
-    }
-    // Check if left of food
-    if (posX + 1 < width && dynamic_cast<Food *>(current_line.at(posX + 1))) {
-        cout << ">> I am at the left of a food (toward R) <<" << endl;
-        newDirection = 'R';
-    }
-
-    return newDirection;
-}
-
 char Environment::analyzeEnv(const int &posX, const int &posY) {
     // search matching positions in foods pheromones & obstacles
 
@@ -191,4 +148,13 @@ void Environment::deleteSquareBox(const int &posX, const int &posY) {
         delete grid.at(posY).at(posX);
         grid.at(posY).at(posX) = nullptr;
      }
+}
+
+Environment::~Environment() {
+    for (auto &l : grid) {
+        for (auto c : l) {
+            delete c;
+        }
+    }
+    grid.clear();
 }

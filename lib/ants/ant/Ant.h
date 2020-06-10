@@ -22,6 +22,8 @@ public:
     Ant(AntHill &antHill, Environment &environment)
             : posX(antHill.getPosX()), posY(antHill.getPosY()), age(0), antHill(antHill), environment(environment) {};
 
+    virtual ~Ant() = default;
+
     //explicit Ant(const AntState &state, AntHill antHill, Environment environment) : posX(0), posY(0), antState(state), antHill(antHill), environment(environment) {};
     void setState(const AntState &);
 

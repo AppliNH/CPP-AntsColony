@@ -24,11 +24,13 @@ private:
 public:
     Game(int W, int H, int antHillX, int antHillY, int maxPopulation, int maxFood);
 
+    ~Game();
+
     void start();
 
     char analyzeEnv(LivingAnt &livingAnt);
 
-    char getDirectionToTheAntHill(LivingAnt &livingAnt);
+    char getDirectionTo(LivingAnt &livingAnt, SquareBox &squareBow);
 
     void moveAllAnts();
 

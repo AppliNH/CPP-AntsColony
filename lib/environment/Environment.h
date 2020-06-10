@@ -23,9 +23,9 @@ private:
 public:
     Environment(int h, int w);
 
-    char analyzeEnv(const int &posX, const int &posY);
+    ~Environment();
 
-    char analyzeEnv2(vector<Food *> &food, const int &posX, const int &posY);
+    char analyzeEnv(const int &posX, const int &posY);
 
     void deleteSquareBox(const int &posX, const int &posY);
 

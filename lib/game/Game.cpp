@@ -27,7 +27,7 @@ Game::Game(int W, int H, int antHillX, int antHillY, int maxPopulation, int maxF
 
 
 char Game::analyzeEnv(LivingAnt &livingAnt) {
-    if (livingAnt.isFullOfFood()) return getDirectionToTheAntHill(livingAnt);
+    if (livingAnt.isFullOfFood()) return getDirectionTo(livingAnt, livingAnt.getAntHill());
     char newDirection = ' ';
     // Get the line above the ant. Empty vector if out of the grid
     vector<SquareBox *> above_line =
@@ -44,32 +44,32 @@ char Game::analyzeEnv(LivingAnt &livingAnt) {
         if (livingAnt.collectFood(*f)) {
             // Delete the food
             environment->deleteSquareBox(livingAnt.getPosX(), livingAnt.getPosY());
-            cout << ">> I grabbed a food <<" << endl;
+            cout << "   >> I grabbed a food <<" << endl;
         } else {
-            cout << ">> I'm full <<" << endl;
+            cout << "   >> I'm full <<" << endl;
         }
     }
     // Check if bellow a food
     if (!above_line.empty() && dynamic_cast<Food *>(above_line.at(livingAnt.getPosX()))) {
-        cout << ">> I am bellow a food (toward T) <<" << endl;
+        cout << "   >> Food towards Top <<" << endl;
         newDirection = 'T';
 
     }
     // Check if above a food
     if (!below_line.empty() && dynamic_cast<Food *>(below_line.at(livingAnt.getPosX()))) {
-        cout << ">> I am above a food (toward B) <<" << endl;
+        cout << "   >> Food towards Bottom <<" << endl;
         newDirection = 'B';
 
     }
     // Check if right of food
     if (livingAnt.getPosX() - 1 >= 0 && dynamic_cast<Food *>(current_line.at(livingAnt.getPosX() - 1))) {
-        cout << ">> I am at the right of a food (toward L) <<" << endl;
+        cout << "   >> Food towards Left <<" << endl;
         newDirection = 'L';
     }
     // Check if left of food
     if (livingAnt.getPosX() + 1 < environment->getWidth() &&
         dynamic_cast<Food *>(current_line.at(livingAnt.getPosX() + 1))) {
-        cout << ">> I am at the left of a food (toward R) <<" << endl;
+        cout << "   >> Food towards Right <<" << endl;
         newDirection = 'R';
     }
 
@@ -77,19 +77,16 @@ char Game::analyzeEnv(LivingAnt &livingAnt) {
 }
 
 void Game::start() {
-    while (true) {
-        cout << "Game started, round : " << round << endl;
-        moveAllAnts();
-        round++;
-        usleep(1000000);
-        cout << endl;
-        environment->status();
-        for (auto &antHill : antHills) {
-            antHill->status();
-        }
-        cout << "#########" << endl;
-
+    environment->status();
+    for (auto &antHill : antHills) {
+        antHill->status();
     }
+    cout << "#########" << endl;
+    cout << "Game started, round : " << round << endl;
+    moveAllAnts();
+    round++;
+    usleep(1000000);
+    cout << endl;
 }
 
 void Game::moveAllAnts() {
@@ -110,7 +107,7 @@ void Game::moveAllAnts() {
     }
 }
 
-char Game::getDirectionToTheAntHill(LivingAnt &livingAnt) {
+char Game::getDirectionTo(LivingAnt &livingAnt, SquareBox &squareBow) {
     char newDirection = ' ';
     // Get the line where is the ant
     vector<SquareBox *> current_line = environment->getGrid().at(livingAnt.getPosY());
@@ -119,7 +116,7 @@ char Game::getDirectionToTheAntHill(LivingAnt &livingAnt) {
         newDirection = 'L';
     }
 
-    if (livingAnt.getPosX() + 1 < environment->getWidth() && livingAnt.getAntHill().getPosX() > livingAnt.getPosX()) {
+    if (livingAnt.getPosX() + 1 < environment->getWidth() && squareBow.getPosX() > livingAnt.getPosX()) {
         newDirection = 'R';
     }
 
@@ -127,9 +124,25 @@ char Game::getDirectionToTheAntHill(LivingAnt &livingAnt) {
         newDirection = 'B';
     }
 
-    if (livingAnt.getPosY() + 1 < environment->getHeight() && livingAnt.getAntHill().getPosY() > livingAnt.getPosY()) {
+    if (livingAnt.getPosY() + 1 < environment->getHeight() && squareBow.getPosY() > livingAnt.getPosY()) {
         newDirection = 'T';
     }
 
     return newDirection;
+}
+
+Game::~Game() {
+    for (auto l : livingAnts) {
+        delete l;
+    }
+    for (auto a : ants) {
+        delete a;
+    }
+    for (auto ah : antHills) {
+        delete ah;
+    }
+    delete environment;
+    livingAnts.clear();
+    antHills.clear();
+    ants.clear();
 }

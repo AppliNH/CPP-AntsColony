@@ -6,8 +6,8 @@
 #include "ants/ant_queen/AntQueen.h"
 
 int main() {
-    Game *myGame = new Game(20,20,5,5,2,5);
-    myGame->start();
+    Game myGame = Game(20,20,5,5,2,5);
+    myGame.start();
     /*AntQueen queen;
     AntWorker worker;
     AntWarrior warrior;
@@ -18,7 +18,6 @@ int main() {
     queen.speak();
     worker.speak();
     warrior.speak();*/
-
     return 0;
 
 }
