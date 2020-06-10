@@ -4,7 +4,7 @@
 
 #include "Game.h"
 
-Game::Game(int W, int H, int antHillX, int antHillY, int maxPopulation, int maxFood) : round(0)  {
+Game::Game(int W, int H, int antHillX, int antHillY, int maxPopulation, int maxFood) : round(0) {
 
     environment = new Environment(H, W);
 
@@ -25,41 +25,50 @@ Game::Game(int W, int H, int antHillX, int antHillY, int maxPopulation, int maxF
 
 }
 
-char Game::analyzeEnv(vector<Food *> &food, const int &posX, const int &posY) {
+
+char Game::analyzeEnv(LivingAnt &livingAnt) {
+    if (livingAnt.isFullOfFood()) return getDirectionToTheAntHill(livingAnt);
     char newDirection = ' ';
     // Get the line above the ant. Empty vector if out of the grid
-    vector<SquareBox *> above_line = posY + 1 < environment->getHeight() ? environment->getGrid().at(posY + 1) : vector<SquareBox *>();
+    vector<SquareBox *> above_line =
+            livingAnt.getPosY() + 1 < environment->getHeight() ? environment->getGrid().at(livingAnt.getPosY() + 1)
+                                                               : vector<SquareBox *>();
     // Get the line where is the ant
-    vector<SquareBox *> current_line = environment->getGrid().at(posY);
+    vector<SquareBox *> current_line = environment->getGrid().at(livingAnt.getPosY());
     // Get the line bellow the ant. Empty vector if out of the grid
-    vector<SquareBox *> below_line = posY - 1 >= 0 ? environment->getGrid().at(posY - 1) : vector<SquareBox *>();
+    vector<SquareBox *> below_line =
+            livingAnt.getPosY() - 1 >= 0 ? environment->getGrid().at(livingAnt.getPosY() - 1) : vector<SquareBox *>();
 
     // Check if on a food
-    if (Food *f = dynamic_cast<Food *>(current_line.at(posX))) {
-        food.push_back(new Food(environment->getGrid().at(posY).at(posX)->getPosX(), environment->getGrid().at(posY).at(posX)->getPosY()));
-        // Delete the food
-        environment->deleteSquareBox(posX, posY);
-        cout << ">> I am on a food <<" << endl;
+    if (Food *f = dynamic_cast<Food *>(current_line.at(livingAnt.getPosX()))) {
+        if (livingAnt.collectFood(*f)) {
+            // Delete the food
+            environment->deleteSquareBox(livingAnt.getPosX(), livingAnt.getPosY());
+            cout << ">> I grabbed a food <<" << endl;
+        } else {
+            cout << ">> I'm full <<" << endl;
+        }
     }
     // Check if bellow a food
-    if (!above_line.empty() && dynamic_cast<Food *>(above_line.at(posX))) {
+    if (!above_line.empty() && dynamic_cast<Food *>(above_line.at(livingAnt.getPosX()))) {
         cout << ">> I am bellow a food (toward T) <<" << endl;
         newDirection = 'T';
 
     }
     // Check if above a food
-    if (!below_line.empty() && dynamic_cast<Food *>(below_line.at(posX))) {
+    if (!below_line.empty() && dynamic_cast<Food *>(below_line.at(livingAnt.getPosX()))) {
         cout << ">> I am above a food (toward B) <<" << endl;
         newDirection = 'B';
 
     }
     // Check if right of food
-    if (posX - 1 >= 0 && dynamic_cast<Food *>(current_line.at(posX - 1))) {
+    if (livingAnt.getPosX() - 1 >= 0 && dynamic_cast<Food *>(current_line.at(livingAnt.getPosX() - 1))) {
         cout << ">> I am at the right of a food (toward L) <<" << endl;
         newDirection = 'L';
     }
     // Check if left of food
-    if (posX + 1 < environment->getWidth() && dynamic_cast<Food *>(current_line.at(posX + 1))) {
+    if (livingAnt.getPosX() + 1 < environment->getWidth() &&
+        dynamic_cast<Food *>(current_line.at(livingAnt.getPosX() + 1))) {
         cout << ">> I am at the left of a food (toward R) <<" << endl;
         newDirection = 'R';
     }
@@ -75,19 +84,52 @@ void Game::start() {
         usleep(1000000);
         cout << endl;
         environment->status();
+        for (auto &antHill : antHills) {
+            antHill->status();
+        }
+        cout << "#########" << endl;
+
     }
 }
 
 void Game::moveAllAnts() {
-    for (auto & livingAnt : livingAnts) {
+    for (auto &livingAnt : livingAnts) {
         livingAnt->speak();
-        char foo [4] = { 'L', 'R', 'T', 'B' };
+        char foo[4] = {'L', 'R', 'T', 'B'};
         auto v1 = rand() % 5;
-        char newDirection = analyzeEnv(livingAnt->getCarriedFood(), livingAnt->getPosX(), livingAnt->getPosY());
+        if (livingAnt->isFullOfFood() && livingAnt->isAtHome()) {
+            livingAnt->layDownFoodInAntHill();
+        }
+        char newDirection = analyzeEnv(*livingAnt);
         if (newDirection != ' ') {
             livingAnt->move(newDirection);
         } else {
             livingAnt->move(foo[v1]);
         }
+
     }
+}
+
+char Game::getDirectionToTheAntHill(LivingAnt &livingAnt) {
+    char newDirection = ' ';
+    // Get the line where is the ant
+    vector<SquareBox *> current_line = environment->getGrid().at(livingAnt.getPosY());
+
+    if (livingAnt.getPosX() - 1 >= 0 && livingAnt.getAntHill().getPosX() < livingAnt.getPosX()) {
+        newDirection = 'L';
+    }
+
+    if (livingAnt.getPosX() + 1 < environment->getWidth() && livingAnt.getAntHill().getPosX() > livingAnt.getPosX()) {
+        newDirection = 'R';
+    }
+
+    if (livingAnt.getPosY() - 1 >= 0 && livingAnt.getAntHill().getPosY() < livingAnt.getPosY()) {
+        newDirection = 'B';
+    }
+
+    if (livingAnt.getPosY() + 1 < environment->getHeight() && livingAnt.getAntHill().getPosY() > livingAnt.getPosY()) {
+        newDirection = 'T';
+    }
+
+    return newDirection;
 }

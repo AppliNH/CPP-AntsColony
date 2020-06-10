@@ -8,7 +8,6 @@ Environment::Environment(int h, int w)  : height(h), width(w) {
         if (row % 2 == 0) {
             for (int column = 0; column < w; ++column) {
                 if (column % 2 == 0) {
-                    std::cout << row << "/" << column << endl;
                     line.push_back(new Food(column, row));
                 } else {
                     line.push_back(nullptr);
@@ -182,7 +181,7 @@ void Environment::status() {
         }
 
     }
-
+    cout << "## ENV ##" << endl;
     cout << "Food : " << foodCount << endl;
     cout << "Obstacles : " << obstacleCount << endl;
 }

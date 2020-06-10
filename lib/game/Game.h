@@ -26,7 +26,9 @@ public:
 
     void start();
 
-    char analyzeEnv(vector<Food *> &food, const int &posX, const int &posY);
+    char analyzeEnv(LivingAnt &livingAnt);
+
+    char getDirectionToTheAntHill(LivingAnt &livingAnt);
 
     void moveAllAnts();
 

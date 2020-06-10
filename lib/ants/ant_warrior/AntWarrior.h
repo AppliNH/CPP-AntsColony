@@ -6,7 +6,7 @@
 
 class AntWarrior : public LivingAnt {
 public:
-    AntWarrior(AntHill antHill, Environment environment) : LivingAnt(antHill, environment) {}
+    AntWarrior(AntHill &antHill, Environment &environment) : LivingAnt(antHill, environment) {}
 
     void attack(const LivingAnt &);
     void speak() override;

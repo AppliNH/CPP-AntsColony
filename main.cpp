@@ -6,7 +6,7 @@
 #include "ants/ant_queen/AntQueen.h"
 
 int main() {
-    Game *myGame = new Game(10,10,5,5,1,5);
+    Game *myGame = new Game(20,20,5,5,2,5);
     myGame->start();
     /*AntQueen queen;
     AntWorker worker;

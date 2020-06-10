@@ -5,10 +5,11 @@
 #include <square_box/SquareBox.h>
 #include <food/Food.h>
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
-class AntHill: public SquareBox {
+class AntHill : public SquareBox {
 
 private:
     int maxPopulation;
@@ -18,8 +19,14 @@ private:
 public:
     AntHill(int X, int Y, int maxPop, int maxFd) : SquareBox(X, Y), maxPopulation(maxPop), maxFood(maxFd) {
     }
+
     ~AntHill();
+
+    void stockFood(const Food &food);
+
     bool operator==(const AntHill &);
+
+    void status();
 
 };
 

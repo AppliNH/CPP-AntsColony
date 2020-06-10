@@ -8,7 +8,7 @@ using namespace std;
 
 class AntQueen: public LivingAnt {
 public:
-    AntQueen(AntHill antHill, Environment environment): LivingAnt(antHill, environment){};
+    AntQueen(AntHill &antHill, Environment &environment): LivingAnt(antHill, environment){};
     void layEgg();
     void speak() override;
     void evolve() override;

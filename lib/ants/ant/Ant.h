@@ -14,20 +14,24 @@ private:
     int age;
     int posX;
     int posY;
-    Environment environment;
+    Environment &environment;
     AntState antState;
-    AntHill antHill;
+    AntHill &antHill;
 
 public:
-    Ant(AntHill antHill, Environment environment)
+    Ant(AntHill &antHill, Environment &environment)
             : posX(antHill.getPosX()), posY(antHill.getPosY()), age(0), antHill(antHill), environment(environment) {};
 
     //explicit Ant(const AntState &state, AntHill antHill, Environment environment) : posX(0), posY(0), antState(state), antHill(antHill), environment(environment) {};
     void setState(const AntState &);
 
-    int getPosX() { return posX; }
+    int &getPosX() { return posX; }
 
-    int getPosY() { return posY; }
+    int &getPosY() { return posY; }
+
+    AntHill &getAntHill() {return antHill;}
+
+    bool isAtHome() {return posX == antHill.getPosX() && posY == antHill.getPosY();}
 
     void moveLeft() { if (posX > 0) posX--; }
 
