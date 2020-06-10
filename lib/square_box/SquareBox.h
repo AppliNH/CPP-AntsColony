@@ -13,9 +13,10 @@ protected:
     int posY;
 public:
     SquareBox(int X, int Y) : posX(X), posY(Y) {}
+    virtual ~SquareBox();
 
-    int getPosX() { return posX;}
-    int getPosY() { return posY;}
+    virtual int getPosX() const { return posX;}
+    virtual int getPosY() const { return posY;}
 
     bool operator==(const SquareBox&);
 

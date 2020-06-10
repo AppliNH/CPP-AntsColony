@@ -5,33 +5,37 @@
 #include "ant_hill/AntHill.h"
 #include "pheromone/Pheromone.h"
 #include "obstacle/Obstacle.h"
+#include <iostream>
+#include <memory>
+
 using namespace std;
+
 class Environment {
 private:
     int width;
     int height;
 
+    vector<vector<SquareBox *>> grid;
+
     vector<Food *> foods;
     vector<Pheromone *> pheromones;
     vector<Obstacle *> obstacles;
 public:
-    Environment(int h, int w) : height(h), width(w) {
+    Environment(int h, int w);
 
-        Food *food = new Food(10,10);
-        foods.push_back(food);
+    char analyzeEnv(const int &posX, const int &posY);
 
-        Pheromone *pheromone = new Pheromone(20,20,5);
-        pheromones.push_back(pheromone);
+    char analyzeEnv2(vector<Food *> &food, const int &posX, const int &posY);
 
-        Obstacle *obstacle = new Obstacle(10,10);
-        obstacles.push_back(obstacle);
-    }
-    bool isCrossable(const int &posX, const int &posY);
+    void deleteSquareBox(const int &posX, const int &posY);
 
-    vector<vector<SquareBox>>  analyzeEnv(const int &posX, const int &posY);
+    void status();
 
-    int getWidth() { return width;}
-    int getHeight() { return height;}
+    int & getWidth() { return width; }
+
+    int & getHeight() { return height; }
+
+    vector<vector<SquareBox *>> getGrid() { return grid; }
 };
 
 

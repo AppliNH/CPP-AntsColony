@@ -31,9 +31,9 @@ public:
 
     void moveLeft() { if (posX > 0) posX--; }
 
-    void moveRight() { if (posX < environment.getWidth()) posX++; }
+    void moveRight() { if (posX < environment.getWidth() - 1) posX++; }
 
-    void moveTop() { if (posX < environment.getHeight()) posY++; }
+    void moveTop() { if (posY < environment.getHeight() - 1) posY++; }
 
     void moveBottom() { if (posY > 0) posY--; }
 

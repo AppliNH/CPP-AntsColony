@@ -11,5 +11,5 @@ void AntQueen::evolve() {
 }
 
 void AntQueen::move(char direction) {
-    cout << "I'm a queen and I don't move :):):):)" << endl;
+
 }

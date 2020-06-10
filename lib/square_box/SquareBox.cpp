@@ -7,3 +7,5 @@
 bool SquareBox::operator==(const SquareBox &squareBox) {
     return posX == squareBox.posX && posY == squareBox.posY;
 }
+
+SquareBox::~SquareBox() = default;

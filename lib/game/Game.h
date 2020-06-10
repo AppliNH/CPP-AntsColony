@@ -6,11 +6,12 @@
 #define CPP_ANTSCOLONY_GAME_H
 
 
-#include <environment/Environment.h>
-#include <ants/ant/Ant.h>
-#include <ants/ant_worker/AntWorker.h>
-#include <ants/ant_warrior/AntWarrior.h>
-#include <ants/ant_queen/AntQueen.h>
+#include "environment/Environment.h"
+#include "ants/ant/Ant.h"
+#include "ants/ant_worker/AntWorker.h"
+#include "ants/ant_warrior/AntWarrior.h"
+#include "ants/ant_queen/AntQueen.h"
+
 #include <unistd.h>
 
 class Game {
@@ -21,52 +22,13 @@ private:
     vector<Ant *> ants;
     vector<LivingAnt *> livingAnts;
 public:
-    Game(int W, int H, int antHillX, int antHillY, int maxPop, int maxFd) {
+    Game(int W, int H, int antHillX, int antHillY, int maxPopulation, int maxFood);
 
-        environment = new Environment(W, H);
+    void start();
 
-        AntHill *antHill = new AntHill(antHillX, antHillY, maxPop, maxFd);
-        antHills.push_back(antHill);
+    char analyzeEnv(vector<Food *> &food, const int &posX, const int &posY);
 
-        AntQueen *antQueen = new AntQueen(*antHill, *environment);
-        livingAnts.push_back(antQueen);
-
-        for (int i = 0; i < int(maxPop / 4); ++i) {
-            LivingAnt *antWorker = new AntWorker(*antHill, *environment);
-            livingAnts.push_back(antWorker);
-        }
-        for (int i = 0; i < int(maxPop / 4); ++i) {
-            LivingAnt *antWarrior = new AntWarrior(*antHill, *environment);
-            livingAnts.push_back(antWarrior);
-        }
-
-    }
-
-    void start() {
-        while (true) {
-            round++;
-            moveAllAnts();
-            cout << "Game started, round : " << round << endl;
-            usleep(1000000);
-        }
-    }
-
-    void mockFood() {
-
-    }
-
-
-    void moveAllAnts() {
-        for (int i = 0; i < livingAnts.size(); ++i) {
-            char foo [4] = { 'L', 'R', 'T', 'B' };
-            auto v1 = rand() % 5;
-            livingAnts[i]->move(foo[v1]);
-        }
-    };
-
-    void createPheromons();
-
-    void removeFoodFromEnv();
+    void moveAllAnts();
 
 
 };

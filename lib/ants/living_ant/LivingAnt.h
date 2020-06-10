@@ -16,16 +16,26 @@ private:
     int lifePoints;
     int lifeThreshold;
     int maxCarriedFood;
-    vector<Food> carriedFood;
+    vector<Food *> carriedFood;
 public:
-    LivingAnt(AntHill antHill ,Environment environment) : Ant(antHill, environment) {};
-    bool collectFood(const Food &);
+    LivingAnt(AntHill antHill, Environment environment) : Ant(antHill, environment) {};
+
+    bool collectFood(const Food&);
+
     bool layDownFood(const Food &);
+
     void eatFood(const Food &);
-    virtual void move(char );
+
     char detectPheromone();
+
     void dieSlowly();
+
     bool isRequiredToEat();
+
+    vector<Food *> &getCarriedFood() { return carriedFood; }
+
+    virtual void move(char direction);
+
     void speak() override;
 
 };

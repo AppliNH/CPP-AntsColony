@@ -8,3 +8,7 @@ void AntWorker::speak() {
 void AntWorker::evolve() {
     cout << "Evolve to warrior" << endl;
 }
+
+void AntWorker::move(char direction) {
+    LivingAnt::move(direction);
+}

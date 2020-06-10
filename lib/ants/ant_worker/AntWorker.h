@@ -11,6 +11,7 @@ public:
 
     void speak() override;
     void evolve() override;
+    void move(char pos) override;
 };
 
 

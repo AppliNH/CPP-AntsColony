@@ -2,7 +2,7 @@
 #include "LivingAnt.h"
 
 void LivingAnt::speak() {
-    cout << "I'm a living ant ";
+    cout << "(X:"  << getPosX() << ", Y:" << getPosY() << ", food: " << carriedFood.size() << ") I'm a living ant ";
 }
 
 void LivingAnt::move(char pos) {
@@ -20,6 +20,4 @@ void LivingAnt::move(char pos) {
             moveBottom();
             break;
     }
-
-    cout << "My position is, X : " << getPosX() << ", Y : " << getPosY() << endl;
 }
