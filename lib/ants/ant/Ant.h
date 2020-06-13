@@ -10,7 +10,7 @@
 using namespace std;
 
 class Ant : public SquareBox{
-private:
+protected:
     int age;
     AntState antState;
     AntHill &antHill;
