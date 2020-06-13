@@ -35,6 +35,8 @@ public:
 
     void moveAllAnts();
 
+    char dodgeObstacle(LivingAnt &livingAnt);
+
 
 };
 

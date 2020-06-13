@@ -14,6 +14,9 @@ void AntWarrior::move(char direction) {
 }
 
 bool AntWarrior::dieSlowly(const int &round) {
+    if (LivingAnt::isRequiredToEat()) {
+        LivingAnt::eatFood();
+    }
     if (round % 15 == 1) {
         return LivingAnt::looseLife();
     } return false;

@@ -26,16 +26,11 @@ void LivingAnt::move(char pos) {
         case 'B':
             moveBottom();
             break;
+        default:
+            break;
     }
-    environment.insertPheromone(posX, posY);
-}
-
-bool LivingAnt::collectFood(const Food &food) {
-    if (!isFullOfFood()) {
-        carriedFood.push_back(new Food(food.getPosX(), food.getPosY()));
-        return true;
-    } else {
-        return false;
+    if (isFullOfFood()) {
+        environment.insertPheromone(posX, posY);
     }
 }
 
@@ -61,7 +56,7 @@ void LivingAnt::displayPosition() {
     cout << "X:" << getPosX() << " Y:" << getPosY();
 }
 
-void LivingAnt::displayLifePoints() {
+void LivingAnt::displayLifePoints() const {
     cout << "Health :";
     for (int i = 0; i < lifePoints; ++i) {
         cout << "|";
@@ -71,4 +66,29 @@ void LivingAnt::displayLifePoints() {
 void LivingAnt::displayState() {
     string state(isAtHome() ? "at_home" : !isFullOfFood() ? "looking_for_food" : "comeback_home");
     cout << state;
+}
+
+bool LivingAnt::grabFood(const Food &food) {
+    if (isRequiredToEat()) {
+        eatFood();
+    }
+    if (!isFullOfFood()) {
+        storeFood(food);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void LivingAnt::eatFood() {
+    carriedFood.erase(carriedFood.begin());
+    lifePoints++;
+}
+
+void LivingAnt::storeFood(const Food &food) {
+    carriedFood.push_back(new Food(food.getPosX(), food.getPosY()));
+}
+
+bool LivingAnt::isRequiredToEat() {
+    return lifePoints <= lifeThreshold && !carriedFood.empty();
 }

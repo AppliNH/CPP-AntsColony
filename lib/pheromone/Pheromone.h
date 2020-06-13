@@ -10,9 +10,14 @@ private:
     int powerness;
 
 public:
-    Pheromone(int X, int Y, int duration) : SquareBox(X, Y), duration(5), powerness(1) {}
+    Pheromone(int X, int Y, int duration) : SquareBox(X, Y), duration(duration), powerness(15) {}
 
     void increasePowerness() { powerness++; }
+
+    bool decreasePowerness() {
+        powerness--;
+        return powerness == 0;
+    }
 };
 
 

@@ -19,19 +19,14 @@ private:
     vector<Food *> carriedFood;
     Environment &environment;
 public:
-    LivingAnt(AntHill &antHill, Environment &environment, int lifPoints) : Ant(antHill), maxCarriedFood(2),
-                                                                           environment(environment),
-                                                                           lifePoints(lifPoints) {};
-
+    LivingAnt(AntHill &antHill, Environment &environment, int lifePoints) : Ant(antHill), maxCarriedFood(5),
+                                                                            environment(environment),
+                                                                            lifePoints(lifePoints), lifeThreshold(lifePoints / 2) {};
     ~LivingAnt();
-
-    void eatFood(const Food &);
 
     char detectPheromone();
 
     virtual bool dieSlowly(const int &round) = 0;
-
-    bool isRequiredToEat();
 
     void moveLeft() { if (posX > 0) posX--; }
 
@@ -48,20 +43,24 @@ public:
 
     void layDownFoodInAntHill();
 
+    bool isRequiredToEat();
+
     bool isFullOfFood();
 
-    bool collectFood(const Food &food);
+    bool grabFood(const Food &food);
 
     virtual void move(char direction);
 
     void speak()
     override;
 
-    void displayLifePoints();
+    void displayLifePoints() const;
 
     void displayState();
 
     void displayPosition();
+    void eatFood();
+    void storeFood(const Food &food);
 
 };
 

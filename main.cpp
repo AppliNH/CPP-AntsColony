@@ -6,7 +6,7 @@
 #include "ants/ant_queen/AntQueen.h"
 
 int main() {
-    Game myGame = Game(50, 10, 30, 8, 5, 50, 0);
+    Game myGame = Game(10, 10, 6, 4, 20, 50, 0);
     myGame.start();
     return 0;
 

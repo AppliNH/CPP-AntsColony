@@ -17,11 +17,12 @@ private:
 
     vector<vector<SquareBox *>> grid;
 
-    vector<Food *> foods;
-    vector<Pheromone *> pheromones;
-    vector<Obstacle *> obstacles;
+    vector<Food> foods;
+    vector<Pheromone> pheromones;
+    vector<AntHill> antHills;
+    vector<Obstacle> obstacles;
 public:
-    Environment(int h, int w, int foodCount, int obstacleCount);
+    Environment(int h, int w, int foodCount, int obstacleCount, AntHill *antHill);
 
     ~Environment();
 
@@ -42,6 +43,8 @@ public:
     void insertPheromone(const int &posX, const int &posY);
 
     void displayGrid();
+
+    void pheromoneDecay();
 };
 
 
