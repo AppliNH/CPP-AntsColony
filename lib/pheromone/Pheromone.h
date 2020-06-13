@@ -6,12 +6,13 @@
 
 class Pheromone : public SquareBox {
 private:
-
     int duration;
     int powerness;
 
 public:
     Pheromone(int X, int Y, int duration) : SquareBox(X, Y), duration(5), powerness(1) {}
+
+    void increasePowerness() { powerness++; }
 };
 
 

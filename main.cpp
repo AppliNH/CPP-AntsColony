@@ -6,18 +6,8 @@
 #include "ants/ant_queen/AntQueen.h"
 
 int main() {
-    Game myGame = Game(20,20,5,5,2,5);
+    Game myGame = Game(50, 10, 30, 8, 5, 50, 0);
     myGame.start();
-    /*AntQueen queen;
-    AntWorker worker;
-    AntWarrior warrior;
-    AntEgg egg(AntHill(0, 0, 0, 0));
-    Environment environment(100, 100);
-
-    egg.speak();
-    queen.speak();
-    worker.speak();
-    warrior.speak();*/
     return 0;
 
 }

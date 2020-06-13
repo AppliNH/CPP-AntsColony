@@ -21,7 +21,7 @@ private:
     vector<Pheromone *> pheromones;
     vector<Obstacle *> obstacles;
 public:
-    Environment(int h, int w);
+    Environment(int h, int w, int foodCount, int obstacleCount);
 
     ~Environment();
 
@@ -35,7 +35,13 @@ public:
 
     int & getHeight() { return height; }
 
+    SquareBox * getSquareBoxAt(const int &posX, const int &posY);
+
     vector<vector<SquareBox *>> getGrid() { return grid; }
+
+    void insertPheromone(const int &posX, const int &posY);
+
+    void displayGrid();
 };
 
 

@@ -12,3 +12,9 @@ void AntWarrior::evolve() {
 void AntWarrior::move(char direction) {
     LivingAnt::move(direction);
 }
+
+bool AntWarrior::dieSlowly(const int &round) {
+    if (round % 15 == 1) {
+        return LivingAnt::looseLife();
+    } return false;
+}

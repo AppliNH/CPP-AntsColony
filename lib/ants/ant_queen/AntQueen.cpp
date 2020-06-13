@@ -13,3 +13,9 @@ void AntQueen::evolve() {
 void AntQueen::move(char direction) {
 
 }
+
+bool AntQueen::dieSlowly(const int &round) {
+    if (round % 100 == 1) {
+        return LivingAnt::looseLife();
+    } return false;
+}

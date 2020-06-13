@@ -13,6 +13,7 @@
 #include "ants/ant_queen/AntQueen.h"
 
 #include <unistd.h>
+#include <iostream>
 
 class Game {
 private:
@@ -22,7 +23,7 @@ private:
     vector<Ant *> ants;
     vector<LivingAnt *> livingAnts;
 public:
-    Game(int W, int H, int antHillX, int antHillY, int maxPopulation, int maxFood);
+    Game(int W, int H, int antHillX, int antHillY, int population, int foodCount, int obstacleCount);
 
     ~Game();
 

@@ -6,7 +6,7 @@
 
 class AntEgg: public Ant{
 public:
-    AntEgg(AntHill antHill, Environment environment) : Ant(antHill, environment) {}
+    AntEgg(AntHill antHill, Environment environment) : Ant(antHill) {}
 
     void speak() override;
     void evolve() override;

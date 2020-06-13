@@ -7,10 +7,11 @@
 class AntWorker: public LivingAnt {
 public:
 
-    AntWorker(AntHill &antHill, Environment &environment) : LivingAnt(antHill, environment) {}
+    AntWorker(AntHill &antHill, Environment &environment) : LivingAnt(antHill, environment, 5) {}
     void speak() override;
     void evolve() override;
     void move(char pos) override;
+    bool dieSlowly(const int &round) override ;
 };
 
 

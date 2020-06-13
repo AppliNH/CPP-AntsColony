@@ -1,30 +1,33 @@
 #include <iostream>
 #include "Environment.h"
 
-Environment::Environment(int h, int w)  : height(h), width(w) {
-
+Environment::Environment(int h, int w, int foodCount, int obstacleCount) : height(h), width(w) {
     for (int row = 0; row < h; ++row) {
         vector<SquareBox *> line;
-        if (row % 2 == 0) {
-            for (int column = 0; column < w; ++column) {
-                if (column % 2 == 0) {
-                    line.push_back(new Food(column, row));
-                } else {
-                    line.push_back(nullptr);
-                }
-            }
-        } else {
-            for (int column = 0; column < w; ++column) {
-                if (column % 2 != 0) {
-                    line.push_back(new Obstacle(column, row));
-                } else {
-                    line.push_back(nullptr);
-                }
-            }
+        line.reserve(w);
+        for (int column = 0; column < w; ++column) {
+            line.push_back(nullptr);
         }
         grid.push_back(line);
-
     }
+
+    grid.at(7).at(3) = new Food(3, 7);
+    grid.at(4).at(1) = new Food(1, 4);
+    grid.at(5).at(10) = new Food(10, 5);
+
+    grid.at(1).at(15) = new Obstacle(15, 1);
+    grid.at(2).at(15) = new Obstacle(15, 2);
+    grid.at(3).at(15) = new Obstacle(15, 3);
+    grid.at(4).at(15) = new Obstacle(15, 4);
+    grid.at(5).at(15) = new Obstacle(15, 5);
+
+    grid.at(7).at(27) = new Obstacle(4, 27);
+    grid.at(7).at(28) = new Obstacle(4, 28);
+    grid.at(7).at(29) = new Obstacle(4, 29);
+    grid.at(7).at(30) = new Obstacle(4, 30);
+    grid.at(7).at(31) = new Obstacle(4, 31);
+
+
 }
 
 char Environment::analyzeEnv(const int &posX, const int &posY) {
@@ -138,16 +141,25 @@ void Environment::status() {
         }
 
     }
-    cout << "## ENV ##" << endl;
-    cout << "Food : " << foodCount << endl;
+    cout << "## ENVIRONMENT ##" << endl;
+    cout << "Food left : " << foodCount << endl;
     cout << "Obstacles : " << obstacleCount << endl;
+    displayGrid();
 }
 
 void Environment::deleteSquareBox(const int &posX, const int &posY) {
-     if (grid.at(posY).at(posX) != nullptr) {
+    if (grid.at(posY).at(posX) != nullptr) {
         delete grid.at(posY).at(posX);
         grid.at(posY).at(posX) = nullptr;
-     }
+    }
+}
+
+void Environment::insertPheromone(const int &posX, const int &posY) {
+    if (grid.at(posY).at(posX) == nullptr) {
+        grid.at(posY).at(posX) = new Pheromone(posX, posY, 10);
+    } else if (auto *p = dynamic_cast<Pheromone *>(grid.at(posY).at(posX))) {
+        p->increasePowerness();
+    }
 }
 
 Environment::~Environment() {
@@ -157,4 +169,28 @@ Environment::~Environment() {
         }
     }
     grid.clear();
+}
+
+SquareBox *Environment::getSquareBoxAt(const int &posX, const int &posY) {
+    if (grid.at(posY).at(posX) != nullptr) {
+        return grid.at(posY).at(posX);
+    }
+    return nullptr;
+}
+
+void Environment::displayGrid() {
+    for (int row = 0; row < height; ++row) {
+        for (int column = 0; column < width; ++column) {
+            if (dynamic_cast<Pheromone *>(grid.at(row).at(column))) {
+                cout << "|P";
+            } else if (dynamic_cast<Food *>(grid.at(row).at(column))) {
+                cout << "|F";
+            } else if (dynamic_cast<Obstacle *>(grid.at(row).at(column))) {
+                cout << "|X";
+            } else {
+                cout << "|_";
+            }
+        }
+        cout << "|" << endl;
+    }
 }
