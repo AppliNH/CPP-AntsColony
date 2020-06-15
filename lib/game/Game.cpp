@@ -3,6 +3,7 @@
 //
 
 #include "Game.h"
+#include <algorithm>
 
 Game::Game(int W, int H, int antHillX, int antHillY, int population, int foodCount, int obstacleCount) : round(0) {
 
@@ -240,7 +241,8 @@ void Game::displayGrid() {
                 cout << "|\U0001F370";
             } else if (dynamic_cast<Obstacle *>(environment->getGrid().at(row).at(column))) {
                 cout << "|\U0001F4E6";
-            } else if (dynamic_cast<LivingAnt *>(environment->getGrid().at(row).at(column))) {
+            } else if (find_if(livingAnts.begin(), livingAnts.end(),
+                               [row, column](LivingAnt * m) -> bool { return m->getPosY() == row && m->getPosX() == column; })[0]) {
                 cout << "|\U0001F41C";
             } else if (dynamic_cast<AntHill *>(environment->getGrid().at(row).at(column))) {
                 cout << "|\U0001F5FB";
