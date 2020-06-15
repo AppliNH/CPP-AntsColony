@@ -134,12 +134,16 @@ void Environment::status() {
             if (square != nullptr && dynamic_cast<Obstacle *>(square)) {
                 obstacleCount++;
             }
+            if (square != nullptr && dynamic_cast<Pheromone *>(square)) {
+                pheromoneCount++;
+            }
         }
 
     }
     cout << "## ENVIRONMENT ##" << endl;
     cout << "Food left : " << foodCount << endl;
     cout << "Obstacles : " << obstacleCount << endl;
+    cout << "Pheromones : " << pheromoneCount << endl;
 }
 
 void Environment::deleteSquareBox(const int &posX, const int &posY) {
