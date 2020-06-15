@@ -37,6 +37,8 @@ public:
 
     char dodgeObstacle(LivingAnt &livingAnt);
 
+    void displayGrid();
+
 
 };
 

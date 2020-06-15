@@ -140,7 +140,6 @@ void Environment::status() {
     cout << "## ENVIRONMENT ##" << endl;
     cout << "Food left : " << foodCount << endl;
     cout << "Obstacles : " << obstacleCount << endl;
-    displayGrid();
 }
 
 void Environment::deleteSquareBox(const int &posX, const int &posY) {
@@ -174,25 +173,6 @@ SquareBox *Environment::getSquareBoxAt(const int &posX, const int &posY) {
         return grid.at(posY).at(posX);
     }
     return nullptr;
-}
-
-void Environment::displayGrid() {
-    for (int row = 0; row < height; ++row) {
-        for (int column = 0; column < width; ++column) {
-            if (dynamic_cast<Pheromone *>(grid.at(row).at(column))) {
-                cout << "|\U0001F300";
-            } else if (dynamic_cast<Food *>(grid.at(row).at(column))) {
-                cout << "|\U0001F370";
-            } else if (dynamic_cast<Obstacle *>(grid.at(row).at(column))) {
-                cout << "|\U0001F4E6";
-            }else if (dynamic_cast<AntHill *>(grid.at(row).at(column))) {
-                cout << "|\U0001F5FB";
-            } else {
-                cout << "|__";
-            }
-        }
-        cout << "|" << endl;
-    }
 }
 
 void Environment::pheromoneDecay() {

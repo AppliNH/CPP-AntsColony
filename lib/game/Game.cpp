@@ -125,6 +125,7 @@ void Game::start() {
         system("clear");
         environment->pheromoneDecay();
         environment->status();
+        displayGrid();
         for (auto &antHill : antHills) {
             antHill->status();
         }
@@ -229,3 +230,25 @@ char Game::dodgeObstacle(LivingAnt &livingAnt) {
     return choice.at(rand() % choice.size());
 
 }
+
+void Game::displayGrid() {
+    for (int row = 0; row < environment->getHeight(); ++row) {
+        for (int column = 0; column < environment->getHeight(); ++column) {
+            if (dynamic_cast<Pheromone *>(environment->getGrid().at(row).at(column))) {
+                cout << "|\U0001F300";
+            } else if (dynamic_cast<Food *>(environment->getGrid().at(row).at(column))) {
+                cout << "|\U0001F370";
+            } else if (dynamic_cast<Obstacle *>(environment->getGrid().at(row).at(column))) {
+                cout << "|\U0001F4E6";
+            } else if (dynamic_cast<LivingAnt *>(environment->getGrid().at(row).at(column))) {
+                cout << "|\U0001F41C";
+            } else if (dynamic_cast<AntHill *>(environment->getGrid().at(row).at(column))) {
+                cout << "|\U0001F5FB";
+            } else {
+                cout << "|__";
+            }
+        }
+        cout << "|" << endl;
+    }
+}
+
