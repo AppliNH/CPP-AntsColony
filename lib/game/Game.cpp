@@ -136,10 +136,10 @@ void Game::start() {
             moveAllAnts();
         } else {
             cout << "GAME ENDED" << endl;
-            break;
+            return;
         }
         round++;
-        usleep(1000000);
+        usleep(100000);
         cout << endl;
     }
 
@@ -234,21 +234,25 @@ char Game::dodgeObstacle(LivingAnt &livingAnt) {
 
 void Game::displayGrid() {
     for (int row = 0; row < environment->getHeight(); ++row) {
-        for (int column = 0; column < environment->getHeight(); ++column) {
-            if (dynamic_cast<Pheromone *>(environment->getGrid().at(row).at(column))) {
-                cout << "|\U0001F300";
-            } else if (dynamic_cast<Food *>(environment->getGrid().at(row).at(column))) {
-                cout << "|\U0001F370";
+        for (int column = 0; column < environment->getWidth(); ++column) {
+            string icon = "";
+            if (dynamic_cast<Food *>(environment->getGrid().at(row).at(column))) {
+                icon = "|\U0001F370";
             } else if (dynamic_cast<Obstacle *>(environment->getGrid().at(row).at(column))) {
-                cout << "|\U0001F4E6";
-            } else if (find_if(livingAnts.begin(), livingAnts.end(),
-                               [row, column](LivingAnt * m) -> bool { return m->getPosY() == row && m->getPosX() == column; })[0]) {
-                cout << "|\U0001F41C";
+                icon = "|\U0001F4E6";
             } else if (dynamic_cast<AntHill *>(environment->getGrid().at(row).at(column))) {
-                cout << "|\U0001F5FB";
+                icon = "|\U0001F5FB";
+            } else if (!livingAnts.empty() && find_if(livingAnts.begin(), livingAnts.end(),
+                               [row, column](LivingAnt *m) -> bool {
+                                   return m->getPosY() == row && m->getPosX() == column;
+                               })[0]) {
+                icon = "|\U0001F41C";
+            } else if (dynamic_cast<Pheromone *>(environment->getGrid().at(row).at(column))) {
+                icon = "|\U0001F300";
             } else {
-                cout << "|__";
+                icon = "|__";
             }
+            cout << icon;
         }
         cout << "|" << endl;
     }
