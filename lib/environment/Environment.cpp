@@ -12,7 +12,7 @@ Environment::Environment(int h, int w, int foodCount, int obstacleCount, AntHill
         grid.push_back(line);
     }
 
-    antHills.push_back(*antHill);
+    antHills.push_back(antHill);
     grid.at(antHill->getPosY()).at(antHill->getPosX()) = antHill;
 
     grid.at(4).at(1) = new Food(1, 4);
@@ -186,4 +186,8 @@ void Environment::pheromoneDecay() {
         }
     }
 
+}
+
+vector<AntHill *> Environment::getAntHills() {
+    return antHills;
 }

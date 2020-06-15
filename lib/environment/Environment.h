@@ -19,7 +19,7 @@ private:
 
     vector<Food> foods;
     vector<Pheromone> pheromones;
-    vector<AntHill> antHills;
+    vector<AntHill *> antHills;
     vector<Obstacle> obstacles;
 public:
     Environment(int h, int w, int foodCount, int obstacleCount, AntHill *antHill);
@@ -29,6 +29,8 @@ public:
     char analyzeEnv(const int &posX, const int &posY);
 
     void deleteSquareBox(const int &posX, const int &posY);
+
+    vector<AntHill *> getAntHills();
 
     void status();
 
@@ -41,8 +43,6 @@ public:
     vector<vector<SquareBox *>> getGrid() { return grid; }
 
     void insertPheromone(const int &posX, const int &posY);
-
-    void displayGrid();
 
     void pheromoneDecay();
 };

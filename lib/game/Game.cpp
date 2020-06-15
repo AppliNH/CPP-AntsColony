@@ -11,8 +11,6 @@ Game::Game(int W, int H, int antHillX, int antHillY, int population, int foodCou
     AntHill *antHill = new AntHill(antHillX, antHillY, population, foodCount);
     environment = new Environment(H, W, foodCount, obstacleCount, antHill);
 
-    antHills.push_back(antHill);
-
     AntQueen *antQueen = new AntQueen(*antHill, *environment);
     livingAnts.push_back(antQueen);
 
@@ -127,7 +125,7 @@ void Game::start() {
         environment->pheromoneDecay();
         environment->status();
         displayGrid();
-        for (auto &antHill : antHills) {
+        for (auto &antHill : environment->getAntHills()) {
             antHill->status();
         }
         cout << "#########" << endl;
@@ -193,12 +191,8 @@ Game::~Game() {
     for (auto a : ants) {
         delete a;
     }
-    for (auto ah : antHills) {
-        delete ah;
-    }
     delete environment;
     livingAnts.clear();
-    antHills.clear();
     ants.clear();
 }
 
@@ -235,17 +229,17 @@ char Game::dodgeObstacle(LivingAnt &livingAnt) {
 void Game::displayGrid() {
     for (int row = 0; row < environment->getHeight(); ++row) {
         for (int column = 0; column < environment->getWidth(); ++column) {
-            string icon = "";
+            string icon;
             if (dynamic_cast<Food *>(environment->getGrid().at(row).at(column))) {
                 icon = "|\U0001F370";
             } else if (dynamic_cast<Obstacle *>(environment->getGrid().at(row).at(column))) {
                 icon = "|\U0001F4E6";
             } else if (dynamic_cast<AntHill *>(environment->getGrid().at(row).at(column))) {
                 icon = "|\U0001F5FB";
-            } else if (!livingAnts.empty() && find_if(livingAnts.begin(), livingAnts.end(),
+            } else if (find_if(livingAnts.begin(), livingAnts.end(),
                                [row, column](LivingAnt *m) -> bool {
                                    return m->getPosY() == row && m->getPosX() == column;
-                               })[0]) {
+                               }) != livingAnts.end()) {
                 icon = "|\U0001F41C";
             } else if (dynamic_cast<Pheromone *>(environment->getGrid().at(row).at(column))) {
                 icon = "|\U0001F300";

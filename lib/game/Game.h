@@ -19,7 +19,6 @@ class Game {
 private:
     int round;
     Environment *environment;
-    vector<AntHill *> antHills;
     vector<Ant *> ants;
     vector<LivingAnt *> livingAnts;
 public:
