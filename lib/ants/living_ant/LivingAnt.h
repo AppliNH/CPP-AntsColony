@@ -27,7 +27,7 @@ private:
 
 public:
     LivingAnt(AntHill &antHill, Environment &environment, const double& lifePoints, const double& decayRate, const int& foodConsumed)
-            : Ant(antHill), maxCarriedFood(2),
+            : Ant(antHill), maxCarriedFood(5),
               environment(environment),
               lifePoints(lifePoints),
               lifeThreshold(lifePoints / 4),
@@ -48,7 +48,7 @@ public:
 
     bool grabFood(const Food &food);
 
-    void move(char direction);
+    virtual void move(char direction);
 
     void displayLifePoints() const;
 

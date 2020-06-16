@@ -9,7 +9,7 @@ void LivingAnt::speak() {
     cout << ", ";
     displayLifePoints();
     cout << ", ";
-    cout << "carriedFood: " << carriedFood.size() << ") I'm a living ant ";
+    cout << "carriedFood: " << carriedFood.size() << ") Living ant ";
 }
 
 void LivingAnt::move(char pos) {

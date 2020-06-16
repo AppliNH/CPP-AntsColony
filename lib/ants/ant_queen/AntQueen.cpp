@@ -3,7 +3,11 @@
 
 void AntQueen::speak() {
     LivingAnt::speak();
-    cout << "and a Queen" << endl;
+    cout << "(Queen)" << endl;
+}
+
+void AntQueen::move(char direction) {
+
 }
 
 void AntQueen::evolve() {

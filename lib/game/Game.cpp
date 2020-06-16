@@ -57,6 +57,7 @@ char Game::analyzeEnv(LivingAnt &livingAnt) {
             if (f->getSize() == 0) {
                 // Delete the food
                 environment->deleteSquareBox(livingAnt.getPosX(), livingAnt.getPosY());
+                environment->insertFoods(1);
             }
             cout << "   >> I grabbed a food <<" << endl;
             return ' ';
@@ -127,7 +128,7 @@ void Game::start() {
         environment->status();
         displayGrid();
         for (auto &antHill : environment->getAntHills()) {
-            antHill.status();
+            antHill->status();
         }
         cout << "#########" << endl;
         cout << "Round : " << round << endl;

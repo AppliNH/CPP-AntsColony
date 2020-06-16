@@ -10,6 +10,7 @@ class AntQueen: public LivingAnt {
 public:
     AntQueen(AntHill &antHill, Environment &environment): LivingAnt(antHill, environment, 3, 0.01, 4) {};
     void layEgg();
+    void move(char direction) override;
     void speak() override;
     void evolve() override;
 

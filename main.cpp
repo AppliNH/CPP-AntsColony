@@ -2,7 +2,7 @@
 #include "game/Game.h"
 
 int main() {
-    Game myGame = Game(5, 10, 10, 15, 10);
+    Game myGame = Game(2, 10, 10, 10, 5);
     myGame.start();
     return 0;
 }

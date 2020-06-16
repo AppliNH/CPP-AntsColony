@@ -23,10 +23,9 @@ private:
 
     vector<Food> foods;
     vector<Pheromone> pheromones;
-    vector<AntHill> antHills;
+    vector<AntHill *> antHills;
     vector<Obstacle> obstacles;
     void buildGrid(const int &w, const int &h);
-    void insertFoods(const int &foodCount);
     void insertObstacles(const int &obstacleCount);
 public:
     Environment(int h, int w, int foodCount, int obstacleCount, AntHill *antHill);
@@ -35,7 +34,9 @@ public:
 
     void deleteSquareBox(const int &posX, const int &posY);
 
-    vector<AntHill> getAntHills();
+    void insertFoods(const int &foodCount);
+
+    vector<AntHill *> getAntHills();
 
     void status();
 

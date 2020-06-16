@@ -2,7 +2,7 @@
 
 void AntWorker::speak() {
     LivingAnt::speak();
-    cout << "and a Worker" << endl;
+    cout << "(Worker)" << endl;
 }
 
 void AntWorker::evolve() {

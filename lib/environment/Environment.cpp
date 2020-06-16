@@ -8,7 +8,7 @@ Environment::Environment(int h, int w, int foodCount, int obstacleCount, AntHill
     // Build the grid
     buildGrid(w, h);
     //Insert the first ant hill
-    antHills.push_back(*antHill);
+    antHills.push_back(antHill);
     grid.at(antHill->getPosY()).at(antHill->getPosX()) = antHill;
     // Insert the food
     insertFoods(foodCount);
@@ -83,7 +83,7 @@ void Environment::pheromoneDecay() {
 
 }
 
-vector<AntHill> Environment::getAntHills() {
+vector<AntHill *> Environment::getAntHills() {
     return antHills;
 }
 
