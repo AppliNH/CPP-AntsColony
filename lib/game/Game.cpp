@@ -4,10 +4,10 @@
 
 #include "Game.h"
 
-Game::Game(int antHillX, int antHillY, int population, int W, int H, int foodCount, int obstacleCount) : round(0) {
+Game::Game(int population, int W, int H, int foodCount, int obstacleCount) : round(0) {
 
 
-    AntHill *antHill = new AntHill(antHillX, antHillY, population, foodCount);
+    AntHill *antHill = new AntHill(W/2, H/2, population, foodCount);
     environment = new Environment(H, W, foodCount, obstacleCount, antHill);
 
     AntQueen *antQueen = new AntQueen(*antHill, *environment);

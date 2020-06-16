@@ -7,13 +7,13 @@ Environment::Environment(int h, int w, int foodCount, int obstacleCount, AntHill
     srand(time(NULL));
     // Build the grid
     buildGrid(w, h);
+    //Insert the first ant hill
+    antHills.push_back(*antHill);
+    grid.at(antHill->getPosY()).at(antHill->getPosX()) = antHill;
     // Insert the food
     insertFoods(foodCount);
     // Insert the obstacles
     insertObstacles(obstacleCount);
-    //Insert the first ant hill
-    antHills.push_back(*antHill);
-    grid.at(antHill->getPosY()).at(antHill->getPosX()) = antHill;
 }
 
 

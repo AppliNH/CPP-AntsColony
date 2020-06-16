@@ -23,7 +23,7 @@ private:
     vector<Ant *> ants;
     vector<LivingAnt *> livingAnts;
 public:
-    Game(int antHillX, int antHillY, int population, int W = 50, int H = 100, int foodCount = 500, int obstacleCount = 1000);
+    Game(int population, int W = 50, int H = 100, int foodCount = 500, int obstacleCount = 1000);
 
     ~Game();
 
