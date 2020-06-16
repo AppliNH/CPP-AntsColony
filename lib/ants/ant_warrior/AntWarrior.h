@@ -1,16 +1,16 @@
 #ifndef CPP_ANTSCOLONY_ANTWARRIOR_H
 #define CPP_ANTSCOLONY_ANTWARRIOR_H
 
-#include <iostream>
 #include "ants/living_ant/LivingAnt.h"
+
+#include <iostream>
 
 class AntWarrior : public LivingAnt {
 public:
-    AntWarrior(AntHill &antHill, Environment &environment) : LivingAnt(antHill, environment, 10) {}
+    AntWarrior(AntHill &antHill, Environment &environment) : LivingAnt(antHill, environment, 10, 0.05, 2) {}
     void attack(const LivingAnt &);
     void speak() override;
     void evolve() override;
-    bool dieSlowly(const int &round) override;
 };
 
 

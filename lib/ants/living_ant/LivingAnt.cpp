@@ -57,15 +57,15 @@ void LivingAnt::displayPosition() {
 }
 
 void LivingAnt::displayLifePoints() const {
-    cout << "Health :";
-    for (int i = 0; i < lifePoints; ++i) {
-        if (i == lifeThreshold) {
+    cout << "Health : " << lifePoints << " (" << lifeThreshold << ")";
+    /*for (int i = 0; i < lifePoints; ++i) {
+        if (i <= lifeThreshold) {
             cout << "#";
         } else {
         cout << "|";
 
         }
-    }
+    }*/
 }
 
 void LivingAnt::displayState() {
@@ -86,7 +86,9 @@ bool LivingAnt::grabFood(const Food &food) {
 }
 
 void LivingAnt::eatFood() {
-    carriedFood.erase(carriedFood.begin());
+    for (int i = 0; i < foodConsumed; ++i) {
+        carriedFood.erase(carriedFood.begin());
+    }
     lifePoints++;
 }
 
@@ -95,5 +97,10 @@ void LivingAnt::storeFood(const Food &food) {
 }
 
 bool LivingAnt::isRequiredToEat() {
-    return lifePoints <= lifeThreshold && !carriedFood.empty();
+    return lifePoints <= lifeThreshold && !carriedFood.empty() && carriedFood.size() >= foodConsumed;
+}
+
+bool LivingAnt::looseLife()  {
+    lifePoints -= decayRate;
+    return lifePoints <= 0;
 }

@@ -8,11 +8,10 @@ using namespace std;
 
 class AntQueen: public LivingAnt {
 public:
-    AntQueen(AntHill &antHill, Environment &environment): LivingAnt(antHill, environment, 3){};
+    AntQueen(AntHill &antHill, Environment &environment): LivingAnt(antHill, environment, 3, 0.01, 4) {};
     void layEgg();
     void speak() override;
     void evolve() override;
-    bool dieSlowly(const int &round) override;
 
 };
 

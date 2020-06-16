@@ -2,21 +2,21 @@
 #define CPP_ANTSCOLONY_PHEROMONE_H
 
 
-#include <square_box/SquareBox.h>
+#include <iostream>
+#include "square_box/SquareBox.h"
 
 class Pheromone : public SquareBox {
 private:
-    int duration;
-    int powerness;
-
+    double powerness;
+    double decayRate;
 public:
-    Pheromone(int X, int Y, int duration) : SquareBox(X, Y), duration(duration), powerness(15) {}
+    Pheromone(int X, int Y, double powerness, double decayRate = 0.95) : SquareBox(X, Y), powerness(powerness), decayRate(decayRate) {}
 
     void increasePowerness() { powerness++; }
 
     bool decreasePowerness() {
-        powerness--;
-        return powerness == 0;
+        powerness -= decayRate;
+        return powerness <= 0;
     }
 };
 

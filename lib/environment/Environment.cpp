@@ -50,7 +50,7 @@ void Environment::deleteSquareBox(const int &posX, const int &posY) {
 
 void Environment::insertPheromone(const int &posX, const int &posY) {
     if (grid.at(posY).at(posX) == nullptr) {
-        auto *p = new Pheromone(posX, posY, 10);
+        auto *p = new Pheromone(posX, posY, 10.0);
         grid.at(posY).at(posX) = p;
         pheromones.push_back(*p);
     } else if (auto *p = dynamic_cast<Pheromone *>(grid.at(posY).at(posX))) {

@@ -138,7 +138,7 @@ void Game::start() {
             return;
         }
         round++;
-        usleep(100000);
+        usleep(1000000);
         cout << endl;
     }
 
@@ -147,7 +147,7 @@ void Game::start() {
 
 void Game::moveAllAnts() {
     for (int i = 0; i < livingAnts.size(); ++i) {
-        if (livingAnts.at(i)->dieSlowly(round)) {
+        if (livingAnts.at(i)->looseLife()) {
             livingAnts.erase(livingAnts.begin() + i);
             return;
         }

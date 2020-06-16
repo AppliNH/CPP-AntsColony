@@ -9,11 +9,3 @@ void AntWarrior::evolve() {
     cout << "Evolve to queen" << endl;
 }
 
-bool AntWarrior::dieSlowly(const int &round) {
-    if (LivingAnt::isRequiredToEat()) {
-        LivingAnt::eatFood();
-    }
-    if (round % 15 == 1) {
-        return LivingAnt::looseLife();
-    } return false;
-}

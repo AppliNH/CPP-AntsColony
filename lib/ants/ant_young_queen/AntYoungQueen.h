@@ -5,8 +5,10 @@
 #include "ants/living_ant/LivingAnt.h"
 #include "ant_hill/AntHill.h"
 
-class AntYoungQueen : public LivingAnt {
+class AntYoungQueen {
 public:
+    AntYoungQueen() {}
+
     AntHill createAntHill();
 
 };

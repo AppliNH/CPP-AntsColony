@@ -13,33 +13,32 @@ using namespace std;
 class LivingAnt : public Ant {
 
 private:
-    int lifePoints;
-    int lifeThreshold;
+    double lifePoints;
+    double decayRate;
+    double lifeThreshold;
+    int foodConsumed;
     int maxCarriedFood;
     vector<Food *> carriedFood;
     Environment &environment;
-public:
-    LivingAnt(AntHill &antHill, Environment &environment, int lifePoints) : Ant(antHill), maxCarriedFood(2),
-                                                                            environment(environment),
-                                                                            lifePoints(lifePoints), lifeThreshold(lifePoints / 4) {};
-    ~LivingAnt();
-
-    char detectPheromone();
-
-    virtual bool dieSlowly(const int &round) = 0;
-
     void moveLeft() { if (posX > 0) posX--; }
-
     void moveRight() { if (posX < environment.getWidth() - 1) posX++; }
-
     void moveBottom() { if (posY < environment.getHeight() - 1) posY++; }
-
     void moveTop() { if (posY > 0) posY--; }
 
-    bool looseLife() {
-        lifePoints--;
-        return lifePoints == 0;
-    }
+public:
+    LivingAnt(AntHill &antHill, Environment &environment, const double& lifePoints, const double& decayRate, const int& foodConsumed)
+            : Ant(antHill), maxCarriedFood(2),
+              environment(environment),
+              lifePoints(lifePoints),
+              lifeThreshold(lifePoints / 4),
+              decayRate(decayRate),
+              foodConsumed(foodConsumed){};
+
+    ~LivingAnt() override;
+
+    void speak() override;
+
+    bool looseLife();
 
     void layDownFoodInAntHill();
 
@@ -49,17 +48,16 @@ public:
 
     bool grabFood(const Food &food);
 
-    virtual void move(char direction);
-
-    void speak()
-    override;
+    void move(char direction);
 
     void displayLifePoints() const;
 
     void displayState();
 
     void displayPosition();
+
     void eatFood();
+
     void storeFood(const Food &food);
 
 };
