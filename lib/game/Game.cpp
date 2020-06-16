@@ -3,9 +3,8 @@
 //
 
 #include "Game.h"
-#include <algorithm>
 
-Game::Game(int W, int H, int antHillX, int antHillY, int population, int foodCount, int obstacleCount) : round(0) {
+Game::Game(int antHillX, int antHillY, int population, int W, int H, int foodCount, int obstacleCount) : round(0) {
 
 
     AntHill *antHill = new AntHill(antHillX, antHillY, population, foodCount);
@@ -22,6 +21,8 @@ Game::Game(int W, int H, int antHillX, int antHillY, int population, int foodCou
         LivingAnt *antWarrior = new AntWarrior(*antHill, *environment);
         livingAnts.push_back(antWarrior);
     }
+
+    displayGrid();
 
 }
 
@@ -126,7 +127,7 @@ void Game::start() {
         environment->status();
         displayGrid();
         for (auto &antHill : environment->getAntHills()) {
-            antHill->status();
+            antHill.status();
         }
         cout << "#########" << endl;
         cout << "Round : " << round << endl;
@@ -155,6 +156,7 @@ void Game::moveAllAnts() {
             livingAnts.at(i)->layDownFoodInAntHill();
         }
         char newDirection = analyzeEnv(*livingAnts.at(i));
+        if (livingAnts.at(i)->isRequiredToEat()) livingAnts.at(i)->eatFood();
         livingAnts.at(i)->move(newDirection);
 
     }

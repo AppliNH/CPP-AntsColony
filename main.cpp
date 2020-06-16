@@ -1,12 +1,8 @@
-#include <iostream>
-#include <ants/ant_worker/AntWorker.h>
-#include <ants/ant_warrior/AntWarrior.h>
-#include <ants/ant_egg/AntEgg.h>
-#include <game/Game.h>
-#include "ants/ant_queen/AntQueen.h"
+#include "ants/ant_worker/AntWorker.h"
+#include "game/Game.h"
 
 int main() {
-    Game myGame = Game(10, 10, 6, 4, 20, 50, 0);
+    Game myGame = Game(6, 4, 50, 20, 20, 30, 30);
     myGame.start();
     return 0;
 

@@ -5,8 +5,12 @@
 #include "ant_hill/AntHill.h"
 #include "pheromone/Pheromone.h"
 #include "obstacle/Obstacle.h"
+
 #include <iostream>
 #include <memory>
+#include <cstdlib>
+#include <ctime>
+#include <unistd.h>
 
 using namespace std;
 
@@ -19,18 +23,19 @@ private:
 
     vector<Food> foods;
     vector<Pheromone> pheromones;
-    vector<AntHill *> antHills;
+    vector<AntHill> antHills;
     vector<Obstacle> obstacles;
+    void buildGrid(const int &w, const int &h);
+    void insertFoods(const int &foodCount);
+    void insertObstacles(const int &obstacleCount);
 public:
     Environment(int h, int w, int foodCount, int obstacleCount, AntHill *antHill);
 
     ~Environment();
 
-    char analyzeEnv(const int &posX, const int &posY);
-
     void deleteSquareBox(const int &posX, const int &posY);
 
-    vector<AntHill *> getAntHills();
+    vector<AntHill> getAntHills();
 
     void status();
 
