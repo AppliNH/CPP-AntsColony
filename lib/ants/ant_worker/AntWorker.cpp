@@ -9,10 +9,6 @@ void AntWorker::evolve() {
     cout << "Evolve to warrior" << endl;
 }
 
-void AntWorker::move(char direction) {
-    LivingAnt::move(direction);
-}
-
 bool AntWorker::dieSlowly(const int &round) {
     if (LivingAnt::isRequiredToEat()) {
         LivingAnt::eatFood();

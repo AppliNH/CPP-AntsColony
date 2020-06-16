@@ -10,10 +10,6 @@ void AntQueen::evolve() {
     cout << "Evolve to nothing" << endl;
 }
 
-void AntQueen::move(char direction) {
-
-}
-
 bool AntQueen::dieSlowly(const int &round) {
     if (LivingAnt::isRequiredToEat()) {
         LivingAnt::eatFood();

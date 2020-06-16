@@ -59,7 +59,12 @@ void LivingAnt::displayPosition() {
 void LivingAnt::displayLifePoints() const {
     cout << "Health :";
     for (int i = 0; i < lifePoints; ++i) {
+        if (i == lifeThreshold) {
+            cout << "#";
+        } else {
         cout << "|";
+
+        }
     }
 }
 

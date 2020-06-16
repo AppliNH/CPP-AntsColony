@@ -19,9 +19,9 @@ private:
     vector<Food *> carriedFood;
     Environment &environment;
 public:
-    LivingAnt(AntHill &antHill, Environment &environment, int lifePoints) : Ant(antHill), maxCarriedFood(5),
+    LivingAnt(AntHill &antHill, Environment &environment, int lifePoints) : Ant(antHill), maxCarriedFood(2),
                                                                             environment(environment),
-                                                                            lifePoints(lifePoints), lifeThreshold(lifePoints / 2) {};
+                                                                            lifePoints(lifePoints), lifeThreshold(lifePoints / 4) {};
     ~LivingAnt();
 
     char detectPheromone();

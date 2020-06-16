@@ -10,7 +10,6 @@ public:
     void attack(const LivingAnt &);
     void speak() override;
     void evolve() override;
-    void move(char pos) override;
     bool dieSlowly(const int &round) override;
 };
 
