@@ -44,7 +44,11 @@ public:
 
     virtual bool isRequiredToEat();
 
+    bool isSameAntHill(const AntHill &antHill1) { return antHill1.getPosX() == antHill.getPosX() && antHill1.getPosY() == antHill.getPosY();}
+
     bool isFullOfFood();
+
+    void undergoDamage() { lifePoints--;}
 
     bool grabFood(const Food &food);
 
