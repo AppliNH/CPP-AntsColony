@@ -32,8 +32,13 @@ char Game::analyzeEnv(LivingAnt &livingAnt) {
     vector<char> choiceLevel1;
     vector<char> choiceLevel2;
 
+
+
     choiceLevel1.push_back(dodgeObstacle(livingAnt));
     choiceLevel2.push_back(dodgeObstacle(livingAnt));
+
+    int initialChoiceSize1 = choiceLevel1.size();
+    int initialChoiceSize2 = choiceLevel2.size();
 
     if (livingAnt.isFullOfFood()) return getDirectionTo(livingAnt, livingAnt.getAntHill());
     // Get the first line above the ant. Empty vector if out of the grid
@@ -115,6 +120,55 @@ char Game::analyzeEnv(LivingAnt &livingAnt) {
         choiceLevel2.push_back('R');
     }
 
+    // Pheromons decisions
+    if(choiceLevel1.size() == initialChoiceSize1) {
+
+        if (!belowLine1.empty() && dynamic_cast<Pheromone *>(belowLine1.at(livingAnt.getPosX()))) {
+            cout << "   >> Food towards Bottom (+1) <<" << endl;
+            choiceLevel1.push_back('B');
+        }
+
+        if (!aboveLine1.empty() && dynamic_cast<Pheromone *>(aboveLine1.at(livingAnt.getPosX()))) {
+            cout << "   >> Food towards Top (+1) <<" << endl;
+            choiceLevel1.push_back('T');
+        }
+
+        if (livingAnt.getPosX() - 1 >= 0 && dynamic_cast<Pheromone *>(currentLine.at(livingAnt.getPosX() - 1))) {
+            cout << "   >> Food towards Left (+1) <<" << endl;
+            choiceLevel1.push_back('L');
+        }
+
+        if (livingAnt.getPosX() + 1 < environment->getWidth() &&
+            dynamic_cast<Pheromone *>(currentLine.at(livingAnt.getPosX() + 1))) {
+            cout << "   >> Food towards Right (+1) <<" << endl;
+            choiceLevel1.push_back('R');
+        }
+
+    }
+
+    if(choiceLevel2.size() == initialChoiceSize2) {
+        if (!belowLine2.empty() && dynamic_cast<Pheromone *>(belowLine2.at(livingAnt.getPosX()))) {
+            cout << "   >> Food towards Bottom (+2) <<" << endl;
+            choiceLevel2.push_back('B');
+        }
+
+        if (livingAnt.getPosX() - 2 >= 0 && dynamic_cast<Pheromone *>(currentLine.at(livingAnt.getPosX() - 2))) {
+            cout << "   >> Food towards Left (+2) <<" << endl;
+            choiceLevel2.push_back('L');
+        }
+
+        if (!aboveLine2.empty() && dynamic_cast<Pheromone *>(aboveLine2.at(livingAnt.getPosX()))) {
+            cout << "   >> Food towards Top (+2) <<" << endl;
+            choiceLevel2.push_back('T');
+        }
+
+        if (livingAnt.getPosX() + 2 < environment->getWidth() &&
+            dynamic_cast<Pheromone *>(currentLine.at(livingAnt.getPosX() + 2))) {
+            cout << "   >> Food towards Right (+2) <<" << endl;
+            choiceLevel2.push_back('R');
+        }
+    }
+
     if (!choiceLevel1.empty()) {
         dodgeObstacle2(livingAnt, choiceLevel1);
         return choiceLevel1.at(rand() % choiceLevel1.size());
@@ -169,7 +223,6 @@ void Game::moveAllAnts() {
 }
 
 char Game::getDirectionTo(LivingAnt &livingAnt, SquareBox &squareBow) {
-    //char newDirection = ' ';
     vector<char> possibleDir;
 
     // Get the line where is the ant
@@ -177,21 +230,17 @@ char Game::getDirectionTo(LivingAnt &livingAnt, SquareBox &squareBow) {
 
     if (livingAnt.getPosX() - 1 >= 0 && squareBow.getPosX() < livingAnt.getPosX()) {
         possibleDir.push_back('L');
-        //newDirection = 'L';
     }
 
     if (livingAnt.getPosX() + 1 < environment->getWidth() && squareBow.getPosX() > livingAnt.getPosX()) {
-        //newDirection = 'R';
         possibleDir.push_back('R');
     }
 
     if (livingAnt.getPosY() - 1 >= 0 && squareBow.getPosY() < livingAnt.getPosY()) {
-        //newDirection = 'T';
         possibleDir.push_back('T');
     }
 
     if (livingAnt.getPosY() + 1 < environment->getHeight() && squareBow.getPosY() > livingAnt.getPosY()) {
-        //newDirection = 'B';
         possibleDir.push_back('B');
     }
     dodgeObstacle2(livingAnt, possibleDir);
