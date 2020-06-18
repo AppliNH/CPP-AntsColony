@@ -26,13 +26,46 @@ Game::Game(int population, int W, int H, int foodCount, int obstacleCount) : rou
 
 }
 
+template<typename T>
+void Game::resourcesSearch(LivingAnt &livingAnt, vector<char> &choiceList, int level) {
+    vector<SquareBox *> belowLine = livingAnt.getPosY() + level < environment->getHeight() ? environment->getGrid().at(livingAnt.getPosY() + level)
+                                                                                           : vector<SquareBox *>();
+    vector<SquareBox *> aboveLine =
+            livingAnt.getPosY() - level >= 0 ? environment->getGrid().at(livingAnt.getPosY() - level) : vector<SquareBox *>();
+    vector<SquareBox *> currentLine = environment->getGrid().at(livingAnt.getPosY());
+
+    // Check if bellow a food
+    if (!belowLine.empty() && dynamic_cast<T *>(belowLine.at(livingAnt.getPosX()))) {
+        cout << "   >> Food towards Bottom (+"+to_string(level)+") <<" << endl;
+        choiceList.push_back('B');
+    }
+
+    // Check if above a food
+    if (!aboveLine.empty() && dynamic_cast<T *>(aboveLine.at(livingAnt.getPosX()))) {
+        cout << "   >> Food towards Top (+"+to_string(level)+") <<" << endl;
+        choiceList.push_back('T');
+    }
+
+    // Check if left of food
+    if (livingAnt.getPosX() - level >= 0 && dynamic_cast<T *>(currentLine.at(livingAnt.getPosX() - level))) {
+        cout << "   >> Food towards Left (+"+to_string(level)+") <<" << endl;
+        choiceList.push_back('L');
+    }
+
+    // Check if right of food
+    if (livingAnt.getPosX() + level < environment->getWidth() &&
+        dynamic_cast<T *>(currentLine.at(livingAnt.getPosX() + level))) {
+        cout << "   >> Food towards Right (+"+to_string(level)+") <<" << endl;
+        choiceList.push_back('R');
+    }
+
+}
+
 
 char Game::analyzeEnv(LivingAnt &livingAnt) {
 
     vector<char> choiceLevel1;
     vector<char> choiceLevel2;
-
-
 
     choiceLevel1.push_back(dodgeObstacle(livingAnt));
     choiceLevel2.push_back(dodgeObstacle(livingAnt));
@@ -41,22 +74,9 @@ char Game::analyzeEnv(LivingAnt &livingAnt) {
     int initialChoiceSize2 = choiceLevel2.size();
 
     if (livingAnt.isFullOfFood()) return getDirectionTo(livingAnt, livingAnt.getAntHill());
-    // Get the first line above the ant. Empty vector if out of the grid
-    vector<SquareBox *> belowLine1 =
-            livingAnt.getPosY() + 1 < environment->getHeight() ? environment->getGrid().at(livingAnt.getPosY() + 1)
-                                                               : vector<SquareBox *>();
-    // Get the second above the ant. Empty vector if out of the grid
-    vector<SquareBox *> belowLine2 =
-            livingAnt.getPosY() + 2 < environment->getHeight() ? environment->getGrid().at(livingAnt.getPosY() + 2)
-                                                               : vector<SquareBox *>();
-    // Get the line where is the ant
+
+    // Get the line where the ant is
     vector<SquareBox *> currentLine = environment->getGrid().at(livingAnt.getPosY());
-    // Get the first line bellow the ant. Empty vector if out of the grid
-    vector<SquareBox *> aboveLine1 =
-            livingAnt.getPosY() - 1 >= 0 ? environment->getGrid().at(livingAnt.getPosY() - 1) : vector<SquareBox *>();
-    // Get the second line bellow the ant. Empty vector if out of the grid
-    vector<SquareBox *> aboveLine2 =
-            livingAnt.getPosY() - 2 >= 0 ? environment->getGrid().at(livingAnt.getPosY() - 2) : vector<SquareBox *>();
 
     // Check if on a food
     if (Food *f = dynamic_cast<Food *>(currentLine.at(livingAnt.getPosX()))) {
@@ -73,100 +93,16 @@ char Game::analyzeEnv(LivingAnt &livingAnt) {
             cout << "   >> I'm full <<" << endl;
         }
     }
-    // Check if directly bellow a food
-    if (!belowLine1.empty() && dynamic_cast<Food *>(belowLine1.at(livingAnt.getPosX()))) {
-        cout << "   >> Food towards Bottom (+1) <<" << endl;
-        choiceLevel1.push_back('B');
-
-    }
-    // Check if bellow a food
-    if (!belowLine2.empty() && dynamic_cast<Food *>(belowLine2.at(livingAnt.getPosX()))) {
-        cout << "   >> Food towards Bottom (+2) <<" << endl;
-        choiceLevel2.push_back('B');
-
-    }
-    // Check if directly above a food
-    if (!aboveLine1.empty() && dynamic_cast<Food *>(aboveLine1.at(livingAnt.getPosX()))) {
-        cout << "   >> Food towards Top (+1) <<" << endl;
-        choiceLevel1.push_back('T');
-
-    }
-    // Check if above a food
-    if (!aboveLine2.empty() && dynamic_cast<Food *>(aboveLine2.at(livingAnt.getPosX()))) {
-        cout << "   >> Food towards Top (+2) <<" << endl;
-        choiceLevel2.push_back('T');
-
-    }
-    // Check if directly right of food
-    if (livingAnt.getPosX() - 1 >= 0 && dynamic_cast<Food *>(currentLine.at(livingAnt.getPosX() - 1))) {
-        cout << "   >> Food towards Left (+1) <<" << endl;
-        choiceLevel1.push_back('L');
-    }
-    // Check if right of food
-    if (livingAnt.getPosX() - 2 >= 0 && dynamic_cast<Food *>(currentLine.at(livingAnt.getPosX() - 2))) {
-        cout << "   >> Food towards Left (+2) <<" << endl;
-        choiceLevel2.push_back('L');
-    }
-    // Check if left of food
-    if (livingAnt.getPosX() + 1 < environment->getWidth() &&
-        dynamic_cast<Food *>(currentLine.at(livingAnt.getPosX() + 1))) {
-        cout << "   >> Food towards Right (+1) <<" << endl;
-        choiceLevel1.push_back('R');
-    }
-    // Check if left of food
-    if (livingAnt.getPosX() + 2 < environment->getWidth() &&
-        dynamic_cast<Food *>(currentLine.at(livingAnt.getPosX() + 2))) {
-        cout << "   >> Food towards Right (+2) <<" << endl;
-        choiceLevel2.push_back('R');
-    }
+    resourcesSearch<Food>(livingAnt, choiceLevel1,1);
+    resourcesSearch<Food>(livingAnt, choiceLevel2,2);
 
     // Pheromons decisions
     if(choiceLevel1.size() == initialChoiceSize1) {
-
-        if (!belowLine1.empty() && dynamic_cast<Pheromone *>(belowLine1.at(livingAnt.getPosX()))) {
-            cout << "   >> Food towards Bottom (+1) <<" << endl;
-            choiceLevel1.push_back('B');
-        }
-
-        if (!aboveLine1.empty() && dynamic_cast<Pheromone *>(aboveLine1.at(livingAnt.getPosX()))) {
-            cout << "   >> Food towards Top (+1) <<" << endl;
-            choiceLevel1.push_back('T');
-        }
-
-        if (livingAnt.getPosX() - 1 >= 0 && dynamic_cast<Pheromone *>(currentLine.at(livingAnt.getPosX() - 1))) {
-            cout << "   >> Food towards Left (+1) <<" << endl;
-            choiceLevel1.push_back('L');
-        }
-
-        if (livingAnt.getPosX() + 1 < environment->getWidth() &&
-            dynamic_cast<Pheromone *>(currentLine.at(livingAnt.getPosX() + 1))) {
-            cout << "   >> Food towards Right (+1) <<" << endl;
-            choiceLevel1.push_back('R');
-        }
-
+        resourcesSearch<Pheromone>(livingAnt, choiceLevel1,1);
     }
 
     if(choiceLevel2.size() == initialChoiceSize2) {
-        if (!belowLine2.empty() && dynamic_cast<Pheromone *>(belowLine2.at(livingAnt.getPosX()))) {
-            cout << "   >> Food towards Bottom (+2) <<" << endl;
-            choiceLevel2.push_back('B');
-        }
-
-        if (livingAnt.getPosX() - 2 >= 0 && dynamic_cast<Pheromone *>(currentLine.at(livingAnt.getPosX() - 2))) {
-            cout << "   >> Food towards Left (+2) <<" << endl;
-            choiceLevel2.push_back('L');
-        }
-
-        if (!aboveLine2.empty() && dynamic_cast<Pheromone *>(aboveLine2.at(livingAnt.getPosX()))) {
-            cout << "   >> Food towards Top (+2) <<" << endl;
-            choiceLevel2.push_back('T');
-        }
-
-        if (livingAnt.getPosX() + 2 < environment->getWidth() &&
-            dynamic_cast<Pheromone *>(currentLine.at(livingAnt.getPosX() + 2))) {
-            cout << "   >> Food towards Right (+2) <<" << endl;
-            choiceLevel2.push_back('R');
-        }
+        resourcesSearch<Pheromone>(livingAnt, choiceLevel2,2);
     }
 
     if (!choiceLevel1.empty()) {

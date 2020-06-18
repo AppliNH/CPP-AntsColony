@@ -38,6 +38,9 @@ public:
     char dodgeObstacle(LivingAnt &livingAnt);
     void dodgeObstacle2(LivingAnt &livingAnt, vector<char> &choiceList );
 
+    template<typename T>
+    void resourcesSearch(LivingAnt &livingAnt, vector<char> &choiceList, int level);
+
     void displayGrid();
 
 
