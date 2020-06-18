@@ -4,7 +4,7 @@
 void LivingAnt::speak() {
     cout << "(";
     displayPosition();
-    cout << ", \t";
+    cout << ", ";
     displayState();
     cout << ", ";
     displayLifePoints();

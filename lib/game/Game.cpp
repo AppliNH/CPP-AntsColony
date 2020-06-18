@@ -70,26 +70,26 @@ char Game::analyzeEnv(LivingAnt &livingAnt) {
     }
     // Check if directly bellow a food
     if (!belowLine1.empty() && dynamic_cast<Food *>(belowLine1.at(livingAnt.getPosX()))) {
-        cout << "   >> Food towards Top (+1) <<" << endl;
-        choiceLevel1.push_back('T');
-
-    }
-    // Check if bellow a food
-    if (!belowLine2.empty() && dynamic_cast<Food *>(belowLine2.at(livingAnt.getPosX()))) {
-        cout << "   >> Food towards Top (+2) <<" << endl;
-        choiceLevel2.push_back('T');
-
-    }
-    // Check if directly above a food
-    if (!aboveLine1.empty() && dynamic_cast<Food *>(aboveLine1.at(livingAnt.getPosX()))) {
         cout << "   >> Food towards Bottom (+1) <<" << endl;
         choiceLevel1.push_back('B');
 
     }
-    // Check if above a food
-    if (!aboveLine2.empty() && dynamic_cast<Food *>(aboveLine2.at(livingAnt.getPosX()))) {
+    // Check if bellow a food
+    if (!belowLine2.empty() && dynamic_cast<Food *>(belowLine2.at(livingAnt.getPosX()))) {
         cout << "   >> Food towards Bottom (+2) <<" << endl;
         choiceLevel2.push_back('B');
+
+    }
+    // Check if directly above a food
+    if (!aboveLine1.empty() && dynamic_cast<Food *>(aboveLine1.at(livingAnt.getPosX()))) {
+        cout << "   >> Food towards Top (+1) <<" << endl;
+        choiceLevel1.push_back('T');
+
+    }
+    // Check if above a food
+    if (!aboveLine2.empty() && dynamic_cast<Food *>(aboveLine2.at(livingAnt.getPosX()))) {
+        cout << "   >> Food towards Top (+2) <<" << endl;
+        choiceLevel2.push_back('T');
 
     }
     // Check if directly right of food
