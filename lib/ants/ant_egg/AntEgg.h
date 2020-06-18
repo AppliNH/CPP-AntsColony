@@ -4,11 +4,17 @@
 #include <iostream>
 #include "ants/ant/Ant.h"
 
-class AntEgg: public Ant{
+class AntEgg : public Ant {
 public:
-    AntEgg(AntHill antHill, Environment environment) : Ant(antHill) {}
+    AntEgg(AntHill &antHill) : Ant(antHill) {}
+
+    bool grow() {
+        age++;
+        return age == ageToEvolve;
+    }
 
     void speak() override;
+
     void evolve() override;
 };
 

@@ -11,6 +11,7 @@
 #include "ants/ant_worker/AntWorker.h"
 #include "ants/ant_warrior/AntWarrior.h"
 #include "ants/ant_queen/AntQueen.h"
+#include "ants/ant_egg/AntEgg.h"
 
 #include <unistd.h>
 #include <iostream>
@@ -21,6 +22,7 @@ private:
     int round;
     Environment *environment;
     vector<Ant *> ants;
+    vector<AntEgg *> eggs;
     vector<LivingAnt *> livingAnts;
 public:
     Game(int population, int W = 50, int H = 100, int foodCount = 500, int obstacleCount = 1000);
@@ -42,6 +44,14 @@ public:
     void resourcesSearch(LivingAnt &livingAnt, vector<char> &choiceList, int level);
 
     void displayGrid();
+
+    int getPopulationPerAntHill(const AntHill &antHill);
+
+    int getEggsPerAntHill(const AntHill &antHill);
+
+    void layEgg(AntQueen *antQueen);
+
+    void growEggs(AntHill &antHill);
 
 
 };

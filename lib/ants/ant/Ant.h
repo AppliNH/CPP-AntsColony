@@ -9,24 +9,25 @@
 
 using namespace std;
 
-class Ant : public SquareBox{
+class Ant : public SquareBox {
 
 protected:
     int age;
+    int ageToEvolve;
     AntState antState;
     AntHill &antHill;
 public:
     Ant(AntHill &antHill)
-            : age(0), antHill(antHill), SquareBox(antHill.getPosX(), antHill.getPosY()) {};
+            : age(0), ageToEvolve(10), antHill(antHill), SquareBox(antHill.getPosX(), antHill.getPosY()) {};
 
     virtual ~Ant() = default;
 
     //explicit Ant(const AntState &state, AntHill antHill, Environment environment) : posX(0), posY(0), antState(state), antHill(antHill), environment(environment) {};
     void setState(const AntState &);
 
-    AntHill &getAntHill() {return antHill;}
+    AntHill &getAntHill() { return antHill; }
 
-    bool isAtHome() {return posX == antHill.getPosX() && posY == antHill.getPosY();}
+    bool isAtHome() { return posX == antHill.getPosX() && posY == antHill.getPosY(); }
 
     virtual void speak();
 

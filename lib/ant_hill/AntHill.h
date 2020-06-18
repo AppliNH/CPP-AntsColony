@@ -24,9 +24,9 @@ public:
 
     void stockFood(const Food &food);
 
-    bool operator==(const AntHill &);
-
     int getFoodCount() { return foodStock.size(); }
+
+    int getMaxPopulation() { return maxPopulation; }
 
     void eatFromStock() { foodStock.erase(foodStock.begin()); }
 

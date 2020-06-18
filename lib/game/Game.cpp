@@ -6,7 +6,6 @@
 
 Game::Game(int population, int W, int H, int foodCount, int obstacleCount) : round(0) {
 
-
     AntHill *antHill = new AntHill(W / 2, H / 2);
     environment = new Environment(H, W, foodCount, obstacleCount, antHill);
 
@@ -28,34 +27,36 @@ Game::Game(int population, int W, int H, int foodCount, int obstacleCount) : rou
 
 template<typename T>
 void Game::resourcesSearch(LivingAnt &livingAnt, vector<char> &choiceList, int level) {
-    vector<SquareBox *> belowLine = livingAnt.getPosY() + level < environment->getHeight() ? environment->getGrid().at(livingAnt.getPosY() + level)
+    vector<SquareBox *> belowLine = livingAnt.getPosY() + level < environment->getHeight() ? environment->getGrid().at(
+            livingAnt.getPosY() + level)
                                                                                            : vector<SquareBox *>();
     vector<SquareBox *> aboveLine =
-            livingAnt.getPosY() - level >= 0 ? environment->getGrid().at(livingAnt.getPosY() - level) : vector<SquareBox *>();
+            livingAnt.getPosY() - level >= 0 ? environment->getGrid().at(livingAnt.getPosY() - level)
+                                             : vector<SquareBox *>();
     vector<SquareBox *> currentLine = environment->getGrid().at(livingAnt.getPosY());
 
     // Check if bellow a food
     if (!belowLine.empty() && dynamic_cast<T *>(belowLine.at(livingAnt.getPosX()))) {
-        cout << "   >> Food towards Bottom (+"+to_string(level)+") <<" << endl;
+        cout << "   >> Food towards Bottom (+" + to_string(level) + ") <<" << endl;
         choiceList.push_back('B');
     }
 
     // Check if above a food
     if (!aboveLine.empty() && dynamic_cast<T *>(aboveLine.at(livingAnt.getPosX()))) {
-        cout << "   >> Food towards Top (+"+to_string(level)+") <<" << endl;
+        cout << "   >> Food towards Top (+" + to_string(level) + ") <<" << endl;
         choiceList.push_back('T');
     }
 
     // Check if left of food
     if (livingAnt.getPosX() - level >= 0 && dynamic_cast<T *>(currentLine.at(livingAnt.getPosX() - level))) {
-        cout << "   >> Food towards Left (+"+to_string(level)+") <<" << endl;
+        cout << "   >> Food towards Left (+" + to_string(level) + ") <<" << endl;
         choiceList.push_back('L');
     }
 
     // Check if right of food
     if (livingAnt.getPosX() + level < environment->getWidth() &&
         dynamic_cast<T *>(currentLine.at(livingAnt.getPosX() + level))) {
-        cout << "   >> Food towards Right (+"+to_string(level)+") <<" << endl;
+        cout << "   >> Food towards Right (+" + to_string(level) + ") <<" << endl;
         choiceList.push_back('R');
     }
 
@@ -93,16 +94,16 @@ char Game::analyzeEnv(LivingAnt &livingAnt) {
             cout << "   >> I'm full <<" << endl;
         }
     }
-    resourcesSearch<Food>(livingAnt, choiceLevel1,1);
-    resourcesSearch<Food>(livingAnt, choiceLevel2,2);
+    resourcesSearch<Food>(livingAnt, choiceLevel1, 1);
+    resourcesSearch<Food>(livingAnt, choiceLevel2, 2);
 
     // Pheromons decisions
-    if(choiceLevel1.size() == initialChoiceSize1) {
-        resourcesSearch<Pheromone>(livingAnt, choiceLevel1,1);
+    if (choiceLevel1.size() == initialChoiceSize1) {
+        resourcesSearch<Pheromone>(livingAnt, choiceLevel1, 1);
     }
 
-    if(choiceLevel2.size() == initialChoiceSize2) {
-        resourcesSearch<Pheromone>(livingAnt, choiceLevel2,2);
+    if (choiceLevel2.size() == initialChoiceSize2) {
+        resourcesSearch<Pheromone>(livingAnt, choiceLevel2, 2);
     }
 
     if (!choiceLevel1.empty()) {
@@ -124,6 +125,9 @@ void Game::start() {
         displayGrid();
         for (auto &antHill : environment->getAntHills()) {
             antHill->status();
+            cout << "Population : " << getPopulationPerAntHill(*antHill) << endl;
+            cout << "Eggs : " << getEggsPerAntHill(*antHill) << endl;
+            growEggs(*antHill);
         }
         cout << "#########" << endl;
         cout << "Round : " << round << endl;
@@ -147,9 +151,9 @@ void Game::manageAllAnts() {
             livingAnts.erase(livingAnts.begin() + i);
             return;
         }
-        livingAnts.at(i)->speak();
-        if (AntQueen *a = dynamic_cast<AntQueen *>(livingAnts.at(i))) {
-            a->layEgg();
+        //livingAnts.at(i)->speak();
+        if (AntQueen *antQueen = dynamic_cast<AntQueen *>(livingAnts.at(i))) {
+            layEgg(antQueen);
         }
         if (livingAnts.at(i)->isFullOfFood() && livingAnts.at(i)->isAtHome()) {
             livingAnts.at(i)->layDownFoodInAntHill();
@@ -198,7 +202,7 @@ Game::~Game() {
     ants.clear();
 }
 
-void Game::dodgeObstacle2(LivingAnt &livingAnt, vector<char> &choiceList ) {
+void Game::dodgeObstacle2(LivingAnt &livingAnt, vector<char> &choiceList) {
 
 
     // Check if directly bellow a food
@@ -212,26 +216,26 @@ void Game::dodgeObstacle2(LivingAnt &livingAnt, vector<char> &choiceList ) {
             livingAnt.getPosY() - 1 >= 0 ? environment->getGrid().at(livingAnt.getPosY() - 1) : vector<SquareBox *>();
 
 
-    if(livingAnt.getPosX() -1 < 0) {
+    if (livingAnt.getPosX() - 1 < 0) {
         choiceList.erase(std::remove(choiceList.begin(), choiceList.end(), 'L'), choiceList.end());
-    } else if(dynamic_cast<Obstacle *>(currentLine.at(livingAnt.getPosX() - 1))) {
+    } else if (dynamic_cast<Obstacle *>(currentLine.at(livingAnt.getPosX() - 1))) {
         choiceList.erase(std::remove(choiceList.begin(), choiceList.end(), 'L'), choiceList.end());
     }
 
-    if(livingAnt.getPosX() + 1 >= environment->getWidth()) {
+    if (livingAnt.getPosX() + 1 >= environment->getWidth()) {
         choiceList.erase(std::remove(choiceList.begin(), choiceList.end(), 'R'), choiceList.end());
-    } else if(dynamic_cast<Obstacle *>(currentLine.at(livingAnt.getPosX() + 1))) {
+    } else if (dynamic_cast<Obstacle *>(currentLine.at(livingAnt.getPosX() + 1))) {
         choiceList.erase(std::remove(choiceList.begin(), choiceList.end(), 'R'), choiceList.end());
     }
 
-    if (aboveLine1.empty()  || dynamic_cast<Obstacle *>(aboveLine1.at(livingAnt.getPosX()))) {
+    if (aboveLine1.empty() || dynamic_cast<Obstacle *>(aboveLine1.at(livingAnt.getPosX()))) {
         choiceList.erase(std::remove(choiceList.begin(), choiceList.end(), 'T'), choiceList.end());
     }
     if (belowLine1.empty() || dynamic_cast<Obstacle *>(belowLine1.at(livingAnt.getPosX()))) {
         choiceList.erase(std::remove(choiceList.begin(), choiceList.end(), 'B'), choiceList.end());
     }
 
-    if(choiceList.size() == 0) {
+    if (choiceList.size() == 0) {
         choiceList.push_back(dodgeObstacle(livingAnt));
     }
 
@@ -290,6 +294,42 @@ void Game::displayGrid() {
             cout << icon;
         }
         cout << "|" << endl;
+    }
+}
+
+void Game::layEgg(AntQueen *antQueen) {
+    if (antQueen->getAntHill().getMaxPopulation() > getPopulationPerAntHill(antQueen->getAntHill())) {
+        eggs.push_back(new AntEgg(antQueen->getAntHill()));
+        antQueen->layEgg();
+    }
+}
+
+int Game::getPopulationPerAntHill(const AntHill &antHill) {
+    int pop = 0;
+    for (int i = 0; i < livingAnts.size(); ++i) {
+        if (livingAnts.at(i)->getAntHill() == antHill) {
+            pop++;
+        }
+    }
+    return pop + getEggsPerAntHill(antHill);
+}
+
+int Game::getEggsPerAntHill(const AntHill &antHill) {
+    int eggCount = 0;
+    for (int i = 0; i < eggs.size(); ++i) {
+        if (eggs.at(i)->getAntHill() == antHill) {
+            eggCount++;
+        }
+    }
+    return eggCount;
+}
+
+void Game::growEggs(AntHill &antHill) {
+    for (int i = 0; i < eggs.size(); ++i) {
+        if (eggs.at(i)->grow()) {
+            eggs.erase(eggs.begin());
+            livingAnts.push_back(new AntWorker(antHill, *environment));
+        }
     }
 }
 
