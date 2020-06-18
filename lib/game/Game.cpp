@@ -37,26 +37,26 @@ void Game::resourcesSearch(LivingAnt &livingAnt, vector<char> &choiceList, int l
 
     // Check if bellow a food
     if (!belowLine.empty() && dynamic_cast<T *>(belowLine.at(livingAnt.getPosX()))) {
-        cout << "   >> Food towards Bottom (+" + to_string(level) + ") <<" << endl;
+        //cout << "   >> Food towards Bottom (+" + to_string(level) + ") <<" << endl;
         choiceList.push_back('B');
     }
 
     // Check if above a food
     if (!aboveLine.empty() && dynamic_cast<T *>(aboveLine.at(livingAnt.getPosX()))) {
-        cout << "   >> Food towards Top (+" + to_string(level) + ") <<" << endl;
+        //cout << "   >> Food towards Top (+" + to_string(level) + ") <<" << endl;
         choiceList.push_back('T');
     }
 
     // Check if left of food
     if (livingAnt.getPosX() - level >= 0 && dynamic_cast<T *>(currentLine.at(livingAnt.getPosX() - level))) {
-        cout << "   >> Food towards Left (+" + to_string(level) + ") <<" << endl;
+        //cout << "   >> Food towards Left (+" + to_string(level) + ") <<" << endl;
         choiceList.push_back('L');
     }
 
     // Check if right of food
     if (livingAnt.getPosX() + level < environment->getWidth() &&
         dynamic_cast<T *>(currentLine.at(livingAnt.getPosX() + level))) {
-        cout << "   >> Food towards Right (+" + to_string(level) + ") <<" << endl;
+        //cout << "   >> Food towards Right (+" + to_string(level) + ") <<" << endl;
         choiceList.push_back('R');
     }
 
@@ -119,6 +119,9 @@ char Game::analyzeEnv(LivingAnt &livingAnt) {
 
 void Game::start() {
     while (true) {
+        if (round == 30) {
+            getPositionForFutureAntHill();
+        }
         system("clear");
         environment->pheromoneDecay();
         environment->status();
@@ -138,7 +141,7 @@ void Game::start() {
             return;
         }
         round++;
-        usleep(1000000);
+        usleep(100000);
         cout << endl;
     }
 
@@ -151,9 +154,23 @@ void Game::manageAllAnts() {
             livingAnts.erase(livingAnts.begin() + i);
             return;
         }
+
         //livingAnts.at(i)->speak();
         if (AntQueen *antQueen = dynamic_cast<AntQueen *>(livingAnts.at(i))) {
             layEgg(antQueen);
+        }
+        if (AntYoungQueen *antYoungQueen = dynamic_cast<AntYoungQueen *>(livingAnts.at(i))) {
+            if (antYoungQueen->hasArrived()) {
+                auto newAntHill = new AntHill(antYoungQueen->getPosX(), antYoungQueen->getPosY());
+                environment->addAntHill(newAntHill);
+                livingAnts.push_back(new AntQueen(*newAntHill, *environment));
+                livingAnts.erase(livingAnts.begin() + i);
+                return;
+            } else {
+                SquareBox box(antYoungQueen->getBuildAntHillPosX(), antYoungQueen->getBuildAntHillPosY());
+                livingAnts.at(i)->move(getDirectionTo(*livingAnts.at(i), box));
+                return;
+            }
         }
         if (livingAnts.at(i)->isFullOfFood() && livingAnts.at(i)->isAtHome()) {
             livingAnts.at(i)->layDownFoodInAntHill();
@@ -165,25 +182,25 @@ void Game::manageAllAnts() {
     }
 }
 
-char Game::getDirectionTo(LivingAnt &livingAnt, SquareBox &squareBow) {
+char Game::getDirectionTo(LivingAnt &livingAnt, SquareBox &squareBox) {
     vector<char> possibleDir;
 
     // Get the line where is the ant
     vector<SquareBox *> current_line = environment->getGrid().at(livingAnt.getPosY());
 
-    if (livingAnt.getPosX() - 1 >= 0 && squareBow.getPosX() < livingAnt.getPosX()) {
+    if (livingAnt.getPosX() - 1 >= 0 && squareBox.getPosX() < livingAnt.getPosX()) {
         possibleDir.push_back('L');
     }
 
-    if (livingAnt.getPosX() + 1 < environment->getWidth() && squareBow.getPosX() > livingAnt.getPosX()) {
+    if (livingAnt.getPosX() + 1 < environment->getWidth() && squareBox.getPosX() > livingAnt.getPosX()) {
         possibleDir.push_back('R');
     }
 
-    if (livingAnt.getPosY() - 1 >= 0 && squareBow.getPosY() < livingAnt.getPosY()) {
+    if (livingAnt.getPosY() - 1 >= 0 && squareBox.getPosY() < livingAnt.getPosY()) {
         possibleDir.push_back('T');
     }
 
-    if (livingAnt.getPosY() + 1 < environment->getHeight() && squareBow.getPosY() > livingAnt.getPosY()) {
+    if (livingAnt.getPosY() + 1 < environment->getHeight() && squareBox.getPosY() > livingAnt.getPosY()) {
         possibleDir.push_back('B');
     }
     dodgeObstacle2(livingAnt, possibleDir);
@@ -275,7 +292,12 @@ void Game::displayGrid() {
     for (int row = 0; row < environment->getHeight(); ++row) {
         for (int column = 0; column < environment->getWidth(); ++column) {
             string icon;
-            if (dynamic_cast<Food *>(environment->getGrid().at(row).at(column))) {
+            if (find_if(livingAnts.begin(), livingAnts.end(),
+                        [row, column](LivingAnt *m) -> bool {
+                            return dynamic_cast<AntYoungQueen *>(m) && m->getPosY() == row && m->getPosX() == column;
+                        }) != livingAnts.end()) {
+                icon = "|\U0001F451";
+            } else if (dynamic_cast<Food *>(environment->getGrid().at(row).at(column))) {
                 icon = "|\U0001F370";
             } else if (dynamic_cast<Obstacle *>(environment->getGrid().at(row).at(column))) {
                 icon = "|\U0001F4E6";
@@ -299,25 +321,14 @@ void Game::displayGrid() {
 
 void Game::layEgg(AntQueen *antQueen) {
     if (antQueen->getAntHill().getMaxPopulation() > getPopulationPerAntHill(antQueen->getAntHill())) {
+        std::knuth_b rand_engine;
         double p = 0.02;
-
         if (antQueen->getAntHill().getMaxPopulation() - getPopulationPerAntHill(antQueen->getAntHill()) <= 10) {
             p = 0.1;
         }
-
-        std::knuth_b rand_engine;
         std::bernoulli_distribution d(p);
         bool decision = d(rand_engine);
-
         eggs.push_back(new AntEgg(antQueen->getAntHill(), decision));
-        antQueen->layEgg();
-        cout << "EggQueen Prob : " + to_string(p) <<endl;
-        cout << decision << endl;
-        if (decision) {
-            cout << "OMG BABY QUEEN" << endl;
-        } else {
-            cout << "NORMAL BABY" << endl;
-        }
     }
 }
 
@@ -348,5 +359,12 @@ void Game::growEggs(AntHill &antHill) {
             livingAnts.push_back(new AntWorker(antHill, *environment));
         }
     }
+}
+
+void Game::getPositionForFutureAntHill() {
+    int antHillPosX;
+    int antHillPosY;
+    environment->getEmptySquareBox(antHillPosX, antHillPosY);
+    livingAnts.push_back(new AntYoungQueen(*environment->getAntHills().at(0), *environment, antHillPosX, antHillPosY));
 }
 

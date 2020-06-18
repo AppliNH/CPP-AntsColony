@@ -5,11 +5,27 @@
 #include "ants/living_ant/LivingAnt.h"
 #include "ant_hill/AntHill.h"
 
-class AntYoungQueen {
+class AntYoungQueen : public LivingAnt {
+protected:
+    int buildAntHillPosX;
+    int buildAntHillPosY;
 public:
-    AntYoungQueen() {}
+    AntYoungQueen(AntHill &antHill, Environment &environment, int buildAntHillPosX, int buildAntHillPosY): LivingAnt(antHill, environment, 4, 0.05, 4), buildAntHillPosX(buildAntHillPosX), buildAntHillPosY(buildAntHillPosY) {};
 
-    AntHill createAntHill();
+    int getBuildAntHillPosX() const {
+        return buildAntHillPosX;
+    }
+
+    int getBuildAntHillPosY() const {
+        return buildAntHillPosY;
+    }
+
+    bool hasArrived() {return getPosX() == buildAntHillPosX && getPosY() == buildAntHillPosY; }
+
+    void speak() override;
+    void evolve() override;
+    bool isRequiredToEat() override;
+    void eatFood() override;
 
 };
 

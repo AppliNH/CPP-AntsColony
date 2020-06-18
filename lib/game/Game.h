@@ -11,6 +11,7 @@
 #include "ants/ant_worker/AntWorker.h"
 #include "ants/ant_warrior/AntWarrior.h"
 #include "ants/ant_queen/AntQueen.h"
+#include "ants/ant_young_queen/AntYoungQueen.h"
 #include "ants/ant_egg/AntEgg.h"
 
 #include <unistd.h>
@@ -34,7 +35,7 @@ public:
 
     char analyzeEnv(LivingAnt &livingAnt);
 
-    char getDirectionTo(LivingAnt &livingAnt, SquareBox &squareBow);
+    char getDirectionTo(LivingAnt &livingAnt, SquareBox &squareBox);
 
     void manageAllAnts();
 
@@ -53,6 +54,8 @@ public:
     void layEgg(AntQueen *antQueen);
 
     void growEggs(AntHill &antHill);
+
+    void getPositionForFutureAntHill();
 
 
 };

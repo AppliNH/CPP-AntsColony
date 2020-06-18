@@ -131,3 +131,20 @@ void Environment::insertObstacles(const int &obstacleCount) {
         }
     }
 }
+
+void Environment::getEmptySquareBox(int &posX, int &posY) {
+    bool found = false;
+    while (!found) {
+        posX = rand() % width;
+        posY = rand() % height;
+        if (grid.at(posY).at(posX) == nullptr) {
+            found = true;
+        }
+    }
+}
+
+void Environment::addAntHill(AntHill *antHill) {
+    antHills.push_back(antHill);
+    grid.at(antHill->getPosY()).at(antHill->getPosX()) = antHill;
+}
+

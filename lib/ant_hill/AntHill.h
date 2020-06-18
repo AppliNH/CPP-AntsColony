@@ -18,7 +18,7 @@ private:
     vector<Food *> foodStock;
 
 public:
-    AntHill(int X, int Y) : SquareBox(X, Y), maxPopulation(50), maxFood(25) {}
+    AntHill(int X, int Y) : SquareBox(X, Y), maxPopulation(80), maxFood(25) {}
 
     ~AntHill();
 

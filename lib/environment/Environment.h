@@ -25,8 +25,11 @@ private:
     vector<Pheromone> pheromones;
     vector<AntHill *> antHills;
     vector<Obstacle> obstacles;
+
     void buildGrid(const int &w, const int &h);
+
     void insertObstacles(const int &obstacleCount);
+
 public:
     Environment(int h, int w, int foodCount, int obstacleCount, AntHill *antHill);
 
@@ -38,19 +41,23 @@ public:
 
     vector<AntHill *> getAntHills();
 
+    void addAntHill(AntHill *antHill);
+
     void status();
 
-    int & getWidth() { return width; }
+    int &getWidth() { return width; }
 
-    int & getHeight() { return height; }
+    int &getHeight() { return height; }
 
-    SquareBox * getSquareBoxAt(const int &posX, const int &posY);
+    SquareBox *getSquareBoxAt(const int &posX, const int &posY);
 
     vector<vector<SquareBox *>> getGrid() { return grid; }
 
     void insertPheromone(const int &posX, const int &posY);
 
     void pheromoneDecay();
+
+    void getEmptySquareBox(int &posX, int &posY);
 };
 
 
