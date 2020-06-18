@@ -8,7 +8,7 @@
 class AntWarrior : public LivingAnt {
 public:
     AntWarrior(AntHill &antHill, Environment &environment) : LivingAnt(antHill, environment, 10, 0.05, 2) {}
-    void attack(const LivingAnt &);
+    void attack(LivingAnt &);
     void speak() override;
     void evolve() override;
 };

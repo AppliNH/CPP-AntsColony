@@ -46,6 +46,8 @@ public:
 
     bool isFullOfFood();
 
+    bool isSameAntHill(const AntHill &antHill1) { return antHill1.getPosX() == antHill.getPosX() && antHill1.getPosY() == antHill.getPosY();}
+
     bool grabFood(const Food &food);
 
     virtual void move(char direction);
@@ -55,6 +57,8 @@ public:
     void displayState();
 
     void displayPosition();
+
+    void undergoDamage() { lifePoints--;}
 
     void eatFood();
 
