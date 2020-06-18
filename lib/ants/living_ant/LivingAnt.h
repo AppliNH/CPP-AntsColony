@@ -38,6 +38,8 @@ public:
 
     void speak() override;
 
+    void setNewAntHill(AntHill antHill1) {antHill = antHill1;}
+
     bool looseLife();
 
     void layDownFoodInAntHill();
