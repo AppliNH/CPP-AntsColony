@@ -7,7 +7,7 @@
 Game::Game(int population, int W, int H, int foodCount, int obstacleCount) : round(0) {
 
 
-    AntHill *antHill = new AntHill(W/2, H/2, population, foodCount);
+    AntHill *antHill = new AntHill(W / 2, H / 2);
     environment = new Environment(H, W, foodCount, obstacleCount, antHill);
 
     AntQueen *antQueen = new AntQueen(*antHill, *environment);
@@ -128,7 +128,7 @@ void Game::start() {
         cout << "#########" << endl;
         cout << "Round : " << round << endl;
         if (!livingAnts.empty()) {
-            moveAllAnts();
+            manageAllAnts();
         } else {
             cout << "GAME ENDED" << endl;
             return;
@@ -141,13 +141,16 @@ void Game::start() {
 }
 
 
-void Game::moveAllAnts() {
+void Game::manageAllAnts() {
     for (int i = 0; i < livingAnts.size(); ++i) {
         if (livingAnts.at(i)->looseLife()) {
             livingAnts.erase(livingAnts.begin() + i);
             return;
         }
         livingAnts.at(i)->speak();
+        if (AntQueen *a = dynamic_cast<AntQueen *>(livingAnts.at(i))) {
+            a->layEgg();
+        }
         if (livingAnts.at(i)->isFullOfFood() && livingAnts.at(i)->isAtHome()) {
             livingAnts.at(i)->layDownFoodInAntHill();
         }
@@ -184,10 +187,10 @@ char Game::getDirectionTo(LivingAnt &livingAnt, SquareBox &squareBow) {
 }
 
 Game::~Game() {
-    for (auto l : livingAnts) {
+    for (auto &l : livingAnts) {
         delete l;
     }
-    for (auto a : ants) {
+    for (auto &a : ants) {
         delete a;
     }
     delete environment;

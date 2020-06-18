@@ -8,11 +8,13 @@ using namespace std;
 
 class AntQueen: public LivingAnt {
 public:
-    AntQueen(AntHill &antHill, Environment &environment): LivingAnt(antHill, environment, 3, 0.01, 4) {};
-    void layEgg();
+    AntQueen(AntHill &antHill, Environment &environment): LivingAnt(antHill, environment, 3, 0.05, 4) {};
+    void layEgg() { cout << "??" << endl;};
     void move(char direction) override;
     void speak() override;
     void evolve() override;
+    bool isRequiredToEat() override;
+    void eatFood() override;
 
 };
 

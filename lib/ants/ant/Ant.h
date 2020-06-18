@@ -10,11 +10,11 @@
 using namespace std;
 
 class Ant : public SquareBox{
+
 protected:
     int age;
     AntState antState;
     AntHill &antHill;
-
 public:
     Ant(AntHill &antHill)
             : age(0), antHill(antHill), SquareBox(antHill.getPosX(), antHill.getPosY()) {};

@@ -12,7 +12,7 @@ using namespace std;
 
 class LivingAnt : public Ant {
 
-private:
+protected:
     double lifePoints;
     double decayRate;
     double lifeThreshold;
@@ -42,11 +42,9 @@ public:
 
     void layDownFoodInAntHill();
 
-    bool isRequiredToEat();
+    virtual bool isRequiredToEat();
 
     bool isFullOfFood();
-
-    bool isSameAntHill(const AntHill &antHill1) { return antHill1.getPosX() == antHill.getPosX() && antHill1.getPosY() == antHill.getPosY();}
 
     bool grabFood(const Food &food);
 
@@ -58,9 +56,7 @@ public:
 
     void displayPosition();
 
-    void undergoDamage() { lifePoints--;}
-
-    void eatFood();
+    virtual void eatFood();
 
     void storeFood(const Food &food);
 

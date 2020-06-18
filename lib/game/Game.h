@@ -33,7 +33,7 @@ public:
 
     char getDirectionTo(LivingAnt &livingAnt, SquareBox &squareBow);
 
-    void moveAllAnts();
+    void manageAllAnts();
 
     char dodgeObstacle(LivingAnt &livingAnt);
     void dodgeObstacle2(LivingAnt &livingAnt, vector<char> &choiceList );
