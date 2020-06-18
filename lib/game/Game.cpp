@@ -32,6 +32,9 @@ char Game::analyzeEnv(LivingAnt &livingAnt) {
     vector<char> choiceLevel1;
     vector<char> choiceLevel2;
 
+    choiceLevel1.push_back(dodgeObstacle(livingAnt));
+    choiceLevel2.push_back(dodgeObstacle(livingAnt));
+
     if (livingAnt.isFullOfFood()) return getDirectionTo(livingAnt, livingAnt.getAntHill());
     // Get the first line above the ant. Empty vector if out of the grid
     vector<SquareBox *> belowLine1 =
@@ -113,8 +116,10 @@ char Game::analyzeEnv(LivingAnt &livingAnt) {
     }
 
     if (!choiceLevel1.empty()) {
+        dodgeObstacle2(livingAnt, choiceLevel1);
         return choiceLevel1.at(rand() % choiceLevel1.size());
     } else if (!choiceLevel2.empty()) {
+        dodgeObstacle2(livingAnt, choiceLevel2);
         return choiceLevel2.at(rand() % choiceLevel2.size());
     } else {
         return dodgeObstacle(livingAnt);
@@ -139,7 +144,7 @@ void Game::start() {
             return;
         }
         round++;
-        usleep(1000000);
+        usleep(100000);
         cout << endl;
     }
 
@@ -164,27 +169,33 @@ void Game::moveAllAnts() {
 }
 
 char Game::getDirectionTo(LivingAnt &livingAnt, SquareBox &squareBow) {
-    char newDirection = ' ';
+    //char newDirection = ' ';
+    vector<char> possibleDir;
+
     // Get the line where is the ant
     vector<SquareBox *> current_line = environment->getGrid().at(livingAnt.getPosY());
 
     if (livingAnt.getPosX() - 1 >= 0 && squareBow.getPosX() < livingAnt.getPosX()) {
-        newDirection = 'L';
+        possibleDir.push_back('L');
+        //newDirection = 'L';
     }
 
     if (livingAnt.getPosX() + 1 < environment->getWidth() && squareBow.getPosX() > livingAnt.getPosX()) {
-        newDirection = 'R';
+        //newDirection = 'R';
+        possibleDir.push_back('R');
     }
 
     if (livingAnt.getPosY() - 1 >= 0 && squareBow.getPosY() < livingAnt.getPosY()) {
-        newDirection = 'T';
+        //newDirection = 'T';
+        possibleDir.push_back('T');
     }
 
     if (livingAnt.getPosY() + 1 < environment->getHeight() && squareBow.getPosY() > livingAnt.getPosY()) {
-        newDirection = 'B';
+        //newDirection = 'B';
+        possibleDir.push_back('B');
     }
-
-    return newDirection;
+    dodgeObstacle2(livingAnt, possibleDir);
+    return possibleDir.at(rand() % possibleDir.size());
 }
 
 Game::~Game() {
@@ -197,6 +208,45 @@ Game::~Game() {
     delete environment;
     livingAnts.clear();
     ants.clear();
+}
+
+void Game::dodgeObstacle2(LivingAnt &livingAnt, vector<char> &choiceList ) {
+
+
+    // Check if directly bellow a food
+    vector<SquareBox *> belowLine1 =
+            livingAnt.getPosY() + 1 < environment->getHeight() ? environment->getGrid().at(livingAnt.getPosY() + 1)
+                                                               : vector<SquareBox *>();
+    // Get the line where is the ant
+    vector<SquareBox *> currentLine = environment->getGrid().at(livingAnt.getPosY());
+    // Get the first line bellow the ant. Empty vector if out of the grid
+    vector<SquareBox *> aboveLine1 =
+            livingAnt.getPosY() - 1 >= 0 ? environment->getGrid().at(livingAnt.getPosY() - 1) : vector<SquareBox *>();
+
+
+    if(livingAnt.getPosX() -1 < 0) {
+        choiceList.erase(std::remove(choiceList.begin(), choiceList.end(), 'L'), choiceList.end());
+    } else if(dynamic_cast<Obstacle *>(currentLine.at(livingAnt.getPosX() - 1))) {
+        choiceList.erase(std::remove(choiceList.begin(), choiceList.end(), 'L'), choiceList.end());
+    }
+
+    if(livingAnt.getPosX() + 1 >= environment->getWidth()) {
+        choiceList.erase(std::remove(choiceList.begin(), choiceList.end(), 'R'), choiceList.end());
+    } else if(dynamic_cast<Obstacle *>(currentLine.at(livingAnt.getPosX() + 1))) {
+        choiceList.erase(std::remove(choiceList.begin(), choiceList.end(), 'R'), choiceList.end());
+    }
+
+    if (aboveLine1.empty()  || dynamic_cast<Obstacle *>(aboveLine1.at(livingAnt.getPosX()))) {
+        choiceList.erase(std::remove(choiceList.begin(), choiceList.end(), 'T'), choiceList.end());
+    }
+    if (belowLine1.empty() || dynamic_cast<Obstacle *>(belowLine1.at(livingAnt.getPosX()))) {
+        choiceList.erase(std::remove(choiceList.begin(), choiceList.end(), 'B'), choiceList.end());
+    }
+
+    if(choiceList.size() == 0) {
+        choiceList.push_back(dodgeObstacle(livingAnt));
+    }
+
 }
 
 char Game::dodgeObstacle(LivingAnt &livingAnt) {

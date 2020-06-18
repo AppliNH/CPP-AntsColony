@@ -36,6 +36,7 @@ public:
     void moveAllAnts();
 
     char dodgeObstacle(LivingAnt &livingAnt);
+    void dodgeObstacle2(LivingAnt &livingAnt, vector<char> &choiceList );
 
     void displayGrid();
 
