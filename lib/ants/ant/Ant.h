@@ -13,12 +13,13 @@ class Ant : public SquareBox {
 
 protected:
     int age;
+    bool willBeQueen;
     int ageToEvolve;
     AntState antState;
     AntHill &antHill;
 public:
-    Ant(AntHill &antHill)
-            : age(0), ageToEvolve(10), antHill(antHill), SquareBox(antHill.getPosX(), antHill.getPosY()) {};
+    Ant(AntHill &antHill, bool willBeQueen=false )
+            : age(0), ageToEvolve(10), antHill(antHill), SquareBox(antHill.getPosX(), antHill.getPosY()), willBeQueen(willBeQueen) {};
 
     virtual ~Ant() = default;
 

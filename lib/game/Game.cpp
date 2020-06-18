@@ -138,7 +138,7 @@ void Game::start() {
             return;
         }
         round++;
-        usleep(100000);
+        usleep(1000000);
         cout << endl;
     }
 
@@ -299,8 +299,25 @@ void Game::displayGrid() {
 
 void Game::layEgg(AntQueen *antQueen) {
     if (antQueen->getAntHill().getMaxPopulation() > getPopulationPerAntHill(antQueen->getAntHill())) {
-        eggs.push_back(new AntEgg(antQueen->getAntHill()));
+        double p = 0.02;
+
+        if (antQueen->getAntHill().getMaxPopulation() - getPopulationPerAntHill(antQueen->getAntHill()) <= 10) {
+            p = 0.1;
+        }
+
+        std::knuth_b rand_engine;
+        std::bernoulli_distribution d(p);
+        bool decision = d(rand_engine);
+
+        eggs.push_back(new AntEgg(antQueen->getAntHill(), decision));
         antQueen->layEgg();
+        cout << "EggQueen Prob : " + to_string(p) <<endl;
+        cout << decision << endl;
+        if (decision) {
+            cout << "OMG BABY QUEEN" << endl;
+        } else {
+            cout << "NORMAL BABY" << endl;
+        }
     }
 }
 

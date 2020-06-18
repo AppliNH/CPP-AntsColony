@@ -3,10 +3,12 @@
 
 #include <iostream>
 #include "ants/ant/Ant.h"
+#include <random>
+
 
 class AntEgg : public Ant {
 public:
-    AntEgg(AntHill &antHill) : Ant(antHill) {}
+    AntEgg(AntHill &antHill, bool willBeQueen) :  Ant(antHill,willBeQueen) {}
 
     bool grow() {
         age++;
