@@ -18,20 +18,16 @@ class Environment {
 private:
     int width;
     int height;
-
     vector<vector<SquareBox *>> grid;
-
-    vector<Food> foods;
     vector<Pheromone> pheromones;
     vector<AntHill *> antHills;
-    vector<Obstacle> obstacles;
 
     void buildGrid(const int &w, const int &h);
 
     void insertObstacles(const int &obstacleCount);
 
 public:
-    Environment(int h, int w, int foodCount, int obstacleCount, AntHill *antHill);
+    Environment(const int &height, const int &width, const int &foodCount, const int &obstacleCount, AntHill *antHill);
 
     ~Environment();
 
@@ -45,11 +41,9 @@ public:
 
     void status();
 
-    int &getWidth() { return width; }
+    [[nodiscard]] int getWidth() const { return width; }
 
-    int &getHeight() { return height; }
-
-    SquareBox *getSquareBoxAt(const int &posX, const int &posY);
+    [[nodiscard]] int getHeight() const { return height; }
 
     vector<vector<SquareBox *>> getGrid() { return grid; }
 

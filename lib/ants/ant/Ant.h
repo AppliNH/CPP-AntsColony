@@ -16,15 +16,14 @@ class Ant : public SquareBox {
 protected:
     int age;
     bool willBeQueen;
-    int ageToEvolve;
+    double ageToEvolve;
     AntHill &antHill;
     Environment &environment;
 public:
-    Ant(AntHill &antHill, Environment &environment, int ageToEvolve, bool willBeQueen = false, int age = 0)
+    Ant(AntHill &antHill, Environment &environment, const int &ageToEvolve, const bool &willBeQueen = false,
+        int age = 0)
             : age(age), ageToEvolve(ageToEvolve), antHill(antHill), SquareBox(antHill.getPosX(), antHill.getPosY()),
               willBeQueen(willBeQueen), environment(environment) {};
-
-    virtual ~Ant() = default;
 
     AntHill &getAntHill() { return antHill; }
 
@@ -35,7 +34,7 @@ public:
 
     bool isAtHome() { return posX == antHill.getPosX() && posY == antHill.getPosY(); }
 
-    virtual void speak();
+    virtual void speak() = 0;
 
     virtual LivingAnt *evolve() = 0;
 };

@@ -16,21 +16,20 @@ private:
     int maxPopulation;
     int maxFood;
     vector<Food *> foodStock;
-
 public:
     AntHill(int X, int Y) : SquareBox(X, Y), maxPopulation(80), maxFood(25) {}
 
-    ~AntHill();
+    ~AntHill() override;
 
     void stockFood(const Food &food);
 
     int getFoodCount() { return foodStock.size(); }
 
-    int getMaxPopulation() { return maxPopulation; }
+    [[nodiscard]] int getMaxPopulation() const { return maxPopulation; }
 
     void eatFromStock() { foodStock.erase(foodStock.begin()); }
 
-    void status();
+    void displayStatus();
 
 };
 

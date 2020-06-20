@@ -18,6 +18,6 @@ void AntYoungQueen::eatFood() {
     lifePoints++;
 }
 
-LivingAnt * AntYoungQueen::evolve() {
+LivingAnt *AntYoungQueen::evolve() {
     return new AntQueen(antHill, environment);
 }

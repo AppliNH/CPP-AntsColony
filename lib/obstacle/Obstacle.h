@@ -2,11 +2,11 @@
 #define CPP_ANTSCOLONY_OBSTACLE_H
 
 
-#include <square_box/SquareBox.h>
+#include "square_box/SquareBox.h"
 
 class Obstacle : public SquareBox {
 public:
-    Obstacle(int X, int Y): SquareBox(X, Y) {}
+    Obstacle(int X, int Y) : SquareBox(X, Y) {}
 };
 
 

@@ -19,13 +19,18 @@ protected:
     int foodConsumed;
     int maxCarriedFood;
     vector<Food *> carriedFood;
+
     void moveLeft() { if (posX > 0) posX--; }
+
     void moveRight() { if (posX < environment.getWidth() - 1) posX++; }
+
     void moveBottom() { if (posY < environment.getHeight() - 1) posY++; }
+
     void moveTop() { if (posY > 0) posY--; }
 
 public:
-    LivingAnt(AntHill &antHill, Environment &environment, const double& lifePoints, const double& decayRate, const int& foodConsumed, const double& ageToEvolve, bool willBeQueen = false, int age = 0)
+    LivingAnt(AntHill &antHill, Environment &environment, const double &lifePoints, const double &decayRate,
+              const int &foodConsumed, const int &ageToEvolve, bool willBeQueen = false, int age = 0)
             : Ant(antHill, environment, ageToEvolve, willBeQueen, age), maxCarriedFood(5),
               lifePoints(lifePoints),
               lifeThreshold(lifePoints / 4),
@@ -36,7 +41,7 @@ public:
 
     void speak() override;
 
-    void setNewAntHill(AntHill antHill1) { antHill = antHill1; }
+    void setNewAntHill(const AntHill &antHill) { this->antHill = antHill; }
 
     bool looseLife();
 
@@ -56,7 +61,7 @@ public:
 
     void displayLifePoints() const;
 
-    void displayState();
+    virtual void displayState();
 
     void displayPosition();
 
@@ -64,7 +69,7 @@ public:
 
     void storeFood(const Food &food);
 
-    virtual LivingAnt * evolve();
+    LivingAnt *evolve() override;
 
 };
 

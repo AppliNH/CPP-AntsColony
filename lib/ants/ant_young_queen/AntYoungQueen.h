@@ -11,22 +11,28 @@ protected:
     int buildAntHillPosX;
     int buildAntHillPosY;
 public:
-    AntYoungQueen(AntHill &antHill, Environment &environment, int buildAntHillPosX, int buildAntHillPosY): LivingAnt(antHill, environment, 4, 0.05, 4, 0, true), buildAntHillPosX(buildAntHillPosX), buildAntHillPosY(buildAntHillPosY) {};
+    AntYoungQueen(AntHill &antHill, Environment &environment, const int &buildAntHillPosX, const int &buildAntHillPosY)
+            : LivingAnt(
+            antHill, environment, 4, 0.05, 4, 0, true), buildAntHillPosX(buildAntHillPosX), buildAntHillPosY(
+            buildAntHillPosY) {};
 
-    int getBuildAntHillPosX() const {
+    [[nodiscard]] int getBuildAntHillPosX() const {
         return buildAntHillPosX;
     }
 
-    int getBuildAntHillPosY() const {
+    [[nodiscard]] int getBuildAntHillPosY() const {
         return buildAntHillPosY;
     }
 
-    bool hasArrived() {return getPosX() == buildAntHillPosX && getPosY() == buildAntHillPosY; }
+    bool hasArrived() { return getPosX() == buildAntHillPosX && getPosY() == buildAntHillPosY; }
 
     void speak() override;
+
     bool isRequiredToEat() override;
+
     void eatFood() override;
-    LivingAnt * evolve() override;
+
+    LivingAnt *evolve() override;
 
 };
 

@@ -12,7 +12,8 @@
 
 class AntEgg : public Ant {
 public:
-    AntEgg(AntHill &antHill, Environment &environment, bool willBeQueen) : Ant(antHill, environment, 10, willBeQueen) {}
+    AntEgg(AntHill &antHill, Environment &environment, const bool &willBeQueen) : Ant(antHill, environment, 10,
+                                                                                      willBeQueen) {}
 
     void speak() override;
 

@@ -40,6 +40,10 @@ int main(int argc, char *argv[]) {
             height = atoi(argv[i + 1]);
         }
     }
+    if ((foodCount + obstacleCount) - 1 >= height*width) {
+        std::cerr << "Error: Too much obstacles or food. Aborting\n";
+        return 1;
+    }
     Game myGame = Game(speed, quiet, 5, width, height, foodCount, obstacleCount);
     myGame.start();
     return 0;

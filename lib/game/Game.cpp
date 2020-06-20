@@ -66,17 +66,18 @@ void Game::detectAntsAndAttack(AntWarrior &antWarrior) {
                                           : vector<SquareBox *>();
     vector<SquareBox *> currentLine = environment->getGrid().at(antWarrior.getPosY());
 
-    auto lambda_match_position = [](vector <SquareBox *> line, AntWarrior &antWarrior1, LivingAnt *livingAnt1) {
-        return line.at(antWarrior1.getPosX()) +1 == livingAnt1 || line.at(antWarrior1.getPosX()) == livingAnt1 || line.at(antWarrior1.getPosX()) - 1 == livingAnt1;
+    auto lambda_match_position = [](vector<SquareBox *> line, AntWarrior &antWarrior1, LivingAnt *livingAnt1) {
+        return line.at(antWarrior1.getPosX()) + 1 == livingAnt1 || line.at(antWarrior1.getPosX()) == livingAnt1 ||
+               line.at(antWarrior1.getPosX()) - 1 == livingAnt1;
     };
 
-    for (int i = 0; i < livingAnts.size(); i++) {
-        if (!belowLine.empty() && lambda_match_position(belowLine, antWarrior, livingAnts.at(i)))  {
-            antWarrior.attack(*livingAnts.at(i));
-        } else if (!aboveLine.empty() &&lambda_match_position(aboveLine, antWarrior, livingAnts.at(i))) {
-            antWarrior.attack(*livingAnts.at(i));
-        } else if (lambda_match_position(currentLine, antWarrior, livingAnts.at(i))) {
-            antWarrior.attack(*livingAnts.at(i));
+    for (auto &livingAnt : livingAnts) {
+        if (!belowLine.empty() && lambda_match_position(belowLine, antWarrior, livingAnt)) {
+            antWarrior.attack(*livingAnt);
+        } else if (!aboveLine.empty() && lambda_match_position(aboveLine, antWarrior, livingAnt)) {
+            antWarrior.attack(*livingAnt);
+        } else if (lambda_match_position(currentLine, antWarrior, livingAnt)) {
+            antWarrior.attack(*livingAnt);
         }
     }
 
@@ -143,20 +144,21 @@ void Game::start() {
     while (true) {
         system("clear");
         environment->pheromoneDecay();
-        if (!quiet) environment->status();
+        environment->status();
+        cout << "Ants : " << livingAnts.size() << endl;
         displayGrid();
         for (auto &antHill : environment->getAntHills()) {
-            if (!quiet) antHill->status();
-            if (!quiet) cout << "   Population : " << getPopulationPerAntHill(*antHill) << endl;
-            if (!quiet) cout << "   Eggs : " << getEggsPerAntHill(*antHill) << endl;
+            antHill->displayStatus();
+            cout << "   Population : " << getPopulationPerAntHill(*antHill) << endl;
+            cout << "   Eggs : " << getEggsPerAntHill(*antHill) << endl;
             growEggs(*antHill);
         }
-        if (!quiet) cout << "#########" << endl;
-        if (!quiet) cout << "Round : " << round << endl;
+        cout << "#########" << endl;
+        cout << "Round : " << round << endl;
         if (!livingAnts.empty()) {
             manageAllAnts();
         } else {
-            if (!quiet) cout << "GAME ENDED" << endl;
+            cout << "GAME ENDED" << endl;
             return;
         }
         round++;
@@ -185,11 +187,10 @@ void Game::manageAllAnts() {
             auto antWarrior = dynamic_cast<AntWarrior *>(livingAnts.at(i));
             detectAntsAndAttack(*antWarrior);
         }
-        //livingAnts.at(i)->speak();
-        if (AntQueen *antQueen = dynamic_cast<AntQueen *>(livingAnts.at(i))) {
+        if (auto *antQueen = dynamic_cast<AntQueen *>(livingAnts.at(i))) {
             layEgg(antQueen);
         }
-        if (AntYoungQueen *antYoungQueen = dynamic_cast<AntYoungQueen *>(livingAnts.at(i))) {
+        if (auto *antYoungQueen = dynamic_cast<AntYoungQueen *>(livingAnts.at(i))) {
             if (antYoungQueen->hasArrived()) {
                 auto newAntHill = new AntHill(antYoungQueen->getPosX(), antYoungQueen->getPosY());
                 environment->addAntHill(newAntHill);
@@ -289,7 +290,7 @@ void Game::dodgeObstacle2(LivingAnt &livingAnt, vector<char> &choiceList) {
         choiceList.erase(std::remove(choiceList.begin(), choiceList.end(), 'B'), choiceList.end());
     }
 
-    if (choiceList.size() == 0) {
+    if (choiceList.empty()) {
         choiceList.push_back(dodgeObstacle(livingAnt));
     }
 
@@ -365,7 +366,7 @@ void Game::layEgg(AntQueen *antQueen) {
         }
         std::bernoulli_distribution d(p);
         bool decision = d(rand_engine);
-        if(decision && !quiet) cout << "QUEEN EGG" << endl;
+        if (decision && !quiet) cout << "QUEEN EGG" << endl;
         eggs.push_back(new AntEgg(antQueen->getAntHill(), *environment, decision));
     }
 }

@@ -6,11 +6,15 @@
 
 #include <iostream>
 
-class AntWorker: public LivingAnt {
+class AntWorker : public LivingAnt {
 public:
-    AntWorker(AntHill &antHill, Environment &environment, bool willBeQueen) : LivingAnt(antHill, environment, 5, 0.1, 1, 25, willBeQueen) {}
+    AntWorker(AntHill &antHill, Environment &environment, const bool &willBeQueen) : LivingAnt(antHill, environment, 5,
+                                                                                               0.1, 1,
+                                                                                               25, willBeQueen) {}
+
     void speak() override;
-    LivingAnt * evolve() override;
+
+    LivingAnt *evolve() override;
 };
 
 

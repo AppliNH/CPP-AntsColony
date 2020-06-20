@@ -7,14 +7,18 @@
 
 using namespace std;
 
-class AntQueen: public LivingAnt {
+class AntQueen : public LivingAnt {
 public:
-    AntQueen(AntHill &antHill, Environment &environment): LivingAnt(antHill, environment, 3, 0.05, 4, 0) {};
-    void move(char direction) override;
+    AntQueen(AntHill &antHill, Environment &environment) : LivingAnt(antHill, environment, 3, 0.05, 4, 0) {};
+
     void speak() override;
-    LivingAnt * evolve() override;
+
     bool isRequiredToEat() override;
+
     void eatFood() override;
+
+    void displayState() override;
+
     bool grow() override {
         return false;
     }

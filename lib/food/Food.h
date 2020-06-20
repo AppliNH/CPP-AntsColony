@@ -6,13 +6,13 @@
 class Food : public SquareBox {
 
 private:
-    int size;
+    int size = 10;
 public:
-    Food(int X, int Y) : SquareBox(X, Y), size(15) {}
+    Food(int X, int Y) : SquareBox(X, Y) {}
 
     ~Food() override = default;
 
-    int getSize() { return size; }
+    [[nodiscard]] int getSize() const { return size; }
 
     void grabFood() { size -= 1; }
 };

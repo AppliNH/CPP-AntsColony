@@ -6,14 +6,6 @@ void AntQueen::speak() {
     cout << "(Queen)" << endl;
 }
 
-void AntQueen::move(char direction) {
-
-}
-
-LivingAnt * AntQueen::evolve() {
-    cout << "Evolve to nothing" << endl;
-}
-
 bool AntQueen::isRequiredToEat() {
     return antHill.getFoodCount() >= foodConsumed;
 }
@@ -23,5 +15,9 @@ void AntQueen::eatFood() {
         antHill.eatFromStock();
     }
     lifePoints++;
+}
+
+void AntQueen::displayState() {
+    cout << "at_home";
 }
 

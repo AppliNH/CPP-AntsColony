@@ -1,12 +1,13 @@
 #include <iostream>
 #include "Environment.h"
 
-Environment::Environment(int h, int w, int foodCount, int obstacleCount, AntHill *antHill)
-        : height(h), width(w) {
+Environment::Environment(const int &height, const int &width, const int &foodCount, const int &obstacleCount,
+                         AntHill *antHill)
+        : height(height), width(width) {
     // Reset the random generator
     srand(time(NULL));
     // Build the grid
-    buildGrid(w, h);
+    buildGrid(width, height);
     //Insert the first ant hill
     antHills.push_back(antHill);
     grid.at(antHill->getPosY()).at(antHill->getPosX()) = antHill;
@@ -36,7 +37,7 @@ void Environment::status() {
 
     }
     cout << "## ENVIRONMENT ##" << endl;
-    cout << "Food left : " << foodCount << endl;
+    cout << "Foods : " << foodCount << endl;
     cout << "Obstacles : " << obstacleCount << endl;
     cout << "Pheromones : " << pheromoneCount << endl;
 }
@@ -65,13 +66,6 @@ Environment::~Environment() {
         }
     }
     grid.clear();
-}
-
-SquareBox *Environment::getSquareBoxAt(const int &posX, const int &posY) {
-    if (grid.at(posY).at(posX) != nullptr) {
-        return grid.at(posY).at(posX);
-    }
-    return nullptr;
 }
 
 void Environment::pheromoneDecay() {

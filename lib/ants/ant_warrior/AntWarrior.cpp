@@ -5,7 +5,7 @@ void AntWarrior::speak() {
     cout << "(Warrior)" << endl;
 }
 
-LivingAnt * AntWarrior::evolve() {
+LivingAnt *AntWarrior::evolve() {
     int antHillPosX;
     int antHillPosY;
     environment.getEmptySquareBox(antHillPosX, antHillPosY);
@@ -13,7 +13,7 @@ LivingAnt * AntWarrior::evolve() {
 }
 
 void AntWarrior::attack(LivingAnt &livingAnt) {
-    if(!livingAnt.isSameAntHill(antHill)) {
+    if (!livingAnt.isSameAntHill(antHill)) {
         livingAnt.undergoDamage();
         cout << "ATTACKING" << endl;
     }
