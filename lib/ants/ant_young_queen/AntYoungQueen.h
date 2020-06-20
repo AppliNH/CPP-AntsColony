@@ -23,7 +23,6 @@ public:
     bool hasArrived() {return getPosX() == buildAntHillPosX && getPosY() == buildAntHillPosY; }
 
     void speak() override;
-    void evolve() override;
     bool isRequiredToEat() override;
     void eatFood() override;
 

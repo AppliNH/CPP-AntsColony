@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "ants/living_ant/LivingAnt.h"
+#include "ants/ant/Ant.h"
 
 using namespace std;
 
@@ -11,7 +12,7 @@ public:
     AntQueen(AntHill &antHill, Environment &environment): LivingAnt(antHill, environment, 3, 0.05, 4) {};
     void move(char direction) override;
     void speak() override;
-    void evolve() override;
+    Ant * evolve() override;
     bool isRequiredToEat() override;
     void eatFood() override;
 

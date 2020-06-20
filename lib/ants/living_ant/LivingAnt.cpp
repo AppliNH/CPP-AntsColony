@@ -104,3 +104,7 @@ bool LivingAnt::looseLife()  {
     lifePoints -= decayRate;
     return lifePoints <= 0;
 }
+
+Ant *LivingAnt::evolve() {
+    return this;
+}

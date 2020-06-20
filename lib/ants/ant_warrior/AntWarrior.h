@@ -2,6 +2,7 @@
 #define CPP_ANTSCOLONY_ANTWARRIOR_H
 
 #include "ants/living_ant/LivingAnt.h"
+#include "ants/ant_young_queen/AntYoungQueen.h"
 
 #include <iostream>
 
@@ -10,7 +11,7 @@ public:
     AntWarrior(AntHill &antHill, Environment &environment) : LivingAnt(antHill, environment, 10, 0.05, 2, 15) {}
     void attack(LivingAnt &);
     void speak() override;
-    void evolve() override;
+    Ant * evolve() override;
 };
 
 

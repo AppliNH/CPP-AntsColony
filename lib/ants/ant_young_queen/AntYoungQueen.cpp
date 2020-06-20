@@ -6,9 +6,6 @@ void AntYoungQueen::speak() {
     cout << "(Ant young queen)" << endl;
 }
 
-void AntYoungQueen::evolve() {
-    cout << "Evolve to nothing" << endl;
-}
 
 bool AntYoungQueen::isRequiredToEat() {
     return antHill.getFoodCount() >= foodConsumed;

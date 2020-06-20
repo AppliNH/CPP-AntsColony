@@ -329,7 +329,7 @@ void Game::layEgg(AntQueen *antQueen) {
         }
         std::bernoulli_distribution d(p);
         bool decision = d(rand_engine);
-        eggs.push_back(new AntEgg(antQueen->getAntHill(), decision));
+        eggs.push_back(new AntEgg(antQueen->getAntHill(), *environment, decision));
     }
 }
 

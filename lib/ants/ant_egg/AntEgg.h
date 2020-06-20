@@ -1,18 +1,21 @@
 #ifndef CPP_ANTSCOLONY_ANTEGG_H
 #define CPP_ANTSCOLONY_ANTEGG_H
 
-#include <iostream>
 #include "ants/ant/Ant.h"
+#include "ants/ant_worker/AntWorker.h"
+#include "environment/Environment.h"
+
+#include <iostream>
 #include <random>
 
 
 class AntEgg : public Ant {
 public:
-    AntEgg(AntHill &antHill, bool willBeQueen) :  Ant(antHill,willBeQueen) {}
+    AntEgg(AntHill &antHill, Environment &environment, bool willBeQueen) :  Ant(antHill, environment,willBeQueen) {}
 
     void speak() override;
 
-    void evolve() override;
+    Ant * evolve() override;
 };
 
 

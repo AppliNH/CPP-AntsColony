@@ -5,7 +5,7 @@ void AntWorker::speak() {
     cout << "(Worker)" << endl;
 }
 
-void AntWorker::evolve() {
-    cout << "Evolve to warrior" << endl;
+Ant * AntWorker::evolve() {
+    return new AntWarrior(antHill, environment);
 }
 

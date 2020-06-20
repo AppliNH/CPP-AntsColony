@@ -19,21 +19,14 @@ protected:
     int foodConsumed;
     int maxCarriedFood;
     vector<Food *> carriedFood;
-    Environment &environment;
-
     void moveLeft() { if (posX > 0) posX--; }
-
     void moveRight() { if (posX < environment.getWidth() - 1) posX++; }
-
     void moveBottom() { if (posY < environment.getHeight() - 1) posY++; }
-
     void moveTop() { if (posY > 0) posY--; }
 
 public:
-    LivingAnt(AntHill &antHill, Environment &environment, const double &lifePoints, const double &decayRate,
-              const int &foodConsumed, int age = 0)
-            : Ant(antHill, false, age), maxCarriedFood(5),
-              environment(environment),
+    LivingAnt(AntHill &antHill, Environment &environment, const double& lifePoints, const double& decayRate, const int& foodConsumed, int age = 0)
+            : Ant(antHill, environment, false, age), maxCarriedFood(5),
               lifePoints(lifePoints),
               lifeThreshold(lifePoints / 4),
               decayRate(decayRate),
@@ -70,6 +63,8 @@ public:
     virtual void eatFood();
 
     void storeFood(const Food &food);
+
+    virtual Ant * evolve();
 
 };
 

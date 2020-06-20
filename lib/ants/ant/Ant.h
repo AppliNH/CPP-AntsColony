@@ -1,5 +1,5 @@
-#ifndef CPP_ANTSCOLONY_ANT_H_
-#define CPP_ANTSCOLONY_ANT_H_
+#ifndef CPP_ANTSCOLONY_ANT_H
+#define CPP_ANTSCOLONY_ANT_H
 
 #include <string>
 #include <vector>
@@ -17,9 +17,10 @@ protected:
     int ageToEvolve;
     AntState antState;
     AntHill &antHill;
+    Environment &environment;
 public:
-    Ant(AntHill &antHill, bool willBeQueen=false, int age=0 )
-            : age(age), ageToEvolve(10), antHill(antHill), SquareBox(antHill.getPosX(), antHill.getPosY()), willBeQueen(willBeQueen) {};
+    Ant(AntHill &antHill, Environment &environment, bool willBeQueen=false, int age=0 )
+            : age(age), ageToEvolve(10), antHill(antHill), SquareBox(antHill.getPosX(), antHill.getPosY()), willBeQueen(willBeQueen), environment(environment) {};
 
     virtual ~Ant() = default;
 
@@ -37,7 +38,7 @@ public:
 
     virtual void speak();
 
-    virtual void evolve() = 0;
+    virtual Ant * evolve() = 0;
 };
 
-#endif  // CPP_ANTSCOLONY_ANT_H_
+#endif  // CPP_ANTSCOLONY_ANT_H

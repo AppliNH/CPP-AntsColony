@@ -5,6 +5,6 @@ void AntEgg::speak() {
     cout << "and an Egg" << endl;
 }
 
-void AntEgg::evolve() {
-    cout << "Evolve to a worker" << endl;
+Ant * AntEgg::evolve() {
+    return new AntWorker(antHill, environment);
 }
