@@ -167,6 +167,13 @@ void Game::manageAllAnts() {
                 environment->addAntHill(newAntHill);
                 livingAnts.push_back(antYoungQueen->evolve());
                 livingAnts.erase(livingAnts.begin() + i);
+                for (int j = 0; j < 10; ++j) {
+                    int randomIndex = rand() % livingAnts.size();
+                    while (dynamic_cast<AntQueen *>(livingAnts.at(randomIndex))) {
+                        randomIndex = rand() % livingAnts.size();
+                    }
+                    livingAnts.at(randomIndex)->setNewAntHill(*newAntHill);
+                }
                 return;
             } else {
                 SquareBox box(antYoungQueen->getBuildAntHillPosX(), antYoungQueen->getBuildAntHillPosY());
@@ -325,11 +332,12 @@ void Game::layEgg(AntQueen *antQueen) {
     if (antQueen->getAntHill().getMaxPopulation() > getPopulationPerAntHill(antQueen->getAntHill())) {
         std::knuth_b rand_engine;
         double p = 0.02;
-        if (antQueen->getAntHill().getMaxPopulation() - getPopulationPerAntHill(antQueen->getAntHill()) <= 20) {
+        if (antQueen->getAntHill().getMaxPopulation() - getPopulationPerAntHill(antQueen->getAntHill()) <= 30) {
             p = 0.3;
         }
         std::bernoulli_distribution d(p);
         bool decision = d(rand_engine);
+        cout << decision << endl;
         if (decision) cout << "QUEEN";
         eggs.push_back(new AntEgg(antQueen->getAntHill(), *environment, decision));
     }
@@ -347,7 +355,7 @@ int Game::getPopulationPerAntHill(const AntHill &antHill) {
 
 int Game::getEggsPerAntHill(const AntHill &antHill) {
     int eggCount = 0;
-    for (auto & egg : eggs) {
+    for (auto &egg : eggs) {
         if (egg->getAntHill() == antHill) {
             eggCount++;
         }
