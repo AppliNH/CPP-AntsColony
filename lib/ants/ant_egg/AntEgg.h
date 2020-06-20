@@ -2,6 +2,7 @@
 #define CPP_ANTSCOLONY_ANTEGG_H
 
 #include "ants/ant/Ant.h"
+#include "ants/living_ant/LivingAnt.h"
 #include "ants/ant_worker/AntWorker.h"
 #include "environment/Environment.h"
 
@@ -11,11 +12,11 @@
 
 class AntEgg : public Ant {
 public:
-    AntEgg(AntHill &antHill, Environment &environment, bool willBeQueen) :  Ant(antHill, environment,willBeQueen) {}
+    AntEgg(AntHill &antHill, Environment &environment, bool willBeQueen) : Ant(antHill, environment, 10, willBeQueen) {}
 
     void speak() override;
 
-    Ant * evolve() override;
+    LivingAnt *evolve() override;
 };
 
 

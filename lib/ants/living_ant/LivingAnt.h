@@ -1,12 +1,12 @@
 #ifndef CPP_ANTSCOLONY_LIVINGANT_H
 #define CPP_ANTSCOLONY_LIVINGANT_H
 
+#include "ants/ant/Ant.h"
+#include "environment/Environment.h"
+#include "food/Food.h"
+
 #include <vector>
 #include <iostream>
-
-#include "ants/ant/Ant.h"
-#include <environment/Environment.h>
-#include "food/Food.h"
 
 using namespace std;
 
@@ -25,8 +25,8 @@ protected:
     void moveTop() { if (posY > 0) posY--; }
 
 public:
-    LivingAnt(AntHill &antHill, Environment &environment, const double& lifePoints, const double& decayRate, const int& foodConsumed, int age = 0)
-            : Ant(antHill, environment, false, age), maxCarriedFood(5),
+    LivingAnt(AntHill &antHill, Environment &environment, const double& lifePoints, const double& decayRate, const int& foodConsumed, const double& ageToEvolve, bool willBeQueen = false, int age = 0)
+            : Ant(antHill, environment, ageToEvolve, willBeQueen, age), maxCarriedFood(5),
               lifePoints(lifePoints),
               lifeThreshold(lifePoints / 4),
               decayRate(decayRate),
@@ -64,7 +64,7 @@ public:
 
     void storeFood(const Food &food);
 
-    virtual Ant * evolve();
+    virtual LivingAnt * evolve();
 
 };
 

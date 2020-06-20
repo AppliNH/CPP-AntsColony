@@ -10,7 +10,7 @@ void AntQueen::move(char direction) {
 
 }
 
-Ant * AntQueen::evolve() {
+LivingAnt * AntQueen::evolve() {
     cout << "Evolve to nothing" << endl;
 }
 

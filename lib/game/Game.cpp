@@ -13,11 +13,11 @@ Game::Game(int population, int W, int H, int foodCount, int obstacleCount) : rou
     livingAnts.push_back(antQueen);
 
     for (int i = 0; i < int(population) / 2; ++i) {
-        LivingAnt *antWorker = new AntWorker(*antHill, *environment);
+        LivingAnt *antWorker = new AntWorker(*antHill, *environment, false);
         livingAnts.push_back(antWorker);
     }
     for (int i = 0; i < int(population) / 2; ++i) {
-        LivingAnt *antWarrior = new AntWarrior(*antHill, *environment);
+        LivingAnt *antWarrior = new AntWarrior(*antHill, *environment, false);
         livingAnts.push_back(antWarrior);
     }
 
@@ -119,9 +119,6 @@ char Game::analyzeEnv(LivingAnt &livingAnt) {
 
 void Game::start() {
     while (true) {
-        if (round == 30) {
-            getPositionForFutureAntHill();
-        }
         system("clear");
         environment->pheromoneDecay();
         environment->status();
@@ -150,7 +147,11 @@ void Game::start() {
 
 void Game::manageAllAnts() {
     for (int i = 0; i < livingAnts.size(); ++i) {
-        //livingAnts.at(i)->
+        if (livingAnts.at(i)->grow()) {
+            livingAnts.push_back(livingAnts.at(i)->evolve());
+            livingAnts.erase(livingAnts.begin() + i);
+            return;
+        }
         if (livingAnts.at(i)->looseLife()) {
             livingAnts.erase(livingAnts.begin() + i);
             return;
@@ -164,7 +165,7 @@ void Game::manageAllAnts() {
             if (antYoungQueen->hasArrived()) {
                 auto newAntHill = new AntHill(antYoungQueen->getPosX(), antYoungQueen->getPosY());
                 environment->addAntHill(newAntHill);
-                livingAnts.push_back(new AntQueen(*newAntHill, *environment));
+                livingAnts.push_back(antYoungQueen->evolve());
                 livingAnts.erase(livingAnts.begin() + i);
                 return;
             } else {
@@ -324,11 +325,12 @@ void Game::layEgg(AntQueen *antQueen) {
     if (antQueen->getAntHill().getMaxPopulation() > getPopulationPerAntHill(antQueen->getAntHill())) {
         std::knuth_b rand_engine;
         double p = 0.02;
-        if (antQueen->getAntHill().getMaxPopulation() - getPopulationPerAntHill(antQueen->getAntHill()) <= 10) {
-            p = 0.1;
+        if (antQueen->getAntHill().getMaxPopulation() - getPopulationPerAntHill(antQueen->getAntHill()) <= 20) {
+            p = 0.3;
         }
         std::bernoulli_distribution d(p);
         bool decision = d(rand_engine);
+        if (decision) cout << "QUEEN";
         eggs.push_back(new AntEgg(antQueen->getAntHill(), *environment, decision));
     }
 }
@@ -345,8 +347,8 @@ int Game::getPopulationPerAntHill(const AntHill &antHill) {
 
 int Game::getEggsPerAntHill(const AntHill &antHill) {
     int eggCount = 0;
-    for (int i = 0; i < eggs.size(); ++i) {
-        if (eggs.at(i)->getAntHill() == antHill) {
+    for (auto & egg : eggs) {
+        if (egg->getAntHill() == antHill) {
             eggCount++;
         }
     }
@@ -356,8 +358,8 @@ int Game::getEggsPerAntHill(const AntHill &antHill) {
 void Game::growEggs(AntHill &antHill) {
     for (int i = 0; i < eggs.size(); ++i) {
         if (eggs.at(i)->grow()) {
+            livingAnts.push_back(eggs.at(i)->evolve());
             eggs.erase(eggs.begin());
-            livingAnts.push_back(new AntWorker(antHill, *environment));
         }
     }
 }

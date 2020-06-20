@@ -105,6 +105,6 @@ bool LivingAnt::looseLife()  {
     return lifePoints <= 0;
 }
 
-Ant *LivingAnt::evolve() {
+LivingAnt * LivingAnt::evolve() {
     return this;
 }

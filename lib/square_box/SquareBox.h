@@ -1,7 +1,3 @@
-//
-// Created by Thomas Martin on 30/05/2020.
-//
-
 #ifndef CPP_ANTSCOLONY_SQUAREBOX_H
 #define CPP_ANTSCOLONY_SQUAREBOX_H
 

@@ -8,9 +8,9 @@
 
 class AntWorker: public LivingAnt {
 public:
-    AntWorker(AntHill &antHill, Environment &environment) : LivingAnt(antHill, environment, 5, 0.1, 1) {}
+    AntWorker(AntHill &antHill, Environment &environment, bool willBeQueen) : LivingAnt(antHill, environment, 5, 0.1, 1, 25, willBeQueen) {}
     void speak() override;
-    Ant * evolve() override;
+    LivingAnt * evolve() override;
 };
 
 

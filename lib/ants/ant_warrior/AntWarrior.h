@@ -8,10 +8,14 @@
 
 class AntWarrior : public LivingAnt {
 public:
-    AntWarrior(AntHill &antHill, Environment &environment) : LivingAnt(antHill, environment, 10, 0.05, 2, 15) {}
+    AntWarrior(AntHill &antHill, Environment &environment, bool willBeQueen) : LivingAnt(antHill, environment, 10, 0.05, 2, 35, willBeQueen, 15) {}
     void attack(LivingAnt &);
     void speak() override;
-    Ant * evolve() override;
+    LivingAnt * evolve() override;
+    bool grow() override {
+        age++;
+        return age == ageToEvolve && willBeQueen;
+    }
 };
 
 

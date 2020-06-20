@@ -5,12 +5,11 @@ void AntWarrior::speak() {
     cout << "(Warrior)" << endl;
 }
 
-Ant * AntWarrior::evolve() {
-    if (willBeQueen) {
-        return new AntYoungQueen(antHill, environment, 0, 0);
-    } else {
-        return this;
-    }
+LivingAnt * AntWarrior::evolve() {
+    int antHillPosX;
+    int antHillPosY;
+    environment.getEmptySquareBox(antHillPosX, antHillPosY);
+    return new AntYoungQueen(antHill, environment, antHillPosX, antHillPosY);
 }
 
 void AntWarrior::attack(LivingAnt &livingAnt) {
