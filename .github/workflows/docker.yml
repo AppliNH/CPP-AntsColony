@@ -19,10 +19,11 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: GithubPackages-Docker
-      uses: Kolkies/githubpackages-docker@v1.0.4
+    - name: GitHub Docker Action
+      uses: matootie/github-docker@v3.0.0
       with:
-        # Access token which is used to deploy the image to the repository. I advise to use GITHUB_TOKEN
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        # Name for the docker image
-        image-name: antscolony
+        # GitHub Repository Token to log in using.
+        accessToken: ${{ secrets.GITHUB_TOKEN }}
+        # The desired name for the image. Defaults to current repository name.
+        imageName: antscolony
+ 
