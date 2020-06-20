@@ -21,11 +21,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: GitHub Docker Action
-      uses: matootie/github-docker@v3.0.0
+    - name: GithubPackages-Docker
+      uses: Kolkies/githubpackages-docker@v1.0.4
       with:
-        # GitHub Repository Token to log in using.
-        accessToken: ${{ secrets.GITHUB_TOKEN }}
-        # The desired name for the image. Defaults to current repository name.
-        imageName: antscolony
+        # Access token which is used to deploy the image to the repository.
+        repo-token:  ${{ secrets.GITHUB_TOKEN }}
+        # Name for the docker image
+        image-name: antscolony
  
