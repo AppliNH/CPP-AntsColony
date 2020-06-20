@@ -24,7 +24,7 @@ There you can execute the `./CPP-AntsColony` binary.
 
 And you can also pass some arguments :
 
-| Arguments     | Description       | Default |
+| Argument     | Description       | Default |
 |---------------|-------------------|-------------------|
 |`--width`|Grid's width |30|
 |`--height`|Grid's height|15|
