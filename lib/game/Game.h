@@ -36,7 +36,7 @@ public:
     void start();
 
     char analyzeEnv(LivingAnt &livingAnt);
-
+    void detectAntsAndAttack(AntWarrior &antWarrior);
     char getDirectionTo(LivingAnt &livingAnt, SquareBox &squareBox);
 
     void manageAllAnts();

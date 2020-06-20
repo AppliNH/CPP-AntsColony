@@ -56,6 +56,32 @@ void Game::resourcesSearch(LivingAnt &livingAnt, vector<char> &choiceList, int l
 
 }
 
+void Game::detectAntsAndAttack(AntWarrior &antWarrior) {
+
+
+    vector<SquareBox *> belowLine = antWarrior.getPosY() + 1 < environment->getHeight() ? environment->getGrid().at(
+            antWarrior.getPosY() + 1) : vector<SquareBox *>();
+    vector<SquareBox *> aboveLine =
+            antWarrior.getPosY() - 1 >= 0 ? environment->getGrid().at(antWarrior.getPosY() - 1)
+                                          : vector<SquareBox *>();
+    vector<SquareBox *> currentLine = environment->getGrid().at(antWarrior.getPosY());
+
+    auto lambda_match_position = [](vector <SquareBox *> line, AntWarrior &antWarrior1, LivingAnt *livingAnt1) {
+        return line.at(antWarrior1.getPosX()) +1 == livingAnt1 || line.at(antWarrior1.getPosX()) == livingAnt1 || line.at(antWarrior1.getPosX()) - 1 == livingAnt1;
+    };
+
+    for (int i = 0; i < livingAnts.size(); i++) {
+        if (!belowLine.empty() && lambda_match_position(belowLine, antWarrior, livingAnts.at(i)))  {
+            antWarrior.attack(*livingAnts.at(i));
+        } else if (!aboveLine.empty() &&lambda_match_position(aboveLine, antWarrior, livingAnts.at(i))) {
+            antWarrior.attack(*livingAnts.at(i));
+        } else if (lambda_match_position(currentLine, antWarrior, livingAnts.at(i))) {
+            antWarrior.attack(*livingAnts.at(i));
+        }
+    }
+
+
+}
 
 char Game::analyzeEnv(LivingAnt &livingAnt) {
 
@@ -88,6 +114,7 @@ char Game::analyzeEnv(LivingAnt &livingAnt) {
             if (!quiet) cout << "   >> I'm full <<" << endl;
         }
     }
+
     resourcesSearch<Food>(livingAnt, choiceLevel1, 1);
     resourcesSearch<Food>(livingAnt, choiceLevel2, 2);
 
@@ -142,6 +169,7 @@ void Game::start() {
 
 void Game::manageAllAnts() {
     for (int i = 0; i < livingAnts.size(); ++i) {
+
         if (livingAnts.at(i)->grow()) {
             livingAnts.push_back(livingAnts.at(i)->evolve());
             livingAnts.erase(livingAnts.begin() + i);
@@ -153,6 +181,11 @@ void Game::manageAllAnts() {
         }
 
         if (!quiet) livingAnts.at(i)->speak();
+        if (dynamic_cast<AntWarrior *>(livingAnts.at(i))) {
+            auto antWarrior = dynamic_cast<AntWarrior *>(livingAnts.at(i));
+            detectAntsAndAttack(*antWarrior);
+        }
+        //livingAnts.at(i)->speak();
         if (AntQueen *antQueen = dynamic_cast<AntQueen *>(livingAnts.at(i))) {
             layEgg(antQueen);
         }
@@ -328,10 +361,11 @@ void Game::layEgg(AntQueen *antQueen) {
         std::knuth_b rand_engine;
         double p = 0.02;
         if (antQueen->getAntHill().getMaxPopulation() - getPopulationPerAntHill(antQueen->getAntHill()) <= 30) {
-            p = 0.3;
+            p = 0.35;
         }
         std::bernoulli_distribution d(p);
         bool decision = d(rand_engine);
+        if(decision && !quiet) cout << "QUEEN EGG" << endl;
         eggs.push_back(new AntEgg(antQueen->getAntHill(), *environment, decision));
     }
 }
