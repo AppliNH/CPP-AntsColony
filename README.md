@@ -31,4 +31,4 @@ And you can also pass a few arguments :
 |`-o`,`--obstacles`|Quantity of obstacles|30|
 |`-f`,`--foods`|Quantity of food|50|
 |`-q`,`--quiet`|Run without any logs|false|
-|`-h`,`--help`|Show help|X|
+|`-h`,`--help`|Show help| |
