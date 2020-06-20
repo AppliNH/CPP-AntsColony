@@ -10,11 +10,6 @@ class AntEgg : public Ant {
 public:
     AntEgg(AntHill &antHill, bool willBeQueen) :  Ant(antHill,willBeQueen) {}
 
-    bool grow() {
-        age++;
-        return age == ageToEvolve;
-    }
-
     void speak() override;
 
     void evolve() override;

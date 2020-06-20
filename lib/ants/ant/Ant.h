@@ -28,6 +28,11 @@ public:
 
     AntHill &getAntHill() { return antHill; }
 
+    bool grow() {
+        age++;
+        return age == ageToEvolve;
+    }
+
     bool isAtHome() { return posX == antHill.getPosX() && posY == antHill.getPosY(); }
 
     virtual void speak();

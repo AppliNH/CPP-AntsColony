@@ -150,6 +150,7 @@ void Game::start() {
 
 void Game::manageAllAnts() {
     for (int i = 0; i < livingAnts.size(); ++i) {
+        livingAnts.at(i)->
         if (livingAnts.at(i)->looseLife()) {
             livingAnts.erase(livingAnts.begin() + i);
             return;
