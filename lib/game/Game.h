@@ -21,13 +21,15 @@
 
 class Game {
 private:
-    int round;
+    bool quiet;
+    int round = 0;
+    int speed;
     Environment *environment;
     vector<Ant *> ants;
     vector<AntEgg *> eggs;
     vector<LivingAnt *> livingAnts;
 public:
-    Game(int population, int W = 50, int H = 100, int foodCount = 500, int obstacleCount = 1000);
+    Game(int speed, bool quietMode, int population, int width, int height, int foodCount, int obstacleCount);
 
     ~Game();
 
@@ -40,7 +42,8 @@ public:
     void manageAllAnts();
 
     char dodgeObstacle(LivingAnt &livingAnt);
-    void dodgeObstacle2(LivingAnt &livingAnt, vector<char> &choiceList );
+
+    void dodgeObstacle2(LivingAnt &livingAnt, vector<char> &choiceList);
 
     template<typename T>
     void resourcesSearch(LivingAnt &livingAnt, vector<char> &choiceList, int level);
@@ -54,8 +57,6 @@ public:
     void layEgg(AntQueen *antQueen);
 
     void growEggs(AntHill &antHill);
-
-    void getPositionForFutureAntHill();
 
 
 };

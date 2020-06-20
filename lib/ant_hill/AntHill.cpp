@@ -15,6 +15,6 @@ void AntHill::stockFood(const Food &food) {
 
 void AntHill::status() {
     cout << "## ANT_HILL ##" << endl;
-    cout << "Stored food : " << foodStock.size() << endl;
+    cout << "   Stored food : " << foodStock.size() << endl;
 }
 

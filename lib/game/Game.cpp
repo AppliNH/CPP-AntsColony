@@ -1,15 +1,11 @@
-//
-// Created by Thomas Martin on 30/05/2020.
-//
-
 #include "Game.h"
 
-Game::Game(int population, int W, int H, int foodCount, int obstacleCount) : round(0) {
+Game::Game(int speed, bool quietMode, int population, int width, int height, int foodCount, int obstacleCount) : quiet(
+        quietMode), speed(speed) {
+    auto *antHill = new AntHill(width / 2, height / 2);
+    environment = new Environment(height, width, foodCount, obstacleCount, antHill);
 
-    AntHill *antHill = new AntHill(W / 2, H / 2);
-    environment = new Environment(H, W, foodCount, obstacleCount, antHill);
-
-    AntQueen *antQueen = new AntQueen(*antHill, *environment);
+    auto *antQueen = new AntQueen(*antHill, *environment);
     livingAnts.push_back(antQueen);
 
     for (int i = 0; i < int(population) / 2; ++i) {
@@ -20,9 +16,7 @@ Game::Game(int population, int W, int H, int foodCount, int obstacleCount) : rou
         LivingAnt *antWarrior = new AntWarrior(*antHill, *environment, false);
         livingAnts.push_back(antWarrior);
     }
-
     displayGrid();
-
 }
 
 template<typename T>
@@ -37,26 +31,26 @@ void Game::resourcesSearch(LivingAnt &livingAnt, vector<char> &choiceList, int l
 
     // Check if bellow a food
     if (!belowLine.empty() && dynamic_cast<T *>(belowLine.at(livingAnt.getPosX()))) {
-        //cout << "   >> Food towards Bottom (+" + to_string(level) + ") <<" << endl;
+        if (!quiet) cout << "   >> Food towards Bottom (+" + to_string(level) + ") <<" << endl;
         choiceList.push_back('B');
     }
 
     // Check if above a food
     if (!aboveLine.empty() && dynamic_cast<T *>(aboveLine.at(livingAnt.getPosX()))) {
-        //cout << "   >> Food towards Top (+" + to_string(level) + ") <<" << endl;
+        if (!quiet) cout << "   >> Food towards Top (+" + to_string(level) + ") <<" << endl;
         choiceList.push_back('T');
     }
 
     // Check if left of food
     if (livingAnt.getPosX() - level >= 0 && dynamic_cast<T *>(currentLine.at(livingAnt.getPosX() - level))) {
-        //cout << "   >> Food towards Left (+" + to_string(level) + ") <<" << endl;
+        if (!quiet) cout << "   >> Food towards Left (+" + to_string(level) + ") <<" << endl;
         choiceList.push_back('L');
     }
 
     // Check if right of food
     if (livingAnt.getPosX() + level < environment->getWidth() &&
         dynamic_cast<T *>(currentLine.at(livingAnt.getPosX() + level))) {
-        //cout << "   >> Food towards Right (+" + to_string(level) + ") <<" << endl;
+        if (!quiet) cout << "   >> Food towards Right (+" + to_string(level) + ") <<" << endl;
         choiceList.push_back('R');
     }
 
@@ -88,20 +82,21 @@ char Game::analyzeEnv(LivingAnt &livingAnt) {
                 environment->deleteSquareBox(livingAnt.getPosX(), livingAnt.getPosY());
                 environment->insertFoods(1);
             }
-            cout << "   >> I grabbed a food <<" << endl;
+            if (!quiet) cout << "   >> I grabbed a food <<" << endl;
             return ' ';
         } else {
-            cout << "   >> I'm full <<" << endl;
+            if (!quiet) cout << "   >> I'm full <<" << endl;
         }
     }
     resourcesSearch<Food>(livingAnt, choiceLevel1, 1);
     resourcesSearch<Food>(livingAnt, choiceLevel2, 2);
 
-    // Pheromons decisions
+    // Pheromone decisions
     if (choiceLevel1.size() == initialChoiceSize1) {
         resourcesSearch<Pheromone>(livingAnt, choiceLevel1, 1);
     }
 
+    // Pheromone decisions
     if (choiceLevel2.size() == initialChoiceSize2) {
         resourcesSearch<Pheromone>(livingAnt, choiceLevel2, 2);
     }
@@ -121,25 +116,25 @@ void Game::start() {
     while (true) {
         system("clear");
         environment->pheromoneDecay();
-        environment->status();
+        if (!quiet) environment->status();
         displayGrid();
         for (auto &antHill : environment->getAntHills()) {
-            antHill->status();
-            cout << "Population : " << getPopulationPerAntHill(*antHill) << endl;
-            cout << "Eggs : " << getEggsPerAntHill(*antHill) << endl;
+            if (!quiet) antHill->status();
+            if (!quiet) cout << "   Population : " << getPopulationPerAntHill(*antHill) << endl;
+            if (!quiet) cout << "   Eggs : " << getEggsPerAntHill(*antHill) << endl;
             growEggs(*antHill);
         }
-        cout << "#########" << endl;
-        cout << "Round : " << round << endl;
+        if (!quiet) cout << "#########" << endl;
+        if (!quiet) cout << "Round : " << round << endl;
         if (!livingAnts.empty()) {
             manageAllAnts();
         } else {
-            cout << "GAME ENDED" << endl;
+            if (!quiet) cout << "GAME ENDED" << endl;
             return;
         }
         round++;
-        usleep(100000);
-        cout << endl;
+        usleep(speed);
+        if (!quiet) cout << endl;
     }
 
 }
@@ -157,7 +152,7 @@ void Game::manageAllAnts() {
             return;
         }
 
-        //livingAnts.at(i)->speak();
+        if (!quiet) livingAnts.at(i)->speak();
         if (AntQueen *antQueen = dynamic_cast<AntQueen *>(livingAnts.at(i))) {
             layEgg(antQueen);
         }
@@ -337,16 +332,14 @@ void Game::layEgg(AntQueen *antQueen) {
         }
         std::bernoulli_distribution d(p);
         bool decision = d(rand_engine);
-        cout << decision << endl;
-        if (decision) cout << "QUEEN";
         eggs.push_back(new AntEgg(antQueen->getAntHill(), *environment, decision));
     }
 }
 
 int Game::getPopulationPerAntHill(const AntHill &antHill) {
     int pop = 0;
-    for (int i = 0; i < livingAnts.size(); ++i) {
-        if (livingAnts.at(i)->getAntHill() == antHill) {
+    for (auto &livingAnt : livingAnts) {
+        if (livingAnt->getAntHill() == antHill) {
             pop++;
         }
     }
@@ -371,11 +364,3 @@ void Game::growEggs(AntHill &antHill) {
         }
     }
 }
-
-void Game::getPositionForFutureAntHill() {
-    int antHillPosX;
-    int antHillPosY;
-    environment->getEmptySquareBox(antHillPosX, antHillPosY);
-    livingAnts.push_back(new AntYoungQueen(*environment->getAntHills().at(0), *environment, antHillPosX, antHillPosY));
-}
-
