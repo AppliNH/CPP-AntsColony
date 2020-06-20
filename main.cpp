@@ -5,7 +5,7 @@ static void show_usage(const std::string &name) {
               << "Options:\n"
               << "\t--width\t\t\tWidth of the grid (default: 30)\n"
               << "\t--height\t\tHeight of the grid (default: 15)\n"
-              << "\t-s,--speed\t\tSet the refresh rate in ms (1s = 1000000ms / default: 1000000)\n"
+              << "\t-s,--speed\t\tSet the refresh rate in µs (1s = 1000000µs / default: 1000000)\n"
               << "\t-o,--obstacles\t\tSet the obstacle count (default: 30)\n"
               << "\t-f,--foods\t\tSet the food count (default: 50)\n"
               << "\t-q,--quiet\t\tRun program without any logs (default: false)\n"
