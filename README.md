@@ -21,7 +21,8 @@ Once you cloned the repo, `cd` inside it and :
 - `cmake --build . --target CPP-AntsColony -- -j 8`
 
 There you can execute the `./CPP-AntsColony` binary.
-And you can also pass a few arguments :
+
+And you can also pass some arguments :
 
 | Arguments     | Description       | Default |
 |---------------|-------------------|-------------------|
