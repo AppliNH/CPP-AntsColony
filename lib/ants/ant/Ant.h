@@ -18,8 +18,8 @@ protected:
     AntState antState;
     AntHill &antHill;
 public:
-    Ant(AntHill &antHill, bool willBeQueen=false )
-            : age(0), ageToEvolve(10), antHill(antHill), SquareBox(antHill.getPosX(), antHill.getPosY()), willBeQueen(willBeQueen) {};
+    Ant(AntHill &antHill, bool willBeQueen=false, int age=0 )
+            : age(age), ageToEvolve(10), antHill(antHill), SquareBox(antHill.getPosX(), antHill.getPosY()), willBeQueen(willBeQueen) {};
 
     virtual ~Ant() = default;
 
