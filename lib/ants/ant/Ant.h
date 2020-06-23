@@ -25,14 +25,11 @@ public:
             : age(age), ageToEvolve(ageToEvolve), antHill(antHill), SquareBox(antHill.getPosX(), antHill.getPosY()),
               willBeQueen(willBeQueen), environment(environment) {};
 
-    AntHill &getAntHill() { return antHill; }
+    AntHill &getAntHill();
 
-    virtual bool grow() {
-        age++;
-        return age == ageToEvolve;
-    }
+    virtual bool grow();
 
-    bool isAtHome() { return posX == antHill.getPosX() && posY == antHill.getPosY(); }
+    bool isAtHome();
 
     virtual void speak() = 0;
 
