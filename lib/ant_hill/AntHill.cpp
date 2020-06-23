@@ -18,3 +18,9 @@ void AntHill::displayStatus() {
     cout << "   Stored food : " << foodStock.size() << endl;
 }
 
+int AntHill::getFoodCount() { return foodStock.size(); }
+
+int AntHill::getMaxPopulation() const { return maxPopulation; }
+
+void AntHill::eatFromStock() { foodStock.erase(foodStock.begin()); }
+

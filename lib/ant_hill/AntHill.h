@@ -23,11 +23,11 @@ public:
 
     void stockFood(const Food &food);
 
-    int getFoodCount() { return foodStock.size(); }
+    int getFoodCount();
 
-    [[nodiscard]] int getMaxPopulation() const { return maxPopulation; }
+    [[nodiscard]] int getMaxPopulation() const;
 
-    void eatFromStock() { foodStock.erase(foodStock.begin()); }
+    void eatFromStock();
 
     void displayStatus();
 
