@@ -21,3 +21,7 @@ void AntQueen::displayState() {
     cout << "at_home";
 }
 
+bool AntQueen::grow() {
+    return false;
+}
+

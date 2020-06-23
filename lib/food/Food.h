@@ -12,9 +12,9 @@ public:
 
     ~Food() override = default;
 
-    [[nodiscard]] int getSize() const { return size; }
+    [[nodiscard]] int getSize() const;
 
-    void grabFood() { size -= 1; }
+    void grabFood();
 };
 
 #endif  // CPP_ANTSCOLONY_LIB_FOOD_H_

@@ -24,7 +24,7 @@ public:
         return buildAntHillPosY;
     }
 
-    bool hasArrived() { return getPosX() == buildAntHillPosX && getPosY() == buildAntHillPosY; }
+    bool hasArrived();
 
     void speak() override;
 

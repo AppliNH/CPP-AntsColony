@@ -19,3 +19,8 @@ void AntWarrior::attack(LivingAnt &livingAnt) {
     }
     cout << "NOT ATTACKING" << endl;
 }
+
+bool AntWarrior::grow() {
+    age++;
+    return age == ageToEvolve && willBeQueen;
+}

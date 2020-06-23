@@ -41,11 +41,11 @@ public:
 
     void status();
 
-    [[nodiscard]] int getWidth() const { return width; }
+    [[nodiscard]] int getWidth() const;
 
-    [[nodiscard]] int getHeight() const { return height; }
+    [[nodiscard]] int getHeight() const;
 
-    vector<vector<SquareBox *>> getGrid() { return grid; }
+    vector<vector<SquareBox *>> getGrid();
 
     void insertPheromone(const int &posX, const int &posY);
 

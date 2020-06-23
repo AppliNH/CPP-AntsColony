@@ -12,13 +12,11 @@ public:
 
     virtual ~SquareBox() = default;
 
-    [[nodiscard]] int getPosX() const { return posX; }
+    [[nodiscard]] int getPosX() const;
 
-    [[nodiscard]] int getPosY() const { return posY; }
+    [[nodiscard]] int getPosY() const;
 
-    bool operator==(const SquareBox &squareBox) const {
-        return posX == squareBox.posX && posY == squareBox.posY;
-    };
+    bool operator==(const SquareBox &squareBox) const;
 
 };
 

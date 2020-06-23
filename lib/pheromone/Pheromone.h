@@ -10,12 +10,9 @@ private:
 public:
     Pheromone(int X, int Y, double powerness) : SquareBox(X, Y), powerness(powerness) {}
 
-    void increasePowerness() { powerness++; }
+    void increasePowerness();
 
-    bool decreasePowerness() {
-        powerness -= decayRate;
-        return powerness <= 0;
-    }
+    bool decreasePowerness();
 };
 
 

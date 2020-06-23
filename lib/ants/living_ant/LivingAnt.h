@@ -41,7 +41,7 @@ public:
 
     void speak() override;
 
-    void setNewAntHill(const AntHill &antHill) { this->antHill = antHill; }
+    void setNewAntHill(const AntHill &antHill);
 
     bool looseLife();
 
@@ -49,11 +49,11 @@ public:
 
     virtual bool isRequiredToEat();
 
-    bool isSameAntHill(const AntHill &antHill1) { return antHill == antHill1; }
+    bool isSameAntHill(const AntHill &antHill);
 
     bool isFullOfFood();
 
-    void undergoDamage() { lifePoints--; }
+    void undergoDamage();
 
     bool grabFood(const Food &food);
 

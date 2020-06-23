@@ -21,3 +21,5 @@ void AntYoungQueen::eatFood() {
 LivingAnt *AntYoungQueen::evolve() {
     return new AntQueen(antHill, environment);
 }
+
+bool AntYoungQueen::hasArrived() { return getPosX() == buildAntHillPosX && getPosY() == buildAntHillPosY; }

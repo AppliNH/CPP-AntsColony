@@ -18,10 +18,7 @@ public:
 
     LivingAnt *evolve() override;
 
-    bool grow() override {
-        age++;
-        return age == ageToEvolve && willBeQueen;
-    }
+    bool grow() override;
 };
 
 

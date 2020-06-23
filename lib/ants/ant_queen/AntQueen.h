@@ -19,9 +19,7 @@ public:
 
     void displayState() override;
 
-    bool grow() override {
-        return false;
-    }
+    bool grow() override;
 
 };
 

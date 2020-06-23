@@ -142,3 +142,9 @@ void Environment::addAntHill(AntHill *antHill) {
     grid.at(antHill->getPosY()).at(antHill->getPosX()) = antHill;
 }
 
+int Environment::getWidth() const { return width; }
+
+int Environment::getHeight() const { return height; }
+
+vector<vector<SquareBox *>> Environment::getGrid() { return grid; }
+
