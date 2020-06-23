@@ -14,7 +14,7 @@ public:
 
     [[nodiscard]] int getSize() const;
 
-    void grabFood();
+    void reduce();
 };
 
 #endif  // CPP_ANTSCOLONY_LIB_FOOD_H_

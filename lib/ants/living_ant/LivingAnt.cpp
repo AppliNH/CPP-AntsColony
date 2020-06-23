@@ -56,7 +56,7 @@ void LivingAnt::displayPosition() {
     cout << "X:" << getPosX() << " Y:" << getPosY();
 }
 
-void LivingAnt::displayLifePoints() const {
+void LivingAnt::displayLifePoints(){
     cout << "Health : " << lifePoints << " (" << lifeThreshold << ")";
 }
 
@@ -101,8 +101,6 @@ LivingAnt *LivingAnt::evolve() {
     return this;
 }
 
-void LivingAnt::setNewAntHill(const AntHill &antHill) { this->antHill = antHill; }
-
-bool LivingAnt::isSameAntHill(const AntHill &antHill) { return this->antHill == antHill; }
+void LivingAnt::setAntHill(const AntHill &antHill) { this->antHill = antHill; }
 
 void LivingAnt::undergoDamage() { lifePoints--; }

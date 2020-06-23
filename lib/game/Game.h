@@ -25,7 +25,6 @@ private:
     int round = 0;
     int speed;
     Environment *environment;
-    vector<Ant *> ants;
     vector<AntEgg *> eggs;
     vector<LivingAnt *> livingAnts;
 public:

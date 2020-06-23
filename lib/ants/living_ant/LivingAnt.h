@@ -37,11 +37,9 @@ public:
               decayRate(decayRate),
               foodConsumed(foodConsumed) {};
 
-    ~LivingAnt() override;
+    ~LivingAnt() override = 0;
 
-    void speak() override;
-
-    void setNewAntHill(const AntHill &antHill);
+    void setAntHill(const AntHill &antHill);
 
     bool looseLife();
 
@@ -49,27 +47,27 @@ public:
 
     virtual bool isRequiredToEat();
 
-    bool isSameAntHill(const AntHill &antHill);
-
     bool isFullOfFood();
 
     void undergoDamage();
 
     bool grabFood(const Food &food);
 
-    virtual void move(char direction);
-
-    void displayLifePoints() const;
-
-    virtual void displayState();
-
-    void displayPosition();
+    void move(char direction);
 
     virtual void eatFood();
 
     void storeFood(const Food &food);
 
     LivingAnt *evolve() override;
+
+    void speak() override;
+
+    virtual void displayState();
+
+    void displayPosition();
+
+    void displayLifePoints();
 
 };
 

@@ -15,8 +15,8 @@ class Ant : public SquareBox {
 
 protected:
     int age;
+    int ageToEvolve;
     bool willBeQueen;
-    double ageToEvolve;
     AntHill &antHill;
     Environment &environment;
 public:

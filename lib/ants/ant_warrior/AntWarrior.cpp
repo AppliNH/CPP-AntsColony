@@ -13,7 +13,7 @@ LivingAnt *AntWarrior::evolve() {
 }
 
 void AntWarrior::attack(LivingAnt &livingAnt) {
-    if (!livingAnt.isSameAntHill(antHill)) {
+    if (livingAnt.getAntHill() != antHill) {
         livingAnt.undergoDamage();
         cout << "ATTACKING" << endl;
     }

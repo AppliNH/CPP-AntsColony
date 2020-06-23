@@ -103,7 +103,7 @@ char Game::analyzeEnv(LivingAnt &livingAnt) {
     // Check if on a food
     if (Food *f = dynamic_cast<Food *>(currentLine.at(livingAnt.getPosX()))) {
         if (livingAnt.grabFood(*f)) {
-            f->grabFood();
+            f->reduce();
             if (f->getSize() == 0) {
                 // Delete the food
                 environment->deleteSquareBox(livingAnt.getPosX(), livingAnt.getPosY());
@@ -144,7 +144,7 @@ void Game::start() {
     while (true) {
         system("clear");
         environment->pheromoneDecay();
-        environment->status();
+        environment->displayStatus();
         cout << "Ants : " << livingAnts.size() << endl;
         displayGrid();
         for (auto &antHill : environment->getAntHills()) {
@@ -201,7 +201,7 @@ void Game::manageAllAnts() {
                     while (dynamic_cast<AntQueen *>(livingAnts.at(randomIndex))) {
                         randomIndex = rand() % livingAnts.size();
                     }
-                    livingAnts.at(randomIndex)->setNewAntHill(*newAntHill);
+                    livingAnts.at(randomIndex)->setAntHill(*newAntHill);
                 }
                 return;
             } else {
@@ -249,12 +249,8 @@ Game::~Game() {
     for (auto &l : livingAnts) {
         delete l;
     }
-    for (auto &a : ants) {
-        delete a;
-    }
     delete environment;
     livingAnts.clear();
-    ants.clear();
 }
 
 void Game::dodgeObstacle2(LivingAnt &livingAnt, vector<char> &choiceList) {

@@ -8,7 +8,7 @@ protected:
     int posX;
     int posY;
 public:
-    SquareBox(int X, int Y) : posX(X), posY(Y) {}
+    SquareBox(const int &posX, const int &posY) : posX(posX), posY(posY) {}
 
     virtual ~SquareBox() = default;
 
@@ -17,6 +17,8 @@ public:
     [[nodiscard]] int getPosY() const;
 
     bool operator==(const SquareBox &squareBox) const;
+
+    bool operator!=(const SquareBox &squareBox) const;
 
 };
 

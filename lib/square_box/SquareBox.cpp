@@ -7,3 +7,7 @@ bool SquareBox::operator==(const SquareBox &squareBox) const {
 int SquareBox::getPosY() const { return posY; }
 
 int SquareBox::getPosX() const { return posX; }
+
+bool SquareBox::operator!=(const SquareBox &squareBox) const {
+    return posX != squareBox.posX || posY != squareBox.posY;
+}

@@ -18,7 +18,7 @@ Environment::Environment(const int &height, const int &width, const int &foodCou
 }
 
 
-void Environment::status() {
+void Environment::displayStatus() {
     int foodCount = 0;
     int pheromoneCount = 0;
     int obstacleCount = 0;

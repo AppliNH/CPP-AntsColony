@@ -39,7 +39,7 @@ public:
 
     void addAntHill(AntHill *antHill);
 
-    void status();
+    void displayStatus();
 
     [[nodiscard]] int getWidth() const;
 
