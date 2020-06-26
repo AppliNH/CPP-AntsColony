@@ -16,11 +16,11 @@ static void show_usage(const std::string &name) {
 int main(int argc, char *argv[]) {
     std::string name = argv[0];
     bool quiet = false;
-    int foodCount = 50;
-    int obstacleCount = 30;
-    int width = 30;
-    int height = 15;
-    int speed = 1000000;
+    int foodCount = 100;
+    int obstacleCount = 200;
+    int width = 50;
+    int height = 20;
+    int speed = 10000;
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
         if ((arg == "-h") || (arg == "--help")) {

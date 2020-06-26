@@ -1,7 +1,7 @@
 #include "Game.h"
 
 Game::Game(int speed, bool quietMode, int population, int width, int height, int foodCount, int obstacleCount) : quiet(
-        quietMode), speed(speed) {
+        quietMode), speed(speed), gridHeight(height), gridWidth(width) {
     auto *antHill = new AntHill(width / 2, height / 2);
     environment = new Environment(height, width, foodCount, obstacleCount, antHill);
 
@@ -31,26 +31,22 @@ void Game::resourcesSearch(LivingAnt &livingAnt, vector<char> &choiceList, int l
 
     // Check if bellow a food
     if (!belowLine.empty() && dynamic_cast<T *>(belowLine.at(livingAnt.getPosX()))) {
-        if (!quiet) cout << "   >> Food towards Bottom (+" + to_string(level) + ") <<" << endl;
         choiceList.push_back('B');
     }
 
     // Check if above a food
     if (!aboveLine.empty() && dynamic_cast<T *>(aboveLine.at(livingAnt.getPosX()))) {
-        if (!quiet) cout << "   >> Food towards Top (+" + to_string(level) + ") <<" << endl;
         choiceList.push_back('T');
     }
 
     // Check if left of food
     if (livingAnt.getPosX() - level >= 0 && dynamic_cast<T *>(currentLine.at(livingAnt.getPosX() - level))) {
-        if (!quiet) cout << "   >> Food towards Left (+" + to_string(level) + ") <<" << endl;
         choiceList.push_back('L');
     }
 
     // Check if right of food
     if (livingAnt.getPosX() + level < environment->getWidth() &&
         dynamic_cast<T *>(currentLine.at(livingAnt.getPosX() + level))) {
-        if (!quiet) cout << "   >> Food towards Right (+" + to_string(level) + ") <<" << endl;
         choiceList.push_back('R');
     }
 
@@ -109,10 +105,7 @@ char Game::analyzeEnv(LivingAnt &livingAnt) {
                 environment->deleteSquareBox(livingAnt.getPosX(), livingAnt.getPosY());
                 environment->insertFoods(1);
             }
-            if (!quiet) cout << "   >> I grabbed a food <<" << endl;
             return ' ';
-        } else {
-            if (!quiet) cout << "   >> I'm full <<" << endl;
         }
     }
 
@@ -141,7 +134,69 @@ char Game::analyzeEnv(LivingAnt &livingAnt) {
 }
 
 void Game::start() {
-    while (true) {
+    sf::RenderWindow window(sf::VideoMode(gridWidth*40, gridWidth*40), "AntColony");
+    window.setFramerateLimit(100000);
+    while(window.isOpen())
+    {
+        sf::Event event{};
+
+        while(window.pollEvent(event))
+        {
+            switch(event.type)
+            {
+                case sf::Event::Closed:
+                    window.close();
+                    break;
+            }
+        }
+        environment->pheromoneDecay();
+        window.clear();
+        for (int row = 0; row < environment->getHeight(); ++row) {
+            for (int column = 0; column < environment->getWidth(); ++column) {
+
+                sf::Texture texture;
+                sf::Sprite sprite;
+                string icon;
+                if (find_if(livingAnts.begin(), livingAnts.end(),
+                            [row, column](LivingAnt *m) -> bool {
+                                return dynamic_cast<AntYoungQueen *>(m) && m->getPosY() == row && m->getPosX() == column;
+                            }) != livingAnts.end()) {
+                    texture.loadFromFile("../assets/crown.png");
+                } else if (dynamic_cast<Food *>(environment->getGrid().at(row).at(column))) {
+                    texture.loadFromFile("../assets/food.png");
+                    icon = "|\U0001F370";
+                } else if (dynamic_cast<Obstacle *>(environment->getGrid().at(row).at(column))) {
+                    texture.loadFromFile("../assets/box.png");
+                } else if (dynamic_cast<AntHill *>(environment->getGrid().at(row).at(column))) {
+                    texture.loadFromFile("../assets/ant_hill.png");
+                } else if (find_if(livingAnts.begin(), livingAnts.end(),
+                                   [row, column](LivingAnt *m) -> bool {
+                                       return m->getPosY() == row && m->getPosX() == column;
+                                   }) != livingAnts.end()) {
+                    texture.loadFromFile("../assets/ant.png");
+                } else if (dynamic_cast<Pheromone *>(environment->getGrid().at(row).at(column))) {
+                    texture.loadFromFile("../assets/pheromone.png");
+                } else {
+                    texture.loadFromFile("../assets/ground.jpg");
+                }
+                sprite.setPosition(column+40*column, row+40*row);
+                sprite.setTexture(texture);
+                window.draw(sprite);
+            }
+        }
+        window.display();
+        for (auto &antHill : environment->getAntHills()) {
+            growEggs(*antHill);
+        }
+        if (!livingAnts.empty()) {
+            manageAllAnts();
+        } else {
+            return;
+        }
+        round++;
+    }
+}
+    /*while (true) {
         system("clear");
         environment->pheromoneDecay();
         environment->displayStatus();
@@ -166,7 +221,7 @@ void Game::start() {
         if (!quiet) cout << endl;
     }
 
-}
+}*/
 
 
 void Game::manageAllAnts() {
@@ -182,7 +237,6 @@ void Game::manageAllAnts() {
             return;
         }
 
-        if (!quiet) livingAnts.at(i)->speak();
         if (dynamic_cast<AntWarrior *>(livingAnts.at(i))) {
             auto antWarrior = dynamic_cast<AntWarrior *>(livingAnts.at(i));
             detectAntsAndAttack(*antWarrior);
@@ -347,9 +401,7 @@ void Game::displayGrid() {
             } else {
                 icon = "|__";
             }
-            cout << icon;
         }
-        cout << "|" << endl;
     }
 }
 
@@ -362,7 +414,6 @@ void Game::layEgg(AntQueen *antQueen) {
         }
         std::bernoulli_distribution d(p);
         bool decision = d(rand_engine);
-        if (decision && !quiet) cout << "QUEEN EGG" << endl;
         eggs.push_back(new AntEgg(antQueen->getAntHill(), *environment, decision));
     }
 }

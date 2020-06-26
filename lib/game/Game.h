@@ -18,12 +18,15 @@
 #include <iostream>
 #include <algorithm>
 #include <random>
+#include <SFML/Graphics.hpp>
 
 class Game {
 private:
     bool quiet;
     int round = 0;
     int speed;
+    int gridHeight;
+    int gridWidth;
     Environment *environment;
     vector<AntEgg *> eggs;
     vector<LivingAnt *> livingAnts;
